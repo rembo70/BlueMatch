@@ -1,0 +1,1 @@
+java --module-path C:\Users\Remo\Documents\lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls,javafx.fxml,java.sql -jar BlueMat.jar
