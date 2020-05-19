@@ -6,93 +6,98 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanvraag">
-   <bottom>
-      <ButtonBar prefHeight="32.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-        <buttons>
-            <Button mnemonicParsing="false" text="Aanvraag toevoegen" translateX="-5.0" onAction="#addAanvraag"/>
-          <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" prefHeight="25.0" prefWidth="139.0" text="Ga naar hoofdscherm" translateX="-5.0">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-        </buttons>
-      </ButtonBar>
-   </bottom>
-   <center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="BlueMatch.Editaanvraag">
+    <bottom>
+        <ButtonBar prefHeight="32.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+            <buttons>
+                <Button mnemonicParsing="false" text="Aanvraag toevoegen" translateX="-5.0" onAction="#addAanvraag"/>
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" prefHeight="25.0"
+                        prefWidth="139.0" text="Ga naar hoofdscherm" translateX="-5.0">
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Button>
+            </buttons>
+        </ButtonBar>
+    </bottom>
+    <center>
 
-      <TableView fx:id="aanvraagTable" onMouseClicked="#tableViewMouseClicked" prefHeight="200.0" prefWidth="200.0" stylesheets="@styles.css" BorderPane.alignment="CENTER">
-        <columns>
-            <TableColumn editable="false" prefWidth="80.0" text="Broker">
-                <cellValueFactory>
-                    <PropertyValueFactory property="refbroker" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="columnfunctie" prefWidth="84.0" text="Functie">
-                <cellValueFactory>
-                    <PropertyValueFactory property="functie" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="columncontact" prefWidth="109.0" text="Contact">
-                <cellValueFactory>
-                    <PropertyValueFactory property="refcontact" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="69.0" text="Uren/week">
-                <cellValueFactory>
-                    <PropertyValueFactory property="vraagurenweek" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="columnstatus" prefWidth="149.0" text="Statusklant">
-                <cellValueFactory>
-                    <PropertyValueFactory property="statusklant" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="80" text="Aanvraagdatum">
-                <cellValueFactory>
-                    <PropertyValueFactory property="datumaanvraag" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="columnlocatie" prefWidth="80.0" text="Locatie">
-                <cellValueFactory>
-                    <PropertyValueFactory property="locatie" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="70.0" text="Startdatum">
-                <cellValueFactory>
-                    <PropertyValueFactory property="startdatum" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="columnopm" prefWidth="109.0" text="Opmerking">
-                <cellValueFactory>
-                    <PropertyValueFactory property="opmerking" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="109.0" text="Klant">
-                <cellValueFactory>
-                    <PropertyValueFactory property="refklant" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="columnlink" prefWidth="109.0" text="Link">
-                <cellValueFactory>
-                    <PropertyValueFactory property="linkaanvraag" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="50" text="Tarief">
-                <cellValueFactory>
-                    <PropertyValueFactory property="tariefaanvraag" />
-                </cellValueFactory>
-            </TableColumn>
-        </columns>
-          <columnResizePolicy>
-              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-          </columnResizePolicy>
-      </TableView>
-   </center>
-   <top>
-      <Label style="-fx-text-fill: Darkblue;" text="Details aanvraag" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Calibri Bold" size="20.0" />
-         </font></Label>
-   </top>
+        <TableView fx:id="aanvraagTable" onMouseClicked="#tableViewMouseClicked" prefHeight="200.0" prefWidth="200.0"
+                   stylesheets="@styles.css" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn editable="false" prefWidth="80.0" text="Broker">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="refbroker"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnfunctie" prefWidth="84.0" text="Functie">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="functie"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columncontact" prefWidth="109.0" text="Contact">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="refcontact"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="69.0" text="Uren/week">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="vraagurenweek"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnstatus" prefWidth="149.0" text="Statusklant">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="statusklant"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="80" text="Aanvraagdatum">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="datumaanvraag"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnlocatie" prefWidth="80.0" text="Locatie">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="locatie"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="70.0" text="Startdatum">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="startdatum"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnopm" prefWidth="109.0" text="Opmerking">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="opmerking"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="109.0" text="Klant">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="refklant"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnlink" prefWidth="109.0" text="Link">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="linkaanvraag"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="50" text="Tarief">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="tariefaanvraag"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+    </center>
+    <top>
+        <Label style="-fx-text-fill: Darkblue;" text="Details aanvraag" BorderPane.alignment="CENTER">
+            <font>
+                <Font name="Calibri Bold" size="20.0"/>
+            </font>
+        </Label>
+    </top>
 </BorderPane>
