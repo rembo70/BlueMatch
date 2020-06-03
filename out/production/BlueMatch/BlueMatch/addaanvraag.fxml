@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<DialogPane prefHeight="327.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
-<headerText>
-    Aanvraag toevoegen
-</headerText>
+<DialogPane prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
+    <headerText>
+        Aanvraag toevoegen
+    </headerText>
     <content>
-        <GridPane hgap="10" vgap="10">
+        <GridPane hgap="10" prefHeight="416.0" prefWidth="424.0" vgap="10">
             <Label text="Broker" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="BrokerField" prefHeight="25.0" prefWidth="298.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Label text="Functie" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -18,39 +20,58 @@
             <Label text="Uren per week" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextField fx:id="UrenPerWeekField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Status bij klant" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="StatusKlantField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Datum aanvraag" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <TextField fx:id="DatumAanvraagField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label text="Locatie" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <TextField fx:id="LocatieField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Label text="Start datum" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-            <TextField fx:id="StartDatumField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <Label text="Opmerking" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-            <TextField fx:id="OpmerkingField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <Label text="Klant" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-            <TextField fx:id="KlantField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <Label text="Link" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-            <TextField fx:id="LinkField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <Label text="Tarief " GridPane.columnIndex="0" GridPane.rowIndex="11" />
-            <TextField fx:id="TariefField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
+            <TextField fx:id="StatusKlantField" prefHeight="27.0" prefWidth="297.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Datum aanvraag" GridPane.rowIndex="6" />
+            <TextField fx:id="DatumAanvraagField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Locatie" GridPane.rowIndex="7" />
+            <TextField fx:id="LocatieField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label text="Start datum" GridPane.rowIndex="8" />
+            <TextField fx:id="StartDatumField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label text="Opmerking" GridPane.rowIndex="9" />
+            <TextField fx:id="OpmerkingField" prefHeight="150.0" prefWidth="298.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label text="Klant" GridPane.rowIndex="10" />
+            <TextField fx:id="KlantField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <Label text="Link" GridPane.rowIndex="11" />
+            <TextField fx:id="LinkField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <Label text="Tarief " GridPane.rowIndex="12" />
+            <TextField fx:id="TariefField" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <ChoiceBox fx:id="statusklantBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <DatePicker fx:id="datePickAanvraagDate" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+         <DatePicker fx:id="datePickerStartDate" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints minHeight="120.0" prefHeight="3.0" />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
         </GridPane>
     </content>
+    <header>
+        <Pane prefHeight="33.0" prefWidth="424.0">
+
+                <Label contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Aanvraag toevoegen">
+                    <font>
+                        <Font name="Calibri" size="24.0" />
+                    </font>
+                </Label>
+
+            <effect>
+                <Blend opacity="0.33" />
+            </effect>
+        </Pane>
+    </header>
 </DialogPane>

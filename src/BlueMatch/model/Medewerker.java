@@ -3,8 +3,8 @@ package BlueMatch.model;
 public class Medewerker {
     private String voornaam;
     private String achternaam;
-    private Integer uren;
-    private String status;
+    private String urenperweek;
+    private String statusmdw;
 
     public String getVoornaam() {
         return voornaam;
@@ -22,19 +22,19 @@ public class Medewerker {
         this.achternaam = achternaam;
     }
 
-    public Integer getUren() {
-        return uren;
+    public String getUrenperweek() {
+        return urenperweek;
     }
 
-    public void setUren(Integer uren) {
-        this.uren = uren;
+    public void setUren(String urenperweek) {
+        this.urenperweek = urenperweek;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatusmdw() {
+        return statusmdw;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusmdw(String statusmdw) {
+        this.statusmdw = statusmdw;
     }
 }

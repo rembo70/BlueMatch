@@ -9,6 +9,8 @@ public class OverviewRecord {
     private SimpleStringProperty functie;
     private SimpleStringProperty statusklant;
     private SimpleStringProperty medewerker;
+    private SimpleStringProperty idaanvraag;
+    private SimpleStringProperty statusaanbod;
 
 
     public OverviewRecord() {
@@ -16,11 +18,37 @@ public class OverviewRecord {
         this.functie = new SimpleStringProperty();
         this.statusklant = new SimpleStringProperty();
         this.medewerker = new SimpleStringProperty();
+        this.idaanvraag = new SimpleStringProperty();
+        this.statusaanbod = new SimpleStringProperty();
 
+    }
+
+    public String getIdaanvraag() {
+        return idaanvraag.get();
+    }
+
+    public SimpleStringProperty idaanvraagProperty() {
+        return idaanvraag;
+    }
+
+    public void setIdaanvraag(String idaanvraag) {
+        this.idaanvraag.set(idaanvraag);
     }
 
     public String getRefbroker() {
         return refbroker.get();
+    }
+
+    public String getStatusaanbod() {
+        return statusaanbod.get();
+    }
+
+    public SimpleStringProperty statusaanbodProperty() {
+        return statusaanbod;
+    }
+
+    public void setStatusaanbod(String statusaanbod) {
+        this.statusaanbod.set(statusaanbod);
     }
 
     public SimpleStringProperty refbrokerProperty() {

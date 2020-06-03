@@ -11,8 +11,8 @@ public class Datasource {
     public static final String COLUMN_REFAANVRAAG = "refaanvraag";
     public static final String COLUMN_REFMEDEWERKER = "refmedewerker";
     public static final String COLUMN_TARIEFAANBOD = "tariefaanbod";
-    public static final String COLUMN_URENPERWEEKAANBOD = "urenperweerkaanbod";
-    public static final String COLUMN_STATUSAANBOD = "statusaanb";
+    public static final String COLUMN_URENPERWEEKAANBOD = "urenperweekaanbod";
+    public static final String COLUMN_STATUSAANBOD = "statusaanbod";
     public static final int INDEX_IDAANBOD = 1;
     public static final int INDEX_REFAANVRAAG = 2;
     public static final int INDEX_REFMEDEWERKER = 3;
@@ -56,26 +56,39 @@ public class Datasource {
     public static final String COLUMN_VOORNAAM = "voornaam";
     public static final String COLUMN_ACHTERNAAM = "achternaam";
     public static final String COLUMN_URENPERWEEK = "urenperweek";
-    public static final String COLUMN_STATUS = "status";
+    public static final String COLUMN_STATUS = "statusmdw";
     public static final int INDEX_IDMDW = 1;
     public static final int INDEX_VOORNAAM = 2;
     public static final int INDEX_ACHTERNAAM = 3;
     public static final int INDEX_URENPERWEEK = 4;
-    public static final int INDEX_STATUS = 5;
+    public static final int INDEX_STATUSMDW = 5;
 
     public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + '(' + COLUMN_REFBROKER
             + "," + COLUMN_FUNCTIE + "," + COLUMN_REFCONTACT + "," + COLUMN_VRAAGURENWEEK + "," + COLUMN_STATUSKLANT
             + "," + COLUMN_DATUMAANVRAAG + "," + COLUMN_LOCATIE + "," + COLUMN_STARTDATUM + "," + COLUMN_OPMERKING
             + "," + COLUMN_REFKLANT + "," + COLUMN_LINKAANVRAAG + "," + COLUMN_TARIEFAANVRAAG +
             ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    public static final String InsertAanbod = "INSERT INTO " + TABLE_AANBOD + '(' + COLUMN_REFAANVRAAG
+            + "," + COLUMN_REFMEDEWERKER + "," + COLUMN_TARIEFAANBOD + "," + COLUMN_URENPERWEEKAANBOD + "," + COLUMN_STATUSAANBOD
+            +
+            ") VALUES (?,?,?,?,?)";
+
+    public static final String InsertMedewerker = "INSERT INTO " + TABLE_MEDEWERKER + '(' + COLUMN_VOORNAAM
+            + "," + COLUMN_ACHTERNAAM + "," + COLUMN_URENPERWEEK + "," + COLUMN_STATUS
+            +
+            ") VALUES (?,?,?,?)";
+
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
-    public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
+    public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
     //public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
 
 
     private Connection conn;
     private PreparedStatement insertIntoAanvraag;
+    private PreparedStatement insertIntoAanbod;
+    private PreparedStatement insertIntoMedewerker;
 
 
     private static Datasource instance = new Datasource();
@@ -93,6 +106,8 @@ public class Datasource {
         try {
             conn = DriverManager.getConnection(DATABASENAME);
             insertIntoAanvraag = conn.prepareStatement(InsertAanvraag);
+            insertIntoAanbod = conn.prepareStatement(InsertAanbod);
+            insertIntoMedewerker = conn.prepareStatement(InsertMedewerker);
             return true;
 
         } catch (SQLException e) {
@@ -106,6 +121,8 @@ public class Datasource {
             if (conn != null) {
                 conn.close();
                 insertIntoAanvraag.close();
+                insertIntoAanbod.close();
+                insertIntoMedewerker.close();
             }
 
         } catch (SQLException e) {
@@ -115,8 +132,6 @@ public class Datasource {
 
 
     public int aanvraagToevoegen(Aanvraag aanvraag) throws SQLException {
-        System.out.println(aanvraag.getRefklant() + "testte");
-        //insertIntoAanvraag = conn.prepareStatement(InsertAanvraag);
         insertIntoAanvraag.setString(1, aanvraag.getRefbroker());
         insertIntoAanvraag.setString(2, aanvraag.getFunctie());
         insertIntoAanvraag.setString(3, aanvraag.getRefcontact());
@@ -130,7 +145,30 @@ public class Datasource {
         insertIntoAanvraag.setString(11, aanvraag.getLinkaanvraag());
         insertIntoAanvraag.setString(12, aanvraag.getTariefaanvraag());
         insertIntoAanvraag.executeUpdate();
-        System.out.println("change committed");
+        conn.setAutoCommit(true);
+        return 1;
+    }
+
+    public int aanbodToevoegen(Aanbod aanbod) throws SQLException {
+        insertIntoAanbod.setString(1, aanbod.getRefaanvraag());
+        insertIntoAanbod.setString(2, aanbod.getRefmedewerker());
+        insertIntoAanbod.setString(3, aanbod.getTariefaanbod());
+        insertIntoAanbod.setString(4, aanbod.getUrenperweekaanbod());
+        insertIntoAanbod.setString(5, aanbod.getStatusaanbod());
+
+        insertIntoAanbod.executeUpdate();
+        conn.setAutoCommit(true);
+        return 1;
+    }
+
+    public int medewerkerToevoegen(Medewerker medewerker) throws SQLException {
+        System.out.println("Medewerker toevoegen");
+        insertIntoMedewerker.setString(1, medewerker.getVoornaam());
+        insertIntoMedewerker.setString(2, medewerker.getAchternaam());
+        insertIntoMedewerker.setString(3, medewerker.getUrenperweek());
+        insertIntoMedewerker.setString(4, medewerker.getStatusmdw());
+
+        insertIntoMedewerker.executeUpdate();
         conn.setAutoCommit(true);
         return 1;
     }
@@ -138,7 +176,7 @@ public class Datasource {
     public List<Aanvraag> queryAanvraag() {
 
         try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_AANVRAAG);) {
+             ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_AANVRAAG)) {
             List<Aanvraag> aanvragen = new ArrayList<>();
             while (results.next()) {
                 Aanvraag aanvraag = new Aanvraag();
@@ -164,19 +202,70 @@ public class Datasource {
         }
     }
 
+    public List<Aanbod> queryAanbod() {
+
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_AANBOD)) {
+            List<Aanbod> aanbiedingen = new ArrayList<>();
+            while (results.next()) {
+                Aanbod aanbod = new Aanbod();
+                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
+                aanbod.setRefaanvraag(results.getString(INDEX_REFAANVRAAG));
+                aanbod.setRefmedewerker(results.getString(INDEX_REFMEDEWERKER));
+                aanbod.setTariefaanbod(results.getString(INDEX_TARIEFAANBOD));
+                aanbod.setUrenperweekaanbod(results.getString(INDEX_URENPERWEEKAANBOD));
+                aanbod.setStatusaanbod(results.getString(INDEX_STATUSAANBOD));
+
+                aanbiedingen.add(aanbod);
+            }
+            return aanbiedingen;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Medewerker> queryMedewerker() {
+
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_MEDEWERKER)) {
+            List<Medewerker> medewerkers = new ArrayList<>();
+            while (results.next()) {
+                Medewerker medewerker = new Medewerker();
+                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
+                medewerker.setVoornaam(results.getString(INDEX_VOORNAAM));
+                medewerker.setAchternaam(results.getString(INDEX_ACHTERNAAM));
+                System.out.println("Urenperweek: " + results.getString(INDEX_URENPERWEEK));
+                medewerker.setUren(results.getString(INDEX_URENPERWEEK));
+                medewerker.setStatusmdw(results.getString(INDEX_STATUSMDW));
+
+
+                medewerkers.add(medewerker);
+                System.out.println("Medewerker added");
+            }
+            return medewerkers;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
 
     public List<OverviewRecord> queryMain() {
 
         try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery(QUERYSTRINGMAIN);) {
+             ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
 
             List<OverviewRecord> overviewlist = new ArrayList<>();
             while (results.next()) {
                 OverviewRecord overviewrecord = new OverviewRecord();
+
                 overviewrecord.setRefbroker(results.getString(1));
                 overviewrecord.setFunctie(results.getString(2));
                 overviewrecord.setStatusKlant(results.getString(3));
                 overviewrecord.setMedewerker(results.getString(4));
+                overviewrecord.setIdaanvraag(results.getString(5));
+                overviewrecord.setStatusaanbod(results.getString(6));
 
 //                    aanvraag.setStatusklant(results.getString(INDEX_STATUSKLANT));
 //                    aanvraag.setDatumaanvraag(results.getString(INDEX_DATUMAANVRAAG));

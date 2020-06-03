@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import BlueMatch.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanbod">
+    <bottom>
+        <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
+            <buttons>
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#modAanbod" text="Aanbieding bijwerken"
+                        translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS"/>
+                <Button mnemonicParsing="false" onAction="#changeSceneMain"
+                        text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS"/>
+            </buttons>
+        </ButtonBar>
+    </bottom>
+    <center>
+        <TableView fx:id="aanbodTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css"
+                   BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn editable="false" prefWidth="132.0" text="Referentie Aanvraag">
+                    <cellFactory>
+                        <FormattedTableCellFactory/>
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="refaanvraag"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnmedewerker" minWidth="0.0" prefWidth="273.0" text="Medewerker">
+                    <cellFactory>
+                        <FormattedTableCellFactory/>
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="refmedewerker"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columntariefaanbod" prefWidth="77.0" text="Tarief">
+                    <cellFactory>
+                        <FormattedTableCellFactory/>
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="tariefaanbod"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="157.0" text="Uren per week">
+                    <cellFactory>
+                        <FormattedTableCellFactory/>
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="urenperweekaanbod"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnaanbodstatus" prefWidth="405.0" text="Statusaanbieding">
+                    <cellFactory>
+                        <FormattedTableCellFactory/>
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="statusaanbod"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+            <effect>
+                <Blend/>
+            </effect>
+        </TableView>
+    </center>
+    <top>
+        <SplitPane centerShape="false" dividerPositions="0.1986" prefHeight="31.0" prefWidth="1024.0"
+                   BorderPane.alignment="CENTER">
+
+            <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9"
+                       scaleY="0.9">
+                <Image url="@../NewsparkLogo.png"/>
+            </ImageView>
+            <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="210.0"
+                   style="-fx-text-fill: Lightblue;" text=" Aanbieding">
+                <font>
+                    <Font name="Calibri Bold" size="24.0"/>
+                </font>
+            </Label>
+
+            <effect>
+                <Glow level="0.0">
+                    <input>
+                        <InnerShadow/>
+                    </input>
+                </Glow>
+            </effect>
+        </SplitPane>
+    </top>
+</BorderPane>
