@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<DialogPane prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="BlueMatch.AddMedewerkerController">
+    <headerText>
+        Medewerker toevoegen
+    </headerText>
+    <content>
+        <GridPane hgap="10" prefHeight="130" prefWidth="424.0" vgap="10">
+            <Label text="Voornaam" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="voornaamField" prefHeight="25.0" prefWidth="298.0" GridPane.columnIndex="1"
+                       GridPane.rowIndex="0"/>
+            <Label text="Achternaam" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="achternaamField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Uren per Week" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="urenperweekField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Beschikbaarheid " GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <ChoiceBox fx:id="statusmdwBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <columnConstraints>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+                <RowConstraints/>
+            </rowConstraints>
+        </GridPane>
+    </content>
+    <header>
+        <Pane prefHeight="33.0" prefWidth="424.0">
+
+            <Label contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0"
+                   text="Medewerker toevoegen">
+                <font>
+                    <Font name="Calibri" size="24.0"/>
+                </font>
+            </Label>
+
+            <effect>
+                <Blend opacity="0.33"/>
+            </effect>
+        </Pane>
+    </header>
+</DialogPane>

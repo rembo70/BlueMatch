@@ -4,8 +4,8 @@ public class Aanbod {
     private String refaanvraag;
     private String refmedewerker;
     private String tariefaanbod;
-    private int urenperweekaanbod;
-    private String status;
+    private String urenperweekaanbod;
+    private String statusaanbod;
 
     public String getRefaanvraag() {
         return refaanvraag;
@@ -31,20 +31,20 @@ public class Aanbod {
         this.tariefaanbod = tariefaanbod;
     }
 
-    public int getUrenperweekaanbod() {
+    public String getUrenperweekaanbod() {
         return urenperweekaanbod;
     }
 
-    public void setUrenperweekaanbod(int urenperweekaanbod) {
+    public void setUrenperweekaanbod(String urenperweekaanbod) {
         this.urenperweekaanbod = urenperweekaanbod;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStatusaanbod() {
+        return statusaanbod;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusaanbod(String statusaanbod) {
+        this.statusaanbod = statusaanbod;
     }
 
 }

@@ -3,6 +3,7 @@ package BlueMatch;
 import BlueMatch.model.Aanvraag;
 import BlueMatch.model.Datasource;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -92,41 +93,56 @@ public class Editaanvraag {
     }
 
     public void updateView() {
-        double Kolumnwidthopm = (columnopm.widthProperty().getValue()) / 5.4; //4.9 is amount of pixels/4.9= amount of characters
-        double Kolumnwidthfunctie = (columnfunctie.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthcontact = (columncontact.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthstatus = (columnstatus.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthlocatie = (columnlocatie.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthlink = (columnlink.widthProperty().getValue()) / 4.9;
-
-        ObservableList<Aanvraag> aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
-
-        for (Aanvraag huidigeaanvraag : aanvraaglist) {
-            if (!(huidigeaanvraag.getOpmerking() == null)) {
-                huidigeaanvraag.setOpmerking(lineWrap(huidigeaanvraag.getOpmerking(), (int) Kolumnwidthopm));
-            }
-            if (!(huidigeaanvraag.getFunctie() == null)) {
-                huidigeaanvraag.setFunctie(lineWrap(huidigeaanvraag.getFunctie(), (int) Kolumnwidthfunctie));
-            }
-            if (!(huidigeaanvraag.getRefcontact() == null)) {
-                huidigeaanvraag.setRefcontact(lineWrap(huidigeaanvraag.getRefcontact(), (int) Kolumnwidthcontact));
-            }
-            if (!(huidigeaanvraag.getStatusklant() == null)) {
-                huidigeaanvraag.setStatusklant(lineWrap(huidigeaanvraag.getStatusklant(), (int) Kolumnwidthstatus));
-            }
-            if (!(huidigeaanvraag.getLocatie() == null)) {
-                huidigeaanvraag.setLocatie(lineWrap(huidigeaanvraag.getLocatie(), (int) Kolumnwidthlocatie));
-            }
-            if (!(huidigeaanvraag.getLinkaanvraag() == null)) {
-                huidigeaanvraag.setLinkaanvraag(lineWrap(huidigeaanvraag.getLinkaanvraag(), (int) Kolumnwidthlink));
-            }
-            aanvraagTable.itemsProperty().unbind();
-            aanvraagTable.setItems(aanvraaglist);
-        }
+        changelistener(columnopm);
+        changelistener(columnfunctie);
+        changelistener(columncontact);
+        changelistener(columnstatus);
+        changelistener(columnlocatie);
+        changelistener(columnlink);
     }
 
+    public void changelistener(final TableColumn listerColumn) {
+        listerColumn.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
 
-    public String lineWrap(String text, int limit) {
+                double Kolumnwidthopm = (columnopm.widthProperty().getValue()) / 7; //4.9 is amount of pixels/4.9= amount of characters
+                double Kolumnwidthfunctie = (columnfunctie.widthProperty().getValue()) / 7;
+                double Kolumnwidthcontact = (columncontact.widthProperty().getValue()) / 7;
+                double Kolumnwidthstatus = (columnstatus.widthProperty().getValue()) / 7;
+                double Kolumnwidthlocatie = (columnlocatie.widthProperty().getValue()) / 7;
+                double Kolumnwidthlink = (columnlink.widthProperty().getValue()) / 7;
+
+                ObservableList<Aanvraag> aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
+
+                for (Aanvraag huidigeaanvraag : aanvraaglist) {
+                    if (!(huidigeaanvraag.getOpmerking() == null)) {
+                        huidigeaanvraag.setOpmerking(lineWrap(huidigeaanvraag.getOpmerking(), (int) Kolumnwidthopm));
+                    }
+                    if (!(huidigeaanvraag.getFunctie() == null)) {
+                        huidigeaanvraag.setFunctie(lineWrap(huidigeaanvraag.getFunctie(), (int) Kolumnwidthfunctie));
+                    }
+                    if (!(huidigeaanvraag.getRefcontact() == null)) {
+                        huidigeaanvraag.setRefcontact(lineWrap(huidigeaanvraag.getRefcontact(), (int) Kolumnwidthcontact));
+                    }
+                    if (!(huidigeaanvraag.getStatusklant() == null)) {
+                        huidigeaanvraag.setStatusklant(lineWrap(huidigeaanvraag.getStatusklant(), (int) Kolumnwidthstatus));
+                    }
+                    if (!(huidigeaanvraag.getLocatie() == null)) {
+                        huidigeaanvraag.setLocatie(lineWrap(huidigeaanvraag.getLocatie(), (int) Kolumnwidthlocatie));
+                    }
+                    if (!(huidigeaanvraag.getLinkaanvraag() == null)) {
+                        huidigeaanvraag.setLinkaanvraag(lineWrap(huidigeaanvraag.getLinkaanvraag(), (int) Kolumnwidthlink));
+                    }
+                    aanvraagTable.itemsProperty().unbind();
+                    aanvraagTable.setItems(aanvraaglist);
+                }
+            }
+        });
+
+    }
+
+    public static String lineWrap(String text, int limit) {
         int offset = 0;
         Pattern pattern = Pattern.compile(" ");
         StringBuilder result = new StringBuilder(text.length());
@@ -171,18 +187,17 @@ public class Editaanvraag {
         System.out.println("View list on screen 2");
         new Thread(task).start();
     }
-
-    class GetAllAanvragenTask extends Task {
-
-        @Override
-        public ObservableList<Aanvraag> call() {
-
-            ObservableList<Aanvraag> aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
-            System.out.println(aanvraaglist.size());
-            return aanvraaglist;
-
-        }
-    }
-
 }
 
+
+class GetAllAanvragenTask extends Task {
+
+    @Override
+    public ObservableList<Aanvraag> call() {
+
+        ObservableList<Aanvraag> aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
+        System.out.println(aanvraaglist.size());
+        return aanvraaglist;
+
+    }
+}

@@ -4,6 +4,7 @@ import BlueMatch.model.Aanvraag;
 import BlueMatch.model.Datasource;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,19 +17,24 @@ import javafx.util.Callback;
 
 import java.util.concurrent.TimeUnit;
 
+
 public class Main extends Application {
+    public static Integer windowWidth;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BlueMatch.fxml"));
         Parent root = loader.load();
         Controller controller = loader.getController();
-        System.out.println("start listaanvragen controller");
+        // System.out.println("start listaanvragen controller");
         controller.listOverviewRecord();
-        System.out.println("completed listaanvragen controller");
+        // System.out.println("completed listaanvragen controller");
         primaryStage.setTitle("BlueMatch");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root, 1024, 600));
         primaryStage.show();
+
+        controller.updateMainView();
+        windowWidth = 1024;
     }
 
 

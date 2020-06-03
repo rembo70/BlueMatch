@@ -12,14 +12,44 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.w3c.dom.ls.LSOutput;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 public class AddAanvraagController {
+
+    @FXML
+    private ChoiceBox<String> statusklantBox;
+    @FXML
+    private DatePicker datePickAanvraagDate;
+    @FXML
+    private DatePicker datePickerStartDate;
+
+    ObservableList<String> options =
+            FXCollections.observableArrayList(
+                    "Nieuw",
+                    "Vrijblijvend aangeboden",
+                    "Aangeboden Broker",
+                    "Aangeboden Eindklant",
+                    "Aangeboden"
+
+
+            );
+
+    @FXML
+    private void initialize() {
+        statusklantBox.setItems(options);
+        statusklantBox.setValue("Nieuw");
+    }
+
+
     @FXML
     private TextField BrokerField;
     @FXML
@@ -28,8 +58,8 @@ public class AddAanvraagController {
     private TextField FunctieField;
     @FXML
     private TextField UrenPerWeekField;
-    @FXML
-    private TextField StatusKlantField;
+    //    @FXML
+//    private TextField StatusKlantField;
     @FXML
     private TextField DatumAanvraagField;
     @FXML
@@ -47,15 +77,23 @@ public class AddAanvraagController {
     @FXML
     private TableView<Aanvraag> aanvraagTable;
 
+
     public Aanvraag getNewAanvraag() {
+        //SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
+        String datumaanvraag = "";
+        String startdatum = "";
         String broker = BrokerField.getText();
         String contact = ContactField.getText();
         String functie = FunctieField.getText();
         String urenperweek = UrenPerWeekField.getText();
-        String statusklant = StatusKlantField.getText();
-        String datumaanvraag = DatumAanvraagField.getText();
+        String statusklant = statusklantBox.getValue();
+        if (datePickAanvraagDate.getValue() != null) {
+            datumaanvraag = datePickAanvraagDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
         String locatie = LocatieField.getText();
-        String startdatum = StartDatumField.getText();
+        if (datePickerStartDate.getValue() != null) {
+            startdatum = datePickerStartDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
         String opmerking = OpmerkingField.getText();
         String klant = KlantField.getText();
         System.out.println("klantnaam" + klant);
@@ -78,4 +116,6 @@ public class AddAanvraagController {
         newAanvraag.setTariefaanvraag(tarief);
         return newAanvraag;
     }
+
 }
+

@@ -3,71 +3,100 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="BlueMatch.Controller">
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Controller">
     <center>
-        <TableView fx:id="overviewRecordTable" onMouseClicked="#tableViewMouseClicked" prefHeight="339.0"
-                   prefWidth="530.0" stylesheets="@styles.css" BorderPane.alignment="CENTER">
+        <TableView fx:id="overviewRecordTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn editable="false" prefWidth="103.0" text="Broker">
+                <TableColumn fx:id="columnidAanvraag" prefWidth="58.0" text="ID">
                     <cellValueFactory>
-                        <PropertyValueFactory property="refbroker"/>
+                        <PropertyValueFactory property="idaanvraag" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn prefWidth="95.0" text="Functie">
+                <TableColumn fx:id="columnBroker" editable="false" prefWidth="242.0" text="Broker">
                     <cellValueFactory>
-                        <PropertyValueFactory property="functie"/>
+                        <PropertyValueFactory property="refbroker" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn prefWidth="79.0" text="Statusklant">
+                <TableColumn fx:id="columnFunctie" prefWidth="200.0" text="Functie">
                     <cellValueFactory>
-                        <PropertyValueFactory property="statusklant"/>
+                        <PropertyValueFactory property="functie" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn prefWidth="75.0" text="Medewerker">
+                <TableColumn fx:id="columnStatusKlant" prefWidth="150" text="Statusklant">
                     <cellValueFactory>
-                        <PropertyValueFactory property="medewerker"/>
+                        <PropertyValueFactory property="statusklant" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnMedewerker" prefWidth="150" text="Medewerker">
+                <cellValueFactory>
+                    <PropertyValueFactory property="medewerker" />
+                </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnStatusAanbod" prefWidth="150" text="Status aanbieding">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="statusaanbod" />
                     </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
     </center>
     <top>
-        <Label style="-fx-text-fill: darkblue;" text="BlueMatch - Overzicht" textAlignment="RIGHT"
-               BorderPane.alignment="CENTER">
+        <Label alignment="TOP_LEFT" style="-fx-text-fill: lightblue;" text="BlueMatch - Overzicht" textAlignment="RIGHT" textFill="#0a011c" textOverrun="WORD_ELLIPSIS" translateX="-48.0" BorderPane.alignment="TOP_LEFT">
             <font>
-                <Font name="Calibri Bold" size="20.0"/>
+                <Font name="Calibri Bold" size="22.0" />
             </font>
+            <graphic>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" translateX="20.0" translateY="2.0">
+                    <image>
+                        <Image url="@../NewsparkLogo.png" />
+                    </image>
+                    <effect>
+                        <Blend />
+                    </effect>
+                </ImageView>
+            </graphic>
         </Label>
     </top>
     <left>
-        <Pane prefHeight="345.0" prefWidth="73.0" BorderPane.alignment="CENTER">
+        <Pane minWidth="-Infinity" prefHeight="512.0" prefWidth="58.0" BorderPane.alignment="CENTER">
             <children>
-                <Button layoutY="31.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="73.0" text="Status"/>
-                <Button layoutY="56.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Broker"/>
-                <Label layoutY="14.0" text="Filter:"/>
+                <Button layoutX="2.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="53.0" text="Status" />
+                <Button layoutX="2.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" text="Broker" />
             </children>
         </Pane>
     </left>
     <bottom>
-        <ButtonBar buttonMinWidth="50.0" prefHeight="32.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <ButtonBar buttonMinWidth="50.0" prefHeight="32.0" BorderPane.alignment="CENTER">
             <buttons>
-                <Button fx:id="aanvraagdetails" maxHeight="25.0" maxWidth="150.0" minWidth="49.0"
-                        mnemonicParsing="false" onAction="#changeSceneAanvraagDetails" prefHeight="25.0"
-                        prefWidth="70.0" text="Aanvragen" translateX="-5.0" translateY="-1.0">
+                <Button fx:id="aanvraagdetails" maxHeight="25.0" maxWidth="150.0" minWidth="49.0" mnemonicParsing="false" onAction="#changeSceneAanvraagDetails" prefHeight="25.0" prefWidth="70.0" rotate="2.9" text="Aanvragen" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
                     <opaqueInsets>
-                        <Insets left="10.0" right="10.0"/>
+                        <Insets left="10.0" right="10.0" />
                     </opaqueInsets>
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
                 </Button>
-                <Button maxHeight="25.0" maxWidth="150.0" minWidth="80.0" mnemonicParsing="false" prefHeight="25.0"
-                        prefWidth="80.0" text="Aanbiedingen" translateX="-5.0" translateY="-1.0"/>
-                <Button alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minWidth="55.0" mnemonicParsing="false"
-                        prefHeight="25.0" prefWidth="150.0" text="Medewerkers " translateX="-5.0" translateY="-1.0"/>
+                <Button fx:id="overzichtmedewerkers" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minWidth="55.0" mnemonicParsing="false" onAction="#overzichtMedewerker" prefHeight="25.0" prefWidth="150.0" rotate="2.9" text="Medewerkers " translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+                <Button fx:id="aanboddetails" maxHeight="25.0" maxWidth="150.0" minWidth="80.0" mnemonicParsing="false" onAction="#changeSceneAanbodDetails" prefHeight="25.0" prefWidth="80.0" rotate="2.9" text="Aanbiedingen" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+                <Button fx:id="aanvraagtoevoegen" mnemonicParsing="false" onAction="#aanvraagToevoegen" text="Aanvraag toevoegen" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="aanbiedingmaken" mnemonicParsing="false" onAction="#aanbieden" text="Medewerker Aanbieden" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="BACK_PREVIOUS" />
             </buttons>
         </ButtonBar>
     </bottom>
+    <effect>
+        <Blend />
+    </effect>
 </BorderPane>
