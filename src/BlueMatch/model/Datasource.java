@@ -80,7 +80,8 @@ public class Datasource {
             ") VALUES (?,?,?,?)";
 
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
-    public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
+    public static String filterstatus = "";
+    public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE aanvraag.statusklant LIKE '" + filterstatus+ "%'";
     //public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -251,7 +252,7 @@ public class Datasource {
     }
 
 
-    public List<OverviewRecord> queryMain() {
+    public List<OverviewRecord> queryMain(String filterstatus) {
 
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
@@ -266,15 +267,6 @@ public class Datasource {
                 overviewrecord.setMedewerker(results.getString(4));
                 overviewrecord.setIdaanvraag(results.getString(5));
                 overviewrecord.setStatusaanbod(results.getString(6));
-
-//                    aanvraag.setStatusklant(results.getString(INDEX_STATUSKLANT));
-//                    aanvraag.setDatumaanvraag(results.getString(INDEX_DATUMAANVRAAG));
-//                    aanvraag.setLocatie(results.getString(INDEX_LOCATIE));
-//                    aanvraag.setStartdatum(results.getString(INDEX_STARTDATUM));
-//                    aanvraag.setOpmerking(results.getString(INDEX_OPMERKING));
-//                    aanvraag.setRefklant(results.getString(INDEX_REFKLANT));
-//                    aanvraag.setLinkaanvraag(results.getString(INDEX_LINKAANVRAAG));
-//                    aanvraag.setTariefaanvraag(results.getString(INDEX_TARIEFAANVRAAG));
 
                 overviewlist.add(overviewrecord);
             }
