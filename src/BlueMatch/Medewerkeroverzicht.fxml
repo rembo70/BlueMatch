@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import BlueMatch.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.effect.*?>
@@ -8,82 +9,78 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.MedewerkerOverzicht">
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.MedewerkerOverzicht">
     <bottom>
         <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
             <buttons>
-                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#addMedewerker"
-                        text="Medewerker toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS"/>
-                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain"
-                        text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS"/>
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#addMedewerker" text="Medewerker toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
             </buttons>
         </ButtonBar>
     </bottom>
     <center>
-        <TableView fx:id="medewerkerTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css"
-                   BorderPane.alignment="CENTER">
+        <TableView fx:id="medewerkerTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="columnvoornaam" editable="false" prefWidth="132.0" text="Voornaam">
                     <cellFactory>
-                        <FormattedTableCellFactory/>
+                        <FormattedTableCellFactory />
                     </cellFactory>
                     <cellValueFactory>
-                        <PropertyValueFactory property="voornaam"/>
+                        <PropertyValueFactory property="voornaam" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="columnachternaam" minWidth="0.0" prefWidth="273.0" text="Achternaam">
                     <cellFactory>
-                        <FormattedTableCellFactory/>
+                        <FormattedTableCellFactory />
                     </cellFactory>
                     <cellValueFactory>
-                        <PropertyValueFactory property="achternaam"/>
+                        <PropertyValueFactory property="achternaam" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="columnurenperweek" prefWidth="117.0" text="Uren per week contract">
                     <cellFactory>
-                        <FormattedTableCellFactory/>
+                        <FormattedTableCellFactory />
                     </cellFactory>
                     <cellValueFactory>
-                        <PropertyValueFactory property="urenperweek"/>
+                        <PropertyValueFactory property="urenperweek" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="columnstatusmdw" prefWidth="210.0" text="Beschikbaarheid">
                     <cellFactory>
-                        <FormattedTableCellFactory/>
+                        <FormattedTableCellFactory />
                     </cellFactory>
                     <cellValueFactory>
-                        <PropertyValueFactory property="statusmdw"/>
+                        <PropertyValueFactory property="statusmdw" />
                     </cellValueFactory>
 
                 </TableColumn>
             </columns>
             <effect>
-                <Blend/>
+                <Blend />
             </effect>
         </TableView>
     </center>
     <top>
-        <SplitPane centerShape="false" dividerPositions="0.1986" prefHeight="31.0" prefWidth="1024.0"
-                   BorderPane.alignment="CENTER">
+        <SplitPane centerShape="false" dividerPositions="0.19863013698630136" prefHeight="25.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
             <items>
-                <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9"
-                           scaleY="0.9">
+                <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
                     <image>
-                        <Image url="@../NewsparkLogo.png"/>
+                        <Image url="@../NewsparkLogo.png" />
                     </image>
                 </ImageView>
-                <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="414.0"
-                       style="-fx-text-fill: Lightblue;" text="Medewerker Overzicht">
+                <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="412.0" style="-fx-text-fill: Lightblue;" text="Medewerker Overzicht" translateX="10.0">
                     <font>
-                        <Font name="Calibri Bold" size="24.0"/>
+                        <Font name="Calibri Bold" size="24.0" />
                     </font>
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
                 </Label>
             </items>
             <effect>
                 <Glow level="0.0">
                     <input>
-                        <InnerShadow/>
+                        <InnerShadow />
                     </input>
                 </Glow>
             </effect>

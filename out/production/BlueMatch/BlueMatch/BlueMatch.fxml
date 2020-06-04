@@ -33,9 +33,9 @@
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="columnMedewerker" prefWidth="150" text="Medewerker">
-                <cellValueFactory>
-                    <PropertyValueFactory property="medewerker" />
-                </cellValueFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="medewerker" />
+                    </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="columnStatusAanbod" prefWidth="150" text="Status aanbieding">
                     <cellValueFactory>
@@ -46,12 +46,12 @@
         </TableView>
     </center>
     <top>
-        <Label alignment="TOP_LEFT" style="-fx-text-fill: lightblue;" text="BlueMatch - Overzicht" textAlignment="RIGHT" textFill="#0a011c" textOverrun="WORD_ELLIPSIS" translateX="-48.0" BorderPane.alignment="TOP_LEFT">
+        <Label alignment="TOP_LEFT" prefHeight="56.0" prefWidth="636.0" style="-fx-text-fill: lightblue;" text="              BlueMatch - Overzicht" textAlignment="RIGHT" textFill="#0a011c" textOverrun="WORD_ELLIPSIS" translateX="-48.0" BorderPane.alignment="TOP_LEFT">
             <font>
                 <Font name="Calibri Bold" size="22.0" />
             </font>
             <graphic>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" translateX="20.0" translateY="2.0">
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7" translateX="50.0" translateY="2.0">
                     <image>
                         <Image url="@../NewsparkLogo.png" />
                     </image>
