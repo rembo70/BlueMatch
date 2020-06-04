@@ -81,7 +81,12 @@ public class Datasource {
 
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
     public static String filterstatus = "";
-    public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE aanvraag.statusklant LIKE '" + filterstatus+ "%'";
+    public static String filterstatusaanb = "";
+    public static String filterbroker = "";
+    public static String filtermedewerker = "";
+    public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
+            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'" ;
     //public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -94,8 +99,12 @@ public class Datasource {
 
     private static Datasource instance = new Datasource();
 
-    private Datasource() {
-
+    public  String setQueryStringMain (){
+        System.out.println("setquerymain filter" + filterstatus);
+        String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+                "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
+                "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'" ;
+        return QUERYSTRINGMAIN;
     }
 
     public static Datasource getInstance() {
@@ -252,8 +261,9 @@ public class Datasource {
     }
 
 
-    public List<OverviewRecord> queryMain(String filterstatus) {
-
+    public List<OverviewRecord> queryMain() {
+        QUERYSTRINGMAIN=setQueryStringMain();
+        System.out.println(QUERYSTRINGMAIN);
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
 
