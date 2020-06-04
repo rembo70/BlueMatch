@@ -106,11 +106,14 @@
                         <Point3D />
                     </rotationAxis>
                 </Button>
-                <Button fx:id="aanvraagtoevoegen" mnemonicParsing="false" onAction="#aanvraagToevoegen" style="-fx-background-color: #2ba8cf;" text="Aanvraag toevoegen" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="BACK_PREVIOUS">
+                <Button fx:id="aanvraagtoevoegen" mnemonicParsing="false" onAction="#aanvraagToevoegen" style="-fx-background-color: #2ba8cf;" text="Aanvraag toevoegen" textFill="WHITE" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="BACK_PREVIOUS">
                <font>
-                  <Font name="Calibri" size="12.0" />
+                  <Font name="Calibri Bold" size="12.0" />
                </font></Button>
-                <Button fx:id="aanbiedingmaken" mnemonicParsing="false" onAction="#aanbieden" style="-fx-background-color: #2ba8cf;" text="Medewerker Aanbieden" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="aanbiedingmaken" mnemonicParsing="false" onAction="#aanbieden" style="-fx-background-color: #2ba8cf;" text="Medewerker Aanbieden" textFill="WHITE" translateX="-5.0" translateY="-1.0" ButtonBar.buttonData="BACK_PREVIOUS">
+               <font>
+                  <Font name="Calibri Bold" size="12.0" />
+               </font></Button>
             </buttons>
         </ButtonBar>
     </bottom>
