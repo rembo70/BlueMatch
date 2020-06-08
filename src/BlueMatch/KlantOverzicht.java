@@ -28,13 +28,13 @@ public class KlantOverzicht {
     @FXML
     private TableColumn columnklantnaam;
     @FXML
-    private TableColumn columncontactpersoon;
+    private TableColumn columnklantcontactpersoon;
     @FXML
-    private TableColumn columncontacttelnr;
+    private TableColumn columnklantcontacttelnr;
     @FXML
-    private TableColumn columncontactemail;
+    private TableColumn columnklantcontactemail;
     @FXML
-    private TableColumn columnstatw;
+    private TableColumn columnklantopmerking;
 
 
     private Controller parentController;
@@ -61,23 +61,24 @@ public class KlantOverzicht {
     public void addKlant(ActionEvent event) throws IOException, SQLException {
         //System.out.println("add medewerker");
 
-//        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
-//        dialog.getDialogPane().setContent(loader.load());
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-//        Optional<ButtonType> result = dialog.showAndWait();
-//        {
-//            if (result.isPresent() && result.get() == ButtonType.OK) {
-//                AddMedewerkerController addMedewerkerController = loader.getController();
-//                Medewerker medewerker = addMedewerkerController.getNewMedewerker();
-//                Datasource.getInstance().medewerkerToevoegen(medewerker);
-//            }
-//        }
-//        //updateMainView();
-//        ObservableList<Medewerker> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryMedewerker());
-//        klantTable.itemsProperty().unbind();
-//        klantTable.setItems(Klantlist);
+        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
+        dialog.getDialogPane().setContent(loader.load());
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        Optional<ButtonType> result = dialog.showAndWait();
+        {
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                AddKlantController addKlantController = loader.getController();
+                Klant klant = addKlantController.getNewKlant();
+                Datasource.getInstance().klantToevoegen(klant);
+            }
+        }
+        //updateMainView();
+        ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+        klantTable.itemsProperty().unbind();
+        klantTable.setItems(Klantlist);
+        updateView();
 
 
     }
@@ -88,35 +89,39 @@ public class KlantOverzicht {
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Main.windowWidth = (int) window.getWidth();
-        // updateView();
+        updateView();
     }
 
     public void updateView() {
-//        double Kolumnwidthvoornaam = (columnvoornaam.widthProperty().getValue()) / 4.9;
-//        double Kolumnwidthachternaam = (columnachternaam.widthProperty().getValue()) / 4.9;
-//        double Kolumnwidthstatusmdw = (columnstatusmdw.widthProperty().getValue()) / 4.9;
-//        double Kolumnwidthurenperweek = (columnurenperweek.widthProperty().getValue()) / 4.9;
-//
-//
-//        ObservableList<Medewerker> medewerkerslist = FXCollections.observableArrayList(Datasource.getInstance().queryMedewerker());
-//
-//        for (Medewerker huidigemdw : medewerkerslist) {
-//            if (!(huidigemdw.getVoornaam() == null))
-//                huidigemdw.setVoornaam(Editaanvraag.lineWrap(huidigemdw.getVoornaam(), (int) Kolumnwidthvoornaam));
-//            if (!(huidigemdw.getAchternaam() == null)) {
-//                huidigemdw.setAchternaam(Editaanvraag.lineWrap(huidigemdw.getAchternaam(), (int) Kolumnwidthachternaam));
-//            }
-//            if (!(huidigemdw.getUrenperweek() == null)) {
-//                huidigemdw.setUren(Editaanvraag.lineWrap(huidigemdw.getUrenperweek(), (int) Kolumnwidthurenperweek));
-//            }
-//            if (!(huidigemdw.getStatusmdw() == null)) {
-//                huidigemdw.setStatusmdw(Editaanvraag.lineWrap(huidigemdw.getStatusmdw(), (int) Kolumnwidthstatusmdw));
-//            }
+        double Kolumnwidthklantnaam = (columnklantnaam.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthklantcontactpersoon = (columnklantcontactpersoon.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthklantcontacttelnr = (columnklantcontacttelnr.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthklantcontactemail = (columnklantcontactemail.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthklantopmerking = (columnklantopmerking.widthProperty().getValue()) / 4.9;
 
-//            klantTable.itemsProperty().unbind();
-//            klantTable.setItems(klantenlist);
+
+        ObservableList<Klant> klantenlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+
+        for (Klant huidigeklant : klantenlist) {
+            if (!(huidigeklant.getKlantnaam() == null))
+                huidigeklant.setKlantnaam(Editaanvraag.lineWrap(huidigeklant.getKlantnaam(), (int) Kolumnwidthklantnaam));
+            if (!(huidigeklant.getKlantcontactpersoon() == null)) {
+                huidigeklant.setKlantcontactpersoon(Editaanvraag.lineWrap(huidigeklant.getKlantcontactpersoon(), (int) Kolumnwidthklantcontactpersoon));
+            }
+            if (!(huidigeklant.getKlantcontacttelnr() == null)) {
+                huidigeklant.setKlantcontacttelnr(Editaanvraag.lineWrap(huidigeklant.getKlantcontacttelnr(), (int) Kolumnwidthklantcontacttelnr));
+            }
+            if (!(huidigeklant.getKlantcontactemail() == null)) {
+                huidigeklant.setKlantcontactemail(Editaanvraag.lineWrap(huidigeklant.getKlantcontactemail(), (int) Kolumnwidthklantcontactemail));
+            }
+            if (!(huidigeklant.getKlantopmerking() == null)) {
+                huidigeklant.setKlantopmerking(Editaanvraag.lineWrap(huidigeklant.getKlantopmerking(), (int) Kolumnwidthklantopmerking));
+            }
+
+            klantTable.itemsProperty().unbind();
+            klantTable.setItems(klantenlist);
+        }
     }
-
 
     public void listKlanten() {
         Task<ObservableList<Klant>> task = new GetAllKlantenTask();

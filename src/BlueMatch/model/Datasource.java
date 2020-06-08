@@ -74,10 +74,27 @@ public class Datasource {
 
     public static final int INDEX_IDKLANT = 1;
     public static final int INDEX_KLANTNAAM = 2;
-    public static final int INDEX_KLANTCONTACTPERSOOM = 3;
+    public static final int INDEX_KLANTCONTACTPERSOON = 3;
     public static final int INDEX_KLANTCONTACTTELNR = 4;
     public static final int INDEX_KLANTCONTACTEMAIL = 5;
     public static final int INDEX_KLANTOPMERKING = 6;
+
+
+    public static final String TABLE_BROKER = "Broker";
+    public static final String COLUMN_IDBROKER = "idbroker";
+    public static final String COLUMN_BROKERNAAM = "brokernaam";
+    public static final String COLUMN_CONTACTPERSOON = "contactpersoon";
+    public static final String COLUMN_TELBROKER = "telbroker";
+    public static final String COLUMN_EMAILBROKER = "emailbroker";
+    public static final String COLUMN_OPMERKINGBROKER = "opmerkingbroker";
+
+    public static final int INDEX_IDBROKER = 1;
+    public static final int INDEX_BROKERNAAM = 2;
+    public static final int INDEX_CONTACTPERSOON = 3;
+    public static final int INDEX_TELBROKER = 4;
+    public static final int INDEX_EMAILBROKER = 5;
+    public static final int INDEX_OPMERKINGBROKER = 6;
+
 
 
     public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + '(' + COLUMN_REFBROKER
@@ -96,6 +113,17 @@ public class Datasource {
             +
             ") VALUES (?,?,?,?)";
 
+    public static final String InsertBroker = "INSERT INTO " + TABLE_BROKER + '(' + COLUMN_BROKERNAAM
+            + "," + COLUMN_CONTACTPERSOON + "," + COLUMN_TELBROKER + "," + COLUMN_EMAILBROKER +","
+            + COLUMN_OPMERKINGBROKER +
+            ") VALUES (?,?,?,?,?)";
+
+    public static final String InsertKlant = "INSERT INTO " + TABLE_KLANT + '(' + COLUMN_KLANTNAAM
+            + "," + COLUMN_KLANTCONTACTPERSOON + "," + COLUMN_KLANTCONTACTTELNR + "," + COLUMN_KLANTCONTACTEMAIL
+            + ","+ COLUMN_KLANTOPMERKING +
+            ") VALUES (?,?,?,?,?)";
+
+
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
     public static String filterstatus = "";
     public static String filterstatusaanb = "";
@@ -112,6 +140,8 @@ public class Datasource {
     private PreparedStatement insertIntoAanvraag;
     private PreparedStatement insertIntoAanbod;
     private PreparedStatement insertIntoMedewerker;
+    private PreparedStatement insertIntoBroker;
+    private PreparedStatement insertIntoKlant;
 
 
     private static Datasource instance = new Datasource();
@@ -145,6 +175,8 @@ public class Datasource {
             insertIntoAanvraag = conn.prepareStatement(InsertAanvraag);
             insertIntoAanbod = conn.prepareStatement(InsertAanbod);
             insertIntoMedewerker = conn.prepareStatement(InsertMedewerker);
+            insertIntoBroker = conn.prepareStatement(InsertBroker);
+            insertIntoKlant = conn.prepareStatement(InsertKlant);
             return true;
 
         } catch (SQLException e) {
@@ -160,6 +192,8 @@ public class Datasource {
                 insertIntoAanvraag.close();
                 insertIntoAanbod.close();
                 insertIntoMedewerker.close();
+                insertIntoBroker.close();
+                insertIntoKlant.close();
             }
 
         } catch (SQLException e) {
@@ -206,6 +240,32 @@ public class Datasource {
         insertIntoMedewerker.setString(4, medewerker.getStatusmdw());
 
         insertIntoMedewerker.executeUpdate();
+        conn.setAutoCommit(true);
+        return 1;
+    }
+
+    public int brokerToevoegen(Broker broker) throws SQLException {
+        //System.out.println("Medewerker toevoegen");
+        insertIntoBroker.setString(1, broker.getBrokernaam());
+        insertIntoBroker.setString(2, broker.getContactpersoon());
+        insertIntoBroker.setString(3, broker.getTelbroker());
+        insertIntoBroker.setString(4, broker.getEmailbroker());
+        insertIntoBroker.setString(5, broker.getOpmerkingbroker());
+
+        insertIntoBroker.executeUpdate();
+        conn.setAutoCommit(true);
+        return 1;
+    }
+
+    public int klantToevoegen(Klant klant) throws SQLException {
+        //System.out.println("Medewerker toevoegen");
+        insertIntoKlant.setString(1, klant.getKlantnaam());
+        insertIntoKlant.setString(2, klant.getKlantcontactpersoon());
+        insertIntoKlant.setString(3, klant.getKlantcontacttelnr());
+        insertIntoKlant.setString(4, klant.getKlantcontactemail());
+        insertIntoKlant.setString(5, klant.getKlantopmerking());
+
+        insertIntoKlant.executeUpdate();
         conn.setAutoCommit(true);
         return 1;
     }
@@ -295,7 +355,7 @@ public class Datasource {
                 Klant klant = new Klant();
                 //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
                 klant.setKlantnaam(results.getString(INDEX_KLANTNAAM));
-                klant.setKlantcontactpersoon(results.getString(INDEX_KLANTCONTACTPERSOOM));
+                klant.setKlantcontactpersoon(results.getString(INDEX_KLANTCONTACTPERSOON));
                 klant.setKlantcontacttelnr(results.getString(INDEX_KLANTCONTACTTELNR));
                 klant.setKlantcontactemail(results.getString(INDEX_KLANTCONTACTEMAIL));
                 klant.setKlantopmerking(results.getString(INDEX_KLANTOPMERKING));
@@ -309,6 +369,31 @@ public class Datasource {
             return null;
         }
     }
+
+    public List<Broker> queryBroker() {
+
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_BROKER)) {
+            List<Broker> brokers = new ArrayList<>();
+            while (results.next()) {
+                Broker broker = new Broker();
+                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
+                broker.setBrokernaam(results.getString(INDEX_BROKERNAAM));
+                broker.setContactpersoon(results.getString(INDEX_CONTACTPERSOON));
+                broker.setTelbroker(results.getString(INDEX_TELBROKER));
+                broker.setEmailbroker(results.getString(INDEX_EMAILBROKER));
+                broker.setOpmerkingbroker(results.getString(INDEX_OPMERKINGBROKER));
+
+                brokers.add(broker);
+                System.out.println("Broker added");
+            }
+            return brokers;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
 
     public List<OverviewRecord> queryMain() {
         QUERYSTRINGMAIN=setQueryStringMain();

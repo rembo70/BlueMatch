@@ -21,7 +21,7 @@
     <bottom>
         <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
             <buttons>
-                <Button alignment="TOP_LEFT" mnemonicParsing="false"  text="Broker toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#addBroker" text="Broker toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
                 <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
             </buttons>
         </ButtonBar>
@@ -37,7 +37,7 @@
                         <PropertyValueFactory property="brokernaam" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnbrokercontect" minWidth="0.0" prefWidth="246.85711669921875" text="Contactpersoon">
+                <TableColumn fx:id="columncontactpersoon"  minWidth="0.0" prefWidth="246.85711669921875" text="Contactpersoon">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
@@ -45,24 +45,30 @@
                         <PropertyValueFactory property="contactpersoon" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnemailcontact" prefWidth="143.42855834960938" text="Telefoonnummer">
+                <TableColumn fx:id="columntelbroker" prefWidth="143.42855834960938" text="Telefoonnummer">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
                     <cellValueFactory>
-                        <PropertyValueFactory property="urenperweek" />
+                        <PropertyValueFactory property="telbroker" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnstatusmdw" prefWidth="210.0" text="Email adres">
+                <TableColumn fx:id="columnemailbroker" prefWidth="210.0" text="Email adres">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
                     <cellValueFactory>
-                        <PropertyValueFactory property="statusmdw" />
+                        <PropertyValueFactory property="emailbroker" />
                     </cellValueFactory>
-
                 </TableColumn>
-            <TableColumn prefWidth="194.28564453125" text="Opmerkingen" />
+            <TableColumn fx:id="columnopmerking" prefWidth="194.28564453125" text="Opmerking" >
+                <cellFactory>
+                    <FormattedTableCellFactory />
+                </cellFactory>
+                <cellValueFactory>
+                    <PropertyValueFactory property="opmerkingbroker" />
+                </cellValueFactory>
+            </TableColumn>
             </columns>
             <effect>
                 <Blend />

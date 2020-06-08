@@ -53,6 +53,7 @@ public class MedewerkerOverzicht {
         window.show();
         parentController.updateMainView();
         Main.windowWidth = (int) window.getWidth();
+
     }
 
 
@@ -77,6 +78,7 @@ public class MedewerkerOverzicht {
         ObservableList<Medewerker> Medewerkerlist = FXCollections.observableArrayList(Datasource.getInstance().queryMedewerker());
         medewerkerTable.itemsProperty().unbind();
         medewerkerTable.setItems(Medewerkerlist);
+        updateView();
 
 
     }
@@ -87,7 +89,7 @@ public class MedewerkerOverzicht {
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Main.windowWidth = (int) window.getWidth();
-        // updateView();
+        updateView();
     }
 
     public void updateView() {

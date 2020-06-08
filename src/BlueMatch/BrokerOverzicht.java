@@ -26,13 +26,15 @@ public class BrokerOverzicht {
 
     private Scene ParentScene;
     @FXML
-    private TableColumn columnvoornaam;
+    private TableColumn columnbrokernaam;
     @FXML
-    private TableColumn columnachternaam;
+    private TableColumn columncontactpersoon;
     @FXML
-    private TableColumn columnurenperweek;
+    private TableColumn columntelbroker;
     @FXML
-    private TableColumn columnstatusmdw;
+    private TableColumn columnemailbroker;
+    @FXML
+    private TableColumn columnopmerkingbroker;
 
 
     private Controller parentController;
@@ -57,31 +59,30 @@ public class BrokerOverzicht {
 
     @FXML
     public void addBroker(ActionEvent event) throws IOException, SQLException {
-        System.out.println("add broker");
 
-//        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("addMedewerker.fxml"));
-//        dialog.getDialogPane().setContent(loader.load());
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-//        Optional<ButtonType> result = dialog.showAndWait();
-//        {
-//            if (result.isPresent() && result.get() == ButtonType.OK) {
-//                AddMedewerkerController addMedewerkerController = loader.getController();
-//                Medewerker medewerker = addMedewerkerController.getNewMedewerker();
-//                Datasource.getInstance().medewerkerToevoegen(medewerker);
-//            }
-//        }
-//        //updateMainView();
-//        ObservableList<Medewerker> Medewerkerlist = FXCollections.observableArrayList(Datasource.getInstance().queryMedewerker());
-//        medewerkerTable.itemsProperty().unbind();
-//        medewerkerTable.setItems(Medewerkerlist);
+        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("addBroker.fxml"));
+        dialog.getDialogPane().setContent(loader.load());
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        Optional<ButtonType> result = dialog.showAndWait();
+        {
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                AddBrokerController addBrokerController = loader.getController();
+                Broker broker = addBrokerController.getNewBroker();
+                Datasource.getInstance().brokerToevoegen(broker);
+            }
+        }
+        //updateMainView();
+        ObservableList<Broker> Brokerlist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+        brokerTable.itemsProperty().unbind();
+        brokerTable.setItems(Brokerlist);
 
 
     }
 
     @FXML
-    private TableView<Medewerker> brokerTable;
+    private TableView<Broker> brokerTable;
 
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -90,48 +91,52 @@ public class BrokerOverzicht {
     }
 
     public void updateView() {
-//        double Kolumnwidthvoornaam = (columnvoornaam.widthProperty().getValue()) / 4.9;
-//        double Kolumnwidthachternaam = (columnachternaam.widthProperty().getValue()) / 4.9;
-//        double Kolumnwidthstatusmdw = (columnstatusmdw.widthProperty().getValue()) / 4.9;
-//        double Kolumnwidthurenperweek = (columnurenperweek.widthProperty().getValue()) / 4.9;
-//
-//
-//        ObservableList<Medewerker> medewerkerslist = FXCollections.observableArrayList(Datasource.getInstance().queryMedewerker());
-//
-//        for (Medewerker huidigemdw : medewerkerslist) {
-//            if (!(huidigemdw.getVoornaam() == null))
-//                huidigemdw.setVoornaam(Editaanvraag.lineWrap(huidigemdw.getVoornaam(), (int) Kolumnwidthvoornaam));
-//            if (!(huidigemdw.getAchternaam() == null)) {
-//                huidigemdw.setAchternaam(Editaanvraag.lineWrap(huidigemdw.getAchternaam(), (int) Kolumnwidthachternaam));
-//            }
-//            if (!(huidigemdw.getUrenperweek() == null)) {
-//                huidigemdw.setUren(Editaanvraag.lineWrap(huidigemdw.getUrenperweek(), (int) Kolumnwidthurenperweek));
-//            }
-//            if (!(huidigemdw.getStatusmdw() == null)) {
-//                huidigemdw.setStatusmdw(Editaanvraag.lineWrap(huidigemdw.getStatusmdw(), (int) Kolumnwidthstatusmdw));
-//            }
-//
-//            brokerTable.itemsProperty().unbind();
-//            brokerTable.setItems(medewerkerslist);
-//        }
+        double Kolumnwidthbrokernaam = (columnbrokernaam.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthcontactpersoon = (columncontactpersoon.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthtelbroker = (columntelbroker.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthemailbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
+        double Kolumnwidthopmerkingbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
+
+        ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+
+        for (Broker huidigebroker : brokerslist) {
+            if (!(huidigebroker.getBrokernaam() == null))
+                huidigebroker.setBrokernaam(Editaanvraag.lineWrap(huidigebroker.getBrokernaam(), (int) Kolumnwidthbrokernaam));
+            if (!(huidigebroker.getContactpersoon() == null)) {
+                huidigebroker.setContactpersoon(Editaanvraag.lineWrap(huidigebroker.getContactpersoon(), (int) Kolumnwidthcontactpersoon));
+            }
+            if (!(huidigebroker.getTelbroker() == null)) {
+                huidigebroker.setTelbroker(Editaanvraag.lineWrap(huidigebroker.getTelbroker(), (int) Kolumnwidthtelbroker));
+            }
+            if (!(huidigebroker.getEmailbroker() == null)) {
+                huidigebroker.setEmailbroker(Editaanvraag.lineWrap(huidigebroker.getEmailbroker(), (int) Kolumnwidthemailbroker));
+            }
+            if (!(huidigebroker.getOpmerkingbroker() == null)) {
+                huidigebroker.setOpmerkingbroker(Editaanvraag.lineWrap(huidigebroker.getOpmerkingbroker(), (int) Kolumnwidthopmerkingbroker));
+            }
+
+            brokerTable.itemsProperty().unbind();
+            brokerTable.setItems(brokerslist);
+        }
     }
 
 
-    public void listBrokers() {
-//        Task<ObservableList<Broker>> task = new GetAllBrokersTask();
-//        brokerTable.itemsProperty().bind(task.valueProperty());
-//        new Thread(task).start();
+        public void listBrokers() {
+            Task<ObservableList<Broker>> task = new GetAllBrokersTask();
+            brokerTable.itemsProperty().bind(task.valueProperty());
+            new Thread(task).start();
+        }
     }
 
- //   class GetAllBrokersTask extends Task {
+    class GetAllBrokersTask extends Task {
 
-//        @Override
-//        public ObservableList<Medewerker> call() {
-//
-//            ObservableList<Medewerker> BrokersList = FXCollections.observableArrayList(Datasource.getInstance().queryMedewerker());
-//            return BrokersList;
-//
-//        }
-//    }
-}
+        @Override
+        public ObservableList<Broker> call() {
+
+            ObservableList<Broker> BrokersList = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+            return BrokersList;
+
+        }
+    }
+
 
