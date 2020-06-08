@@ -36,6 +36,10 @@ public class Controller {
     @FXML
     private TableColumn columnMedewerker;
     @FXML
+    private TableColumn columnbrokernaam;
+    @FXML
+    private TableColumn columnContact;
+    @FXML
     private TableView<OverviewRecord> overviewRecordTable;
 
     @FXML
@@ -128,12 +132,42 @@ public class Controller {
         window.show();
         ctrlmdwoverzicht.updateView();
     }
+    @FXML
+    public void overzichtBroker(ActionEvent event) throws IOException {
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Brokeroverzicht.fxml"));
+        Parent detailViewParent = loader.load();
+        BrokerOverzicht ctrlbrokeroverzicht = loader.getController();
+        ctrlbrokeroverzicht.listBrokers();
+        Scene detailViewScene = new Scene(detailViewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        ctrlbrokeroverzicht.setParentScene(window.getScene());
+        ctrlbrokeroverzicht.setParentController(this);
+        window.setScene((detailViewScene));
+        window.show();
+        ctrlbrokeroverzicht.updateView();
+    }
+    @FXML
+    public void overzichtKlant(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Klantoverzicht.fxml"));
+        Parent detailViewParent = loader.load();
+        KlantOverzicht ctrlklantoverzicht = loader.getController();
+        ctrlklantoverzicht.listKlanten();
+        Scene detailViewScene = new Scene(detailViewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        ctrlklantoverzicht.setParentScene(window.getScene());
+        ctrlklantoverzicht.setParentController(this);
+        window.setScene((detailViewScene));
+        window.show();
+        ctrlklantoverzicht.updateView();
+    }
     @FXML
     public void aanbieden(ActionEvent event) throws IOException, SQLException {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-            System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getRefbroker());
-            System.out.println("add aanbod");
+            // System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getRefbroker());
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());

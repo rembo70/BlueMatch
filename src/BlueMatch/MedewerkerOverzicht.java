@@ -58,7 +58,7 @@ public class MedewerkerOverzicht {
 
     @FXML
     public void addMedewerker(ActionEvent event) throws IOException, SQLException {
-        System.out.println("add medewerker");
+        //System.out.println("add medewerker");
 
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addMedewerker.fxml"));

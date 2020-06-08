@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<?import BlueMatch.FormattedTableCellFactory?>
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.BrokerOverzicht">
+    <bottom>
+        <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
+            <buttons>
+                <Button alignment="TOP_LEFT" mnemonicParsing="false"  text="Broker toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+            </buttons>
+        </ButtonBar>
+    </bottom>
+    <center>
+        <TableView fx:id="brokerTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="columnbrokernaam" editable="false" prefWidth="132.0" text="Brokernaam">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="brokernaam" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnbrokercontect" minWidth="0.0" prefWidth="246.85711669921875" text="Contactpersoon">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="contactpersoon" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnemailcontact" prefWidth="143.42855834960938" text="Telefoonnummer">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="urenperweek" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnstatusmdw" prefWidth="210.0" text="Email adres">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="statusmdw" />
+                    </cellValueFactory>
+
+                </TableColumn>
+            <TableColumn prefWidth="194.28564453125" text="Opmerkingen" />
+            </columns>
+            <effect>
+                <Blend />
+            </effect>
+        </TableView>
+    </center>
+    <top>
+        <SplitPane centerShape="false" dividerPositions="0.19863013698630136" prefHeight="25.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+            <items>
+                <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                    <image>
+                        <Image url="@../NewsparkLogo.png" />
+                    </image>
+                </ImageView>
+                <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="412.0" style="-fx-text-fill: Lightblue;" text="Broker Overzicht" translateX="10.0">
+                    <font>
+                        <Font name="Calibri Bold" size="24.0" />
+                    </font>
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
+                </Label>
+            </items>
+            <effect>
+                <Glow level="0.0">
+                    <input>
+                        <InnerShadow />
+                    </input>
+                </Glow>
+            </effect>
+        </SplitPane>
+    </top>
+</BorderPane>

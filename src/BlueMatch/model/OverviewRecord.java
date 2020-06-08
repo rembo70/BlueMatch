@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 public class OverviewRecord {
     private SimpleStringProperty refbroker;
     private SimpleStringProperty functie;
+    private SimpleStringProperty refcontact;
     private SimpleStringProperty statusklant;
     private SimpleStringProperty medewerker;
     private SimpleStringProperty idaanvraag;
@@ -16,11 +17,24 @@ public class OverviewRecord {
     public OverviewRecord() {
         this.refbroker = new SimpleStringProperty();
         this.functie = new SimpleStringProperty();
+        this.refcontact = new SimpleStringProperty();
         this.statusklant = new SimpleStringProperty();
         this.medewerker = new SimpleStringProperty();
         this.idaanvraag = new SimpleStringProperty();
         this.statusaanbod = new SimpleStringProperty();
 
+    }
+
+    public String getRefcontact() {
+        return refcontact.get();
+    }
+
+    public SimpleStringProperty refcontactProperty() {
+        return refcontact;
+    }
+
+    public void setRefcontact(String refcontact) {
+        this.refcontact.set(refcontact);
     }
 
     public String getIdaanvraag() {

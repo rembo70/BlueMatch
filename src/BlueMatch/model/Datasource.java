@@ -63,6 +63,23 @@ public class Datasource {
     public static final int INDEX_URENPERWEEK = 4;
     public static final int INDEX_STATUSMDW = 5;
 
+
+    public static final String TABLE_KLANT = "Klant";
+    public static final String COLUMN_IDKLANT = "idklant";
+    public static final String COLUMN_KLANTNAAM = "klantnaam";
+    public static final String COLUMN_KLANTCONTACTPERSOON = "klantcontactpersoon";
+    public static final String COLUMN_KLANTCONTACTTELNR = "klantcontacttelnr";
+    public static final String COLUMN_KLANTCONTACTEMAIL = "klantcontactemail";
+    public static final String COLUMN_KLANTOPMERKING = "klantopmerking";
+
+    public static final int INDEX_IDKLANT = 1;
+    public static final int INDEX_KLANTNAAM = 2;
+    public static final int INDEX_KLANTCONTACTPERSOOM = 3;
+    public static final int INDEX_KLANTCONTACTTELNR = 4;
+    public static final int INDEX_KLANTCONTACTEMAIL = 5;
+    public static final int INDEX_KLANTOPMERKING = 6;
+
+
     public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + '(' + COLUMN_REFBROKER
             + "," + COLUMN_FUNCTIE + "," + COLUMN_REFCONTACT + "," + COLUMN_VRAAGURENWEEK + "," + COLUMN_STATUSKLANT
             + "," + COLUMN_DATUMAANVRAAG + "," + COLUMN_LOCATIE + "," + COLUMN_STARTDATUM + "," + COLUMN_OPMERKING
@@ -84,9 +101,9 @@ public class Datasource {
     public static String filterstatusaanb = "";
     public static String filterbroker = "";
     public static String filtermedewerker = "";
-    public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
-            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
-            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'" ;
+    public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
+            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanbod.refmedewerker IS NULL)"  ;
     //public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -101,9 +118,19 @@ public class Datasource {
 
     public  String setQueryStringMain (){
         System.out.println("setquerymain filter" + filterstatus);
-        String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
-                "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
-                "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'" ;
+        if (filtermedewerker.trim().isEmpty() && filterstatusaanb.isEmpty()) {
+            System.out.println("filtermedewerker is  null");
+            QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+                    "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
+                    "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanvraag.refbroker LIKE '%" +
+                    filterbroker + "%' AND aanbod.refmedewerker IS NULL)";
+        } else {
+            System.out.println("filtermedewerker is not null: " + filtermedewerker);
+            QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+                    "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
+            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%')";
+        }
+        System.out.println("returned query"+ QUERYSTRINGMAIN);
         return QUERYSTRINGMAIN;
     }
 
@@ -172,7 +199,7 @@ public class Datasource {
     }
 
     public int medewerkerToevoegen(Medewerker medewerker) throws SQLException {
-        System.out.println("Medewerker toevoegen");
+        //System.out.println("Medewerker toevoegen");
         insertIntoMedewerker.setString(1, medewerker.getVoornaam());
         insertIntoMedewerker.setString(2, medewerker.getAchternaam());
         insertIntoMedewerker.setString(3, medewerker.getUrenperweek());
@@ -245,13 +272,13 @@ public class Datasource {
                 //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
                 medewerker.setVoornaam(results.getString(INDEX_VOORNAAM));
                 medewerker.setAchternaam(results.getString(INDEX_ACHTERNAAM));
-                System.out.println("Urenperweek: " + results.getString(INDEX_URENPERWEEK));
+                //System.out.println("Urenperweek: " + results.getString(INDEX_URENPERWEEK));
                 medewerker.setUren(results.getString(INDEX_URENPERWEEK));
                 medewerker.setStatusmdw(results.getString(INDEX_STATUSMDW));
 
 
                 medewerkers.add(medewerker);
-                System.out.println("Medewerker added");
+                //System.out.println("Medewerker added");
             }
             return medewerkers;
         } catch (SQLException e) {
@@ -259,7 +286,29 @@ public class Datasource {
             return null;
         }
     }
+    public List<Klant> queryKlant() {
 
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_KLANT)) {
+            List<Klant> klanten = new ArrayList<>();
+            while (results.next()) {
+                Klant klant = new Klant();
+                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
+                klant.setKlantnaam(results.getString(INDEX_KLANTNAAM));
+                klant.setKlantcontactpersoon(results.getString(INDEX_KLANTCONTACTPERSOOM));
+                klant.setKlantcontacttelnr(results.getString(INDEX_KLANTCONTACTTELNR));
+                klant.setKlantcontactemail(results.getString(INDEX_KLANTCONTACTEMAIL));
+                klant.setKlantopmerking(results.getString(INDEX_KLANTOPMERKING));
+
+                klanten.add(klant);
+                System.out.println("Klant added");
+            }
+            return klanten;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
 
     public List<OverviewRecord> queryMain() {
         QUERYSTRINGMAIN=setQueryStringMain();
@@ -273,10 +322,11 @@ public class Datasource {
 
                 overviewrecord.setRefbroker(results.getString(1));
                 overviewrecord.setFunctie(results.getString(2));
-                overviewrecord.setStatusKlant(results.getString(3));
-                overviewrecord.setMedewerker(results.getString(4));
-                overviewrecord.setIdaanvraag(results.getString(5));
-                overviewrecord.setStatusaanbod(results.getString(6));
+                overviewrecord.setRefcontact(results.getString(3));
+                overviewrecord.setStatusKlant(results.getString(4));
+                overviewrecord.setMedewerker(results.getString(5));
+                overviewrecord.setIdaanvraag(results.getString(6));
+                overviewrecord.setStatusaanbod(results.getString(7));
 
                 overviewlist.add(overviewrecord);
             }
