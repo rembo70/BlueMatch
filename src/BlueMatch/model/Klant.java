@@ -1,11 +1,20 @@
 package BlueMatch.model;
 
 public class Klant {
+    private int idklant;
     private String klantnaam;
     private String klantcontactpersoon;
     private String klantcontacttelnr;
     private String klantcontactemail;
     private String klantopmerking;
+
+    public int getKlantID() {
+        return idklant;
+    }
+
+    public void setIdklant(int idklant) {
+        this.idklant = idklant;
+    }
 
     public String getKlantnaam() {
         return klantnaam;
@@ -46,4 +55,5 @@ public class Klant {
     public void setKlantopmerking(String klantopmerking) {
         this.klantopmerking = klantopmerking;
     }
+
 }

@@ -3,18 +3,21 @@ package BlueMatch;
 import BlueMatch.model.Datasource;
 import BlueMatch.model.Klant;
 import BlueMatch.model.Medewerker;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -35,6 +38,10 @@ public class KlantOverzicht {
     private TableColumn columnklantcontactemail;
     @FXML
     private TableColumn columnklantopmerking;
+    @FXML
+    private Button btnklanttoevoegen;
+
+
 
 
     private Controller parentController;
@@ -59,19 +66,54 @@ public class KlantOverzicht {
 
     @FXML
     public void addKlant(ActionEvent event) throws IOException, SQLException {
+
+
         //System.out.println("add medewerker");
 
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
+        // FXMLLoader addklantcontroller = FXMLLoader.getController()
         dialog.getDialogPane().setContent(loader.load());
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+//        final EventHandler<KeyEvent> keyEventHandler =
+//                new EventHandler<KeyEvent>() {
+//                    public void handle(final KeyEvent keyEvent) {
+//                        if (keyEvent.getCode() == KeyCode.ENTER) {
+//                            setPressed(keyEvent.getEventType()
+//                                    == KeyEvent.KEY_PRESSED);
+//                            System.out.println("ëvent suppressed");
+//                            keyEvent.consume();
+//                        }
+//                    }
+//                };
+
+//        Button btOK = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+ //       AddKlantController addKlantController = loader.getController();
+ //       Klant klant = addKlantController.getNewKlant();
+//        System.out.println("Klant: " + klant.getKlantnaam());
+//        btOK.addEventFilter(ActionEvent.ACTION, event2 -> {if (klant.getKlantnaam().isEmpty()) {
+//            System.out.println("OK button consumed");event2.consume();}});
+//            btOK.addEventFilter(new EventHandler() {
+//            public void handle(KeyEvent evt) { evt.consume();}
+//        });
+
         Optional<ButtonType> result = dialog.showAndWait();
         {
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                AddKlantController addKlantController = loader.getController();
-                Klant klant = addKlantController.getNewKlant();
-                Datasource.getInstance().klantToevoegen(klant);
+
+                 AddKlantController addKlantController = loader.getController();
+                 Klant klant = addKlantController.getNewKlant();
+                System.out.println(klant.getKlantnaam());
+                if (klant.getKlantnaam().isEmpty()){
+                    System.out.println("geen klantnaam ingevuld");
+                }
+                else
+                {
+                    Datasource.getInstance().klantToevoegen(klant);
+                }
             }
         }
         //updateMainView();
@@ -84,6 +126,69 @@ public class KlantOverzicht {
     }
 
     @FXML
+    public void updateKlant(ActionEvent event) throws IOException, SQLException {
+        final Klant klant = (Klant) klantTable.getSelectionModel().getSelectedItem();
+
+        Task<Boolean> task = new Task<Boolean>(){
+            @Override
+            protected Boolean call() throws  Exception {
+                System.out.println(Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietro"));
+                System.out.println(klant.getKlantID() + klant.getKlantnaam());
+                return Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietr9o");
+            }
+        };
+
+        new Thread(task).start();
+        ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+
+
+        //System.out.println("add medewerker");
+
+//        if (klantTable.getSelectionModel().getSelectedItem() == null) {
+//            System.out.println("Er is geen klant geselecteerd");
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("Geen klant geselecteerd");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Selecteer de klant die gewijzigd moet worden.");
+//            alert.showAndWait();
+//            return;
+//        } else {
+//            Klant selectedklant = klantTable.getSelectionModel().getSelectedItem();
+//
+//            Dialog<ButtonType> dialog = new Dialog<>();
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            //FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
+//            fxmlLoader.setLocation(getClass().getResource("addKlant.fxml"));
+//            //FXMLLoader klantController = FXMLLoader.getController();
+//            AddKlantController klantController = fxmlLoader.getController();
+//            klantController.editKlant(selectedklant);
+//
+//
+//            //dialog.getDialogPane().setContent(loader.load());
+//            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+//            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+//            dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+//
+//
+//            Optional<ButtonType> result = dialog.showAndWait();
+//            {
+//                if (result.isPresent() && result.get() == ButtonType.OK) {
+//        //            klantController.updateKlant(selectedklant);
+//                                      //  Datasource.getInstance().klantWijzigen(klant);
+//
+//                }
+//            }
+//        }
+//        //updateMainView();
+//        ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+//        klantTable.itemsProperty().unbind();
+//        klantTable.setItems(Klantlist);
+//        updateView();
+//
+//
+  }
+
+    @FXML
     private TableView<Klant> klantTable;
 
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
@@ -93,35 +198,55 @@ public class KlantOverzicht {
     }
 
     public void updateView() {
-        double Kolumnwidthklantnaam = (columnklantnaam.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthklantcontactpersoon = (columnklantcontactpersoon.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthklantcontacttelnr = (columnklantcontacttelnr.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthklantcontactemail = (columnklantcontactemail.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthklantopmerking = (columnklantopmerking.widthProperty().getValue()) / 4.9;
+        if (klantTable.getSelectionModel().getSelectedItem() == null) {
 
-
-        ObservableList<Klant> klantenlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
-
-        for (Klant huidigeklant : klantenlist) {
-            if (!(huidigeklant.getKlantnaam() == null))
-                huidigeklant.setKlantnaam(Editaanvraag.lineWrap(huidigeklant.getKlantnaam(), (int) Kolumnwidthklantnaam));
-            if (!(huidigeklant.getKlantcontactpersoon() == null)) {
-                huidigeklant.setKlantcontactpersoon(Editaanvraag.lineWrap(huidigeklant.getKlantcontactpersoon(), (int) Kolumnwidthklantcontactpersoon));
-            }
-            if (!(huidigeklant.getKlantcontacttelnr() == null)) {
-                huidigeklant.setKlantcontacttelnr(Editaanvraag.lineWrap(huidigeklant.getKlantcontacttelnr(), (int) Kolumnwidthklantcontacttelnr));
-            }
-            if (!(huidigeklant.getKlantcontactemail() == null)) {
-                huidigeklant.setKlantcontactemail(Editaanvraag.lineWrap(huidigeklant.getKlantcontactemail(), (int) Kolumnwidthklantcontactemail));
-            }
-            if (!(huidigeklant.getKlantopmerking() == null)) {
-                huidigeklant.setKlantopmerking(Editaanvraag.lineWrap(huidigeklant.getKlantopmerking(), (int) Kolumnwidthklantopmerking));
-            }
-
-            klantTable.itemsProperty().unbind();
-            klantTable.setItems(klantenlist);
+                btnklanttoevoegen.setText("Klant Toevoegen");
         }
+
+        changelistener(columnklantnaam);
+        changelistener(columnklantcontactpersoon);
+        changelistener(columnklantcontacttelnr);
+        changelistener(columnklantcontactemail);
+        changelistener(columnklantopmerking);
     }
+
+    public void changelistener(final TableColumn listerColumn) {
+        listerColumn.widthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
+                double Kolumnwidthklantnaam = (columnklantnaam.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthklantcontactpersoon = (columnklantcontactpersoon.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthklantcontacttelnr = (columnklantcontacttelnr.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthklantcontactemail = (columnklantcontactemail.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthklantopmerking = (columnklantopmerking.widthProperty().getValue()) / 4.9;
+
+
+                ObservableList<Klant> klantenlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+
+                for (Klant huidigeklant : klantenlist) {
+                    if (!(huidigeklant.getKlantnaam() == null))
+                        huidigeklant.setKlantnaam(Editaanvraag.lineWrap(huidigeklant.getKlantnaam(), (int) Kolumnwidthklantnaam));
+                    if (!(huidigeklant.getKlantcontactpersoon() == null)) {
+                        huidigeklant.setKlantcontactpersoon(Editaanvraag.lineWrap(huidigeklant.getKlantcontactpersoon(), (int) Kolumnwidthklantcontactpersoon));
+                    }
+                    if (!(huidigeklant.getKlantcontacttelnr() == null)) {
+                        huidigeklant.setKlantcontacttelnr(Editaanvraag.lineWrap(huidigeklant.getKlantcontacttelnr(), (int) Kolumnwidthklantcontacttelnr));
+                    }
+                    if (!(huidigeklant.getKlantcontactemail() == null)) {
+                        huidigeklant.setKlantcontactemail(Editaanvraag.lineWrap(huidigeklant.getKlantcontactemail(), (int) Kolumnwidthklantcontactemail));
+                    }
+                    if (!(huidigeklant.getKlantopmerking() == null)) {
+                        huidigeklant.setKlantopmerking(Editaanvraag.lineWrap(huidigeklant.getKlantopmerking(), (int) Kolumnwidthklantopmerking));
+                    }
+
+                    klantTable.itemsProperty().unbind();
+                    klantTable.setItems(klantenlist);
+                }
+            }
+        });
+    }
+
 
     public void listKlanten() {
         Task<ObservableList<Klant>> task = new GetAllKlantenTask();

@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class AddBrokerController {
@@ -20,7 +21,7 @@ public class AddBrokerController {
     @FXML
     private TextField emailbrokerField;
     @FXML
-    private TextField opmerkingbrokerField;
+    private TextArea opmerkingbrokerField;
 
     @FXML
     private TableView<Broker> brokerTable;

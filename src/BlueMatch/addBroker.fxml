@@ -10,7 +10,7 @@
         Broker toevoegen
     </headerText>
     <content>
-        <GridPane hgap="10" prefHeight="130" prefWidth="424.0" vgap="10">
+        <GridPane hgap="10" prefHeight="307.0" prefWidth="424.0" vgap="10">
             <Label text="Broker naam" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="brokernaamField" prefHeight="25.0" prefWidth="298.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Label text="Contact persoon" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -19,8 +19,9 @@
             <TextField fx:id="telbrokerField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Email " GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextField fx:id="emailbrokerField" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Opmerking " GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="opmerkingbrokerField" prefHeight="63.0" prefWidth="275.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Opmerking " GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+               <TextArea fx:id="opmerkingbrokerField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
 
             <columnConstraints>
 

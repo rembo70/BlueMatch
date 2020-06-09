@@ -7,10 +7,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class AddKlantController {
-
 
 
     @FXML
@@ -22,7 +22,7 @@ public class AddKlantController {
     @FXML
     private TextField klantcontactemailField;
     @FXML
-    private TextField klantopmerkingField;
+    private TextArea klantopmerkingField;
 
     @FXML
     private TableView<Klant> klantTable;
@@ -46,5 +46,21 @@ public class AddKlantController {
         return newKlant;
     }
 
-}
 
+    public void editKlant(Klant klant) {
+        System.out.println("ëdit klant started");
+        klantnaamField.setText(klant.getKlantnaam());
+        klantcontactpersoonField.setText(klant.getKlantcontactpersoon());
+        klantcontacttelnrField.setText(klant.getKlantcontacttelnr());
+        klantcontactemailField.setText(klant.getKlantcontactemail());
+        klantopmerkingField.setText(klant.getKlantopmerking());
+    }
+
+    public void updateKlant (Klant klant){
+        klant.setKlantnaam(klantnaamField.getText());
+        klant.setKlantcontactpersoon(klantcontactpersoonField.getText());
+        klant.setKlantcontacttelnr(klantcontacttelnrField.getText());
+        klant.setKlantcontactemail(klantcontactemailField.getText());
+        klant.setKlantopmerking(klantopmerkingField.getText());
+    }
+}

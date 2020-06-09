@@ -14,13 +14,13 @@
             <Label text="Klantnaam" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="klantnaamField" prefHeight="25.0" prefWidth="254.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Label text="Contact persoon" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="klantcontactpersoonField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="klantcontactpersoonField" prefHeight="25.0" prefWidth="380.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="telefoon nr" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <TextField fx:id="klantcontacttelnrField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="email adres" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextField fx:id="klantcontactemailField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Opmerking" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="klantopmerkingField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label prefHeight="17.0" prefWidth="272.0" text="Opmerking" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextArea fx:id="klantopmerkingField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <columnConstraints>
                 <ColumnConstraints />
                 <ColumnConstraints />

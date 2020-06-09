@@ -135,6 +135,7 @@ public class Datasource {
     //public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
 
+    public static final String UPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM + " = ? WHERE " + COLUMN_IDKLANT + " =  ?";
 
     private Connection conn;
     private PreparedStatement insertIntoAanvraag;
@@ -142,9 +143,14 @@ public class Datasource {
     private PreparedStatement insertIntoMedewerker;
     private PreparedStatement insertIntoBroker;
     private PreparedStatement insertIntoKlant;
+    private PreparedStatement updateklant;
 
 
     private static Datasource instance = new Datasource();
+
+    private Datasource() {
+
+    }
 
     public  String setQueryStringMain (){
         System.out.println("setquerymain filter" + filterstatus);
@@ -166,7 +172,6 @@ public class Datasource {
 
     public static Datasource getInstance() {
         return instance;
-        //Datasource.getInstance().methodname()...
     }
 
     public boolean open() {
@@ -177,6 +182,7 @@ public class Datasource {
             insertIntoMedewerker = conn.prepareStatement(InsertMedewerker);
             insertIntoBroker = conn.prepareStatement(InsertBroker);
             insertIntoKlant = conn.prepareStatement(InsertKlant);
+            updateklant = conn.prepareStatement(UPDATE_KLANT);
             return true;
 
         } catch (SQLException e) {
@@ -194,6 +200,7 @@ public class Datasource {
                 insertIntoMedewerker.close();
                 insertIntoBroker.close();
                 insertIntoKlant.close();
+                updateklant.close();
             }
 
         } catch (SQLException e) {
@@ -268,6 +275,20 @@ public class Datasource {
         insertIntoKlant.executeUpdate();
         conn.setAutoCommit(true);
         return 1;
+    }
+
+    public boolean updateKlant (int id, String newKlantnaam){
+        try {
+            updateklant.setString(1, newKlantnaam);
+            updateklant.setInt  (2, id);
+            System.out.println(updateklant.toString());
+            int affectedRecords = updateklant.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
     }
 
     public List<Aanvraag> queryAanvraag() {
@@ -354,6 +375,7 @@ public class Datasource {
             while (results.next()) {
                 Klant klant = new Klant();
                 //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
+                klant.setIdklant(results.getInt(INDEX_IDKLANT));
                 klant.setKlantnaam(results.getString(INDEX_KLANTNAAM));
                 klant.setKlantcontactpersoon(results.getString(INDEX_KLANTCONTACTPERSOON));
                 klant.setKlantcontacttelnr(results.getString(INDEX_KLANTCONTACTTELNR));
@@ -361,7 +383,7 @@ public class Datasource {
                 klant.setKlantopmerking(results.getString(INDEX_KLANTOPMERKING));
 
                 klanten.add(klant);
-                System.out.println("Klant added");
+                //System.out.println("Klant added");
             }
             return klanten;
         } catch (SQLException e) {
@@ -421,6 +443,9 @@ public class Datasource {
             return null;
         }
     }
+
+
+
 }
 
 
