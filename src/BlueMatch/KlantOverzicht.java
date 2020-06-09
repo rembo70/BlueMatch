@@ -78,28 +78,6 @@ public class KlantOverzicht {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 
-//        final EventHandler<KeyEvent> keyEventHandler =
-//                new EventHandler<KeyEvent>() {
-//                    public void handle(final KeyEvent keyEvent) {
-//                        if (keyEvent.getCode() == KeyCode.ENTER) {
-//                            setPressed(keyEvent.getEventType()
-//                                    == KeyEvent.KEY_PRESSED);
-//                            System.out.println("ëvent suppressed");
-//                            keyEvent.consume();
-//                        }
-//                    }
-//                };
-
-//        Button btOK = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
- //       AddKlantController addKlantController = loader.getController();
- //       Klant klant = addKlantController.getNewKlant();
-//        System.out.println("Klant: " + klant.getKlantnaam());
-//        btOK.addEventFilter(ActionEvent.ACTION, event2 -> {if (klant.getKlantnaam().isEmpty()) {
-//            System.out.println("OK button consumed");event2.consume();}});
-//            btOK.addEventFilter(new EventHandler() {
-//            public void handle(KeyEvent evt) { evt.consume();}
-//        });
-
         Optional<ButtonType> result = dialog.showAndWait();
         {
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -132,60 +110,20 @@ public class KlantOverzicht {
         Task<Boolean> task = new Task<Boolean>(){
             @Override
             protected Boolean call() throws  Exception {
-                System.out.println(Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietro"));
+                System.out.println(Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietrto"));
                 System.out.println(klant.getKlantID() + klant.getKlantnaam());
-                return Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietr9o");
+                return Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietrto");
             }
         };
-
-        new Thread(task).start();
         ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
 
+        new Thread(task).start();
+        Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
 
-        //System.out.println("add medewerker");
-
-//        if (klantTable.getSelectionModel().getSelectedItem() == null) {
-//            System.out.println("Er is geen klant geselecteerd");
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setTitle("Geen klant geselecteerd");
-//            alert.setHeaderText(null);
-//            alert.setContentText("Selecteer de klant die gewijzigd moet worden.");
-//            alert.showAndWait();
-//            return;
-//        } else {
-//            Klant selectedklant = klantTable.getSelectionModel().getSelectedItem();
-//
-//            Dialog<ButtonType> dialog = new Dialog<>();
-//            FXMLLoader fxmlLoader = new FXMLLoader();
-//            //FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
-//            fxmlLoader.setLocation(getClass().getResource("addKlant.fxml"));
-//            //FXMLLoader klantController = FXMLLoader.getController();
-//            AddKlantController klantController = fxmlLoader.getController();
-//            klantController.editKlant(selectedklant);
-//
-//
-//            //dialog.getDialogPane().setContent(loader.load());
-//            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-//            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-//            dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-//
-//
-//            Optional<ButtonType> result = dialog.showAndWait();
-//            {
-//                if (result.isPresent() && result.get() == ButtonType.OK) {
-//        //            klantController.updateKlant(selectedklant);
-//                                      //  Datasource.getInstance().klantWijzigen(klant);
-//
-//                }
-//            }
-//        }
-//        //updateMainView();
-//        ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
-//        klantTable.itemsProperty().unbind();
-//        klantTable.setItems(Klantlist);
-//        updateView();
-//
-//
+        klantTable.itemsProperty().unbind();
+        klantTable.setItems(Klantlist);
+        System.out.println("populated");
+        updateView();
   }
 
     @FXML
