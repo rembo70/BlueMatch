@@ -124,7 +124,7 @@ public class Datasource {
             ") VALUES (?,?,?,?,?)";
 
 
-    //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
+
     public static String filterstatus = "";
     public static String filterstatusaanb = "";
     public static String filterbroker = "";
@@ -132,8 +132,7 @@ public class Datasource {
     public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
             "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
             "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanbod.refmedewerker IS NULL)"  ;
-    //public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
-    //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
+
 
     public static final String UPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM  + " = ?, " + COLUMN_KLANTCONTACTPERSOON + " = ?, " + COLUMN_KLANTCONTACTTELNR + " = ?, " + COLUMN_KLANTCONTACTEMAIL + " = ?, " + COLUMN_KLANTOPMERKING + " = ? WHERE " + COLUMN_IDKLANT + " =  ?";
 
@@ -153,10 +152,8 @@ public class Datasource {
     }
 
     public  String setQueryStringMain (){
-        System.out.println("setquerymain filter" + filterstatus);
         if (filtermedewerker.trim().isEmpty() && filterstatusaanb.isEmpty()) {
-            System.out.println("filtermedewerker is  null");
-            QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
                     "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
                     "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanvraag.refbroker LIKE '%" +
                     filterbroker + "%' AND aanbod.refmedewerker IS NULL)";
@@ -166,7 +163,6 @@ public class Datasource {
                     "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
             "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%')";
         }
-        System.out.println("returned query"+ QUERYSTRINGMAIN);
         return QUERYSTRINGMAIN;
     }
 
@@ -286,8 +282,6 @@ public class Datasource {
             updateklant.setString(3,klant.getKlantcontacttelnr());
             updateklant.setString(4, klant.getKlantcontactemail());
             updateklant.setString(5,klant.getKlantopmerking());
-            System.out.println(updateklant.toString());
-            System.out.println(UPDATE_KLANT);
             int affectedRecords = updateklant.executeUpdate();
             return affectedRecords ==1;
 
@@ -333,7 +327,7 @@ public class Datasource {
             List<Aanbod> aanbiedingen = new ArrayList<>();
             while (results.next()) {
                 Aanbod aanbod = new Aanbod();
-                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
+
                 aanbod.setRefaanvraag(results.getString(INDEX_REFAANVRAAG));
                 aanbod.setRefmedewerker(results.getString(INDEX_REFMEDEWERKER));
                 aanbod.setTariefaanbod(results.getString(INDEX_TARIEFAANBOD));
@@ -356,16 +350,11 @@ public class Datasource {
             List<Medewerker> medewerkers = new ArrayList<>();
             while (results.next()) {
                 Medewerker medewerker = new Medewerker();
-                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
                 medewerker.setVoornaam(results.getString(INDEX_VOORNAAM));
                 medewerker.setAchternaam(results.getString(INDEX_ACHTERNAAM));
-                //System.out.println("Urenperweek: " + results.getString(INDEX_URENPERWEEK));
                 medewerker.setUren(results.getString(INDEX_URENPERWEEK));
                 medewerker.setStatusmdw(results.getString(INDEX_STATUSMDW));
-
-
                 medewerkers.add(medewerker);
-                //System.out.println("Medewerker added");
             }
             return medewerkers;
         } catch (SQLException e) {
@@ -380,7 +369,6 @@ public class Datasource {
             List<Klant> klanten = new ArrayList<>();
             while (results.next()) {
                 Klant klant = new Klant();
-                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
                 klant.setIdklant(results.getInt(INDEX_IDKLANT));
                 klant.setKlantnaam(results.getString(INDEX_KLANTNAAM));
                 klant.setKlantcontactpersoon(results.getString(INDEX_KLANTCONTACTPERSOON));
@@ -389,7 +377,6 @@ public class Datasource {
                 klant.setKlantopmerking(results.getString(INDEX_KLANTOPMERKING));
 
                 klanten.add(klant);
-                //System.out.println("Klant added");
             }
             return klanten;
         } catch (SQLException e) {
@@ -405,7 +392,6 @@ public class Datasource {
             List<Broker> brokers = new ArrayList<>();
             while (results.next()) {
                 Broker broker = new Broker();
-                //  System.out.println("Medewerker:" + results.getString((INDEX_STATUSAANBOD)));
                 broker.setBrokernaam(results.getString(INDEX_BROKERNAAM));
                 broker.setContactpersoon(results.getString(INDEX_CONTACTPERSOON));
                 broker.setTelbroker(results.getString(INDEX_TELBROKER));
@@ -413,7 +399,7 @@ public class Datasource {
                 broker.setOpmerkingbroker(results.getString(INDEX_OPMERKINGBROKER));
 
                 brokers.add(broker);
-                System.out.println("Broker added");
+
             }
             return brokers;
         } catch (SQLException e) {
@@ -425,7 +411,6 @@ public class Datasource {
 
     public List<OverviewRecord> queryMain() {
         QUERYSTRINGMAIN=setQueryStringMain();
-        System.out.println(QUERYSTRINGMAIN);
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
 

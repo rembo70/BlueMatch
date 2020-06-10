@@ -1,6 +1,7 @@
 package BlueMatch;
 
 import BlueMatch.model.Broker;
+import BlueMatch.model.Klant;
 import BlueMatch.model.Medewerker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,5 +45,20 @@ public class AddBrokerController {
         return newBroker;
     }
 
+    public void editBroker(Broker broker) {
+        brokernaamField.setText(broker.getBrokernaam());
+        contactpersoonField.setText(broker.getContactpersoon());
+        telbrokerField.setText(broker.getTelbroker());
+        emailbrokerField.setText(broker.getEmailbroker());
+        opmerkingbrokerField.setText(broker.getOpmerkingbroker());
+    }
+
+    public void updateBroker (Broker broker){
+        broker.setBrokernaam(brokernaamField.getText());
+        broker.setContactpersoon(contactpersoonField.getText());
+        broker.setTelbroker(telbrokerField.getText());
+        broker.setEmailbroker(emailbrokerField.getText());
+        broker.setOpmerkingbroker(opmerkingbrokerField.getText());
+    }
 }
 

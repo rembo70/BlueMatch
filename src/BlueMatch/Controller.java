@@ -108,7 +108,6 @@ public class Controller {
         Scene detailViewScene = new Scene(detailViewParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-
         ctrleditaanvraag.setParentScene(window.getScene());
         ctrleditaanvraag.setParentController(this);
         window.setScene((detailViewScene));
@@ -167,7 +166,7 @@ public class Controller {
     @FXML
     public void aanbieden(ActionEvent event) throws IOException, SQLException {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-            // System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getRefbroker());
+
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());
@@ -227,7 +226,7 @@ public class Controller {
         window.show();
         window.widthProperty().addListener((obs, oldVal, newVal) -> {
             Main.windowWidth = (int) window.getWidth();
-            // System.out.println(newVal);
+
             ctrleditaanbod.updateView();
         });
 
@@ -241,14 +240,24 @@ public class Controller {
         updateMainView();
     }
 
+    @FXML
+    private Button aanbiedingmaken;
 
     public void updateMainView() {
+        if (overviewRecordTable.getSelectionModel().getSelectedItem() == null) {
+
+            aanbiedingmaken.setDisable(true);
+        }
+        else
+        {
+
+            aanbiedingmaken.setDisable(false);
+        }
 
         Datasource.filterstatus=statusKlantCombo.getValue();
         Datasource.filterstatusaanb=statusAanbiedingCombo.getValue();
         Datasource.filterbroker=brokerTextField.getText();
         Datasource.filtermedewerker=medewerkerTextField.getText();
-        System.out.println(Datasource.filterstatus);
 
         changelistener(columnBroker);
         changelistener(columnFunctie);
@@ -262,8 +271,6 @@ public class Controller {
 
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
-                // System.out.print(listerColumn.getText() + "  ");
-                // System.out.println(t1);
 
                 double Kolumnwidthmedewerker = (columnMedewerker.widthProperty().getValue()) / 7;
                 double Kolumnwidthbroker = (columnBroker.widthProperty().getValue()) / 7;
@@ -272,7 +279,6 @@ public class Controller {
 
                 ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
 
-                System.out.println("gefilterd op: " + Datasource.filterstatus);
                 for (OverviewRecord huidigeoverviewrecord : Overviewlist) {
                     if (!(huidigeoverviewrecord.getRefbroker() == null))
                         huidigeoverviewrecord.setRefbroker(Editaanvraag.lineWrap(huidigeoverviewrecord.getRefbroker(), (int) Kolumnwidthbroker));
@@ -296,7 +302,6 @@ public class Controller {
 class GetAllOverviewRecordTask extends Task {
     @Override
     public ObservableList<OverviewRecord> call() {
-        System.out.println("Getalloverview filter" + Datasource.filterstatus);
-        return FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+       return FXCollections.observableArrayList(Datasource.getInstance().queryMain());
     }
 }

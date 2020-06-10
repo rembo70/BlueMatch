@@ -40,10 +40,7 @@ public class KlantOverzicht {
     @FXML
     private TableColumn columnklantopmerking;
     @FXML
-    private Button btnklanttoevoegen;
-
-
-
+    private Button btnklantwijzigen;
 
     private Controller parentController;
 
@@ -80,7 +77,6 @@ public class KlantOverzicht {
 
                  AddKlantController addKlantController = loader.getController();
                  Klant klant = addKlantController.getNewKlant();
-                System.out.println(klant.getKlantnaam());
                 if (klant.getKlantnaam().isEmpty()){
                     System.out.println("geen klantnaam ingevuld");
                 }
@@ -113,7 +109,6 @@ public class KlantOverzicht {
             Optional<ButtonType> result = dialog.showAndWait();
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    System.out.println(klant2.getKlantnaam());
                     if (klant2.getKlantnaam().isEmpty()) {
                         System.out.println("geen klantnaam ingevuld");
                     } else {
@@ -140,7 +135,12 @@ public class KlantOverzicht {
     public void updateView() {
         if (klantTable.getSelectionModel().getSelectedItem() == null) {
 
-            btnklanttoevoegen.setText("Klant Toevoegen");
+            btnklantwijzigen.setDisable(true);
+        }
+        else
+        {
+
+            btnklantwijzigen.setDisable(false);
         }
 
         changelistener(columnklantnaam);

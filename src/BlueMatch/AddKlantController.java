@@ -48,7 +48,6 @@ public class AddKlantController {
 
 
     public void editKlant(Klant klant) {
-        System.out.println("edit klant started");
         klantnaamField.setText(klant.getKlantnaam());
         klantcontactpersoonField.setText(klant.getKlantcontactpersoon());
         klantcontacttelnrField.setText(klant.getKlantcontacttelnr());
