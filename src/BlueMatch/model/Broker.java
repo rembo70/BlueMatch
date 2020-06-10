@@ -1,11 +1,22 @@
 package BlueMatch.model;
 
+import java.nio.charset.IllegalCharsetNameException;
+
 public class Broker {
+    private int idbroker;
     private String brokernaam;
     private String contactpersoon;
     private String telbroker;
     private String emailbroker;
     private String opmerkingbroker;
+
+    public int getIdbroker() {
+        return idbroker;
+    }
+
+    public void setIdbroker(int idbroker) {
+        this.idbroker = idbroker;
+    }
 
     public String getBrokernaam() {
         return brokernaam;

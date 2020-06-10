@@ -1,6 +1,7 @@
 package BlueMatch;
 
 import BlueMatch.model.Aanvraag;
+import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class AddAanvraagController {
@@ -116,6 +118,39 @@ public class AddAanvraagController {
         newAanvraag.setTariefaanvraag(tarief);
         return newAanvraag;
     }
+    public void editAanvraag(Aanvraag aanvraag) {
+        // headertext.setText("Aanvraag wijzigen");
+        BrokerField.setText(aanvraag.getRefbroker());
+        ContactField.setText(aanvraag.getRefcontact());
+        FunctieField.setText(aanvraag.getFunctie());
+        UrenPerWeekField.setText(aanvraag.getVraagurenweek());
+        statusklantBox.setValue(aanvraag.getStatusklant());
+        //datePickAanvraagDate.setValue(LocalDate.parse(aanvraag.getDatumaanvraag()));
+        LocatieField.setText(aanvraag.getLocatie());
+        // datePickerStartDate.setValue(LocalDate.parse(aanvraag.getStartdatum()));
+        OpmerkingField.setText(aanvraag.getOpmerking());
+        KlantField.setText(aanvraag.getRefklant());
+        LinkField.setText(aanvraag.getLinkaanvraag());
+        TariefField.setText(aanvraag.getTariefaanvraag());
+    }
 
+    public void updateAanvraag (Aanvraag aanvraag){
+          aanvraag.setRefbroker(BrokerField.getText());
+          aanvraag.setRefcontact(ContactField.getText());
+          aanvraag.setFunctie(FunctieField.getText());
+          aanvraag.setVraagurenweek(UrenPerWeekField.getText());
+          aanvraag.setStatusklant(statusklantBox.getValue());
+          if (datePickAanvraagDate.getValue() != null) {
+              aanvraag.setDatumaanvraag(datePickAanvraagDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          }
+          aanvraag.setLocatie(LocatieField.getText());
+        if (datePickerStartDate.getValue() != null) {
+            aanvraag.setStartdatum(datePickerStartDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        }
+          aanvraag.setOpmerking(OpmerkingField.getText());
+          aanvraag.setRefklant(KlantField.getText());
+          aanvraag.setLinkaanvraag(LinkField.getText());
+          aanvraag.setTariefaanvraag(TariefField.getText());
+    }
 }
 

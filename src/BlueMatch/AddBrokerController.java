@@ -6,10 +6,7 @@ import BlueMatch.model.Medewerker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class AddBrokerController {
 
@@ -26,9 +23,11 @@ public class AddBrokerController {
 
     @FXML
     private TableView<Broker> brokerTable;
-
+    @FXML
+    private Label headertext;
 
     public Broker getNewBroker() {
+        headertext.setText("Broker toevoegen");
         String brokernaam = brokernaamField.getText();
         String contactpersoon = contactpersoonField.getText();
         String telbroker = telbrokerField.getText();
@@ -46,6 +45,7 @@ public class AddBrokerController {
     }
 
     public void editBroker(Broker broker) {
+        headertext.setText("Broker wijzigen");
         brokernaamField.setText(broker.getBrokernaam());
         contactpersoonField.setText(broker.getContactpersoon());
         telbrokerField.setText(broker.getTelbroker());

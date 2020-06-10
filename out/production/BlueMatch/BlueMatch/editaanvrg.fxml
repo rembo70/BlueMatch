@@ -15,6 +15,7 @@
         <ButtonBar prefHeight="32.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <buttons>
                 <Button mnemonicParsing="false" onAction="#addAanvraag" text="Aanvraag toevoegen" translateX="-5.0" />
+                <Button fx:id="btnmodaanvraag" mnemonicParsing="false" onAction="#modAanvraag" text="Aanvraag toevoegen" translateX="-5.0" />
                 <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" prefHeight="25.0" prefWidth="139.0" text="Ga naar hoofdscherm" translateX="-5.0">
                     <opaqueInsets>
                         <Insets />

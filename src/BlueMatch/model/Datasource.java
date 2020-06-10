@@ -134,7 +134,20 @@ public class Datasource {
             "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanbod.refmedewerker IS NULL)"  ;
 
 
-    public static final String UPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM  + " = ?, " + COLUMN_KLANTCONTACTPERSOON + " = ?, " + COLUMN_KLANTCONTACTTELNR + " = ?, " + COLUMN_KLANTCONTACTEMAIL + " = ?, " + COLUMN_KLANTOPMERKING + " = ? WHERE " + COLUMN_IDKLANT + " =  ?";
+    public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?, " + COLUMN_FUNCTIE + " = ?, "
+            + COLUMN_REFCONTACT + " = ?, " + COLUMN_VRAAGURENWEEK + " = ?, " + COLUMN_STATUSKLANT  + " = ?, " + COLUMN_DATUMAANVRAAG  + " = ?, " + COLUMN_LOCATIE  + " = ?, "
+            + COLUMN_STARTDATUM  + " = ?, " + COLUMN_OPMERKING  + " = ?, " + COLUMN_LINKAANVRAAG  + " = ?, " + COLUMN_TARIEFAANVRAAG  + " = ? WHERE " + COLUMN_IDAANVRAAG + " =  ?";
+
+//    public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?, " + COLUMN_FUNCTIE + " = ?, "
+//            + COLUMN_REFCONTACT + " = ?, " + COLUMN_VRAAGURENWEEK + " = ?, " + COLUMN_STATUSKLANT  + " = ?, " + COLUMN_DATUMAANVRAAG  + " = ?, "
+//            + COLUMN_STARTDATUM  + " = ?, " + COLUMN_OPMERKING  + " = ?, " + COLUMN_LINKAANVRAAG  + " = ?, " + COLUMN_TARIEFAANVRAAG  + " = ? WHERE " + COLUMN_IDAANVRAAG + " =  ?";
+
+
+    public static final String QUERYUPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM  + " = ?, " + COLUMN_KLANTCONTACTPERSOON + " = ?, "
+            + COLUMN_KLANTCONTACTTELNR + " = ?, " + COLUMN_KLANTCONTACTEMAIL + " = ?, " + COLUMN_KLANTOPMERKING + " = ? WHERE " + COLUMN_IDKLANT + " =  ?";
+
+    public static final String QUERYUPDATE_BROKER = "UPDATE " + TABLE_BROKER + " SET " + COLUMN_BROKERNAAM  + " = ?, " + COLUMN_CONTACTPERSOON + " = ?, "
+            + COLUMN_TELBROKER + " = ?, " + COLUMN_EMAILBROKER + " = ?, " + COLUMN_OPMERKINGBROKER + " = ? WHERE " + COLUMN_IDBROKER + " =  ?";
 
     private Connection conn;
     private PreparedStatement insertIntoAanvraag;
@@ -143,6 +156,9 @@ public class Datasource {
     private PreparedStatement insertIntoBroker;
     private PreparedStatement insertIntoKlant;
     private PreparedStatement updateklant;
+    private PreparedStatement updatebroker;
+    private PreparedStatement updateaanvraag;
+    
 
 
     private static Datasource instance = new Datasource();
@@ -178,7 +194,9 @@ public class Datasource {
             insertIntoMedewerker = conn.prepareStatement(InsertMedewerker);
             insertIntoBroker = conn.prepareStatement(InsertBroker);
             insertIntoKlant = conn.prepareStatement(InsertKlant);
-            updateklant = conn.prepareStatement(UPDATE_KLANT);
+            updateklant = conn.prepareStatement(QUERYUPDATE_KLANT);
+            updatebroker = conn.prepareStatement(QUERYUPDATE_BROKER);
+            updateaanvraag = conn.prepareStatement(QUERYUPDATE_AANVRAAG);
             return true;
 
         } catch (SQLException e) {
@@ -197,6 +215,8 @@ public class Datasource {
                 insertIntoBroker.close();
                 insertIntoKlant.close();
                 updateklant.close();
+                updatebroker.close();
+                updateaanvraag.close();
             }
 
         } catch (SQLException e) {
@@ -291,6 +311,53 @@ public class Datasource {
         }
     }
 
+    public boolean updateBroker (Broker broker){
+        try {
+            updatebroker.setString(1, broker.getBrokernaam());
+            updatebroker.setInt  (6, broker.getIdbroker());
+            updatebroker.setString(2, broker.getContactpersoon());
+            updatebroker.setString(3,broker.getTelbroker());
+            updatebroker.setString(4, broker.getEmailbroker());
+            updatebroker.setString(5,broker.getOpmerkingbroker());
+            int affectedRecords = updatebroker.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }
+
+//    public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?1, " + COLUMN_FUNCTIE + " = ?2, "
+//            + COLUMN_REFCONTACT + " = ?3, " + COLUMN_VRAAGURENWEEK + " = ?4, " + COLUMN_STATUSKLANT  + " = ?5, " + COLUMN_DATUMAANVRAAG  + " = ?6, " + COLUMN_LOCATIE  + " = ?7, "
+//            + COLUMN_STARTDATUM  + " = ?8, " + COLUMN_OPMERKING  + " = ?9, " + COLUMN_LINKAANVRAAG  + " = ?10, " + COLUMN_TARIEFAANVRAAG  + " = ?11 WHERE " + COLUMN_IDAANVRAAG + " =  ?12";
+
+    public boolean updateAanvraag (Aanvraag aanvraag){
+        try {
+            System.out.println(QUERYUPDATE_AANVRAAG);
+            updateaanvraag.setString(1, aanvraag.getRefbroker());
+            updateaanvraag.setString(2, aanvraag.getFunctie());
+            updateaanvraag.setString(3,aanvraag.getRefcontact());
+            updateaanvraag.setString(4, aanvraag.getVraagurenweek());
+            updateaanvraag.setString(5,aanvraag.getStatusklant());
+            updateaanvraag.setString(6, aanvraag.getDatumaanvraag());
+            System.out.println("locatie" + aanvraag.getLocatie());
+            updateaanvraag.setString(7,aanvraag.getLocatie());
+            updateaanvraag.setString(8, aanvraag.getStartdatum());
+            updateaanvraag.setString(9,aanvraag.getOpmerking());
+            updateaanvraag.setString(10, aanvraag.getLinkaanvraag());
+            updateaanvraag.setString(11,aanvraag.getTariefaanvraag());
+            updateaanvraag.setInt  (12, aanvraag.getIdaanvraag());
+
+            int affectedRecords = updateaanvraag.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }
+
     public List<Aanvraag> queryAanvraag() {
 
         try (Statement statement = conn.createStatement();
@@ -298,6 +365,7 @@ public class Datasource {
             List<Aanvraag> aanvragen = new ArrayList<>();
             while (results.next()) {
                 Aanvraag aanvraag = new Aanvraag();
+                aanvraag.setIdaanvraag(results.getInt(INDEX_IDAANVRAAG));
                 aanvraag.setRefbroker(results.getString(INDEX_REFBROKER));
                 aanvraag.setFunctie(results.getString(INDEX_FUNCTIE));
                 aanvraag.setRefcontact(results.getString(INDEX_REFCONTACT));
@@ -392,6 +460,7 @@ public class Datasource {
             List<Broker> brokers = new ArrayList<>();
             while (results.next()) {
                 Broker broker = new Broker();
+                broker.setIdbroker(results.getInt(INDEX_IDBROKER));
                 broker.setBrokernaam(results.getString(INDEX_BROKERNAAM));
                 broker.setContactpersoon(results.getString(INDEX_CONTACTPERSOON));
                 broker.setTelbroker(results.getString(INDEX_TELBROKER));

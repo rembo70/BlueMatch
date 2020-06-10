@@ -1,10 +1,9 @@
 package BlueMatch.model;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.control.Button;
 
 public class Aanvraag {
+    private int idaanvraag;
     private SimpleStringProperty refbroker;
     private SimpleStringProperty functie;
     private SimpleStringProperty refcontact;
@@ -35,6 +34,13 @@ public class Aanvraag {
 
     }
 
+    public int getIdaanvraag() {
+        return idaanvraag;
+    }
+
+    public void setIdaanvraag(int idaanvraag) {
+        this.idaanvraag = idaanvraag;
+    }
 
     public String getRefbroker() {
         return refbroker.get();

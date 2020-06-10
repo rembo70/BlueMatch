@@ -69,7 +69,6 @@ public class KlantOverzicht {
         dialog.getDialogPane().setContent(loader.load());
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 
         Optional<ButtonType> result = dialog.showAndWait();
         {
@@ -96,6 +95,7 @@ public class KlantOverzicht {
     public void updateKlant(ActionEvent event) throws IOException, SQLException {
         Klant klant2 = (Klant) klantTable.getSelectionModel().getSelectedItem();
 
+
         if (klant2 != null) {
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
@@ -104,7 +104,7 @@ public class KlantOverzicht {
             addklantcontroller.editKlant(klant2);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
 
             Optional<ButtonType> result = dialog.showAndWait();
             {
@@ -120,6 +120,7 @@ public class KlantOverzicht {
             ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
             klantTable.itemsProperty().unbind();
             klantTable.setItems(Klantlist);
+            btnklantwijzigen.setDisable(true);
         }
     }
 
@@ -147,7 +148,7 @@ public class KlantOverzicht {
         changelistener(columnklantcontactpersoon);
         changelistener(columnklantcontacttelnr);
         changelistener(columnklantcontactemail);
-        changelistener(columnklantopmerking);
+        // changelistener(columnklantopmerking);
     }
 
     public void changelistener(final TableColumn listerColumn) {

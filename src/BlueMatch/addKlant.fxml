@@ -39,7 +39,7 @@
     <header>
         <Pane prefHeight="33.0" prefWidth="424.0">
 
-            <Label contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Klant toevoegen">
+            <Label fx:id="titellabel" contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Klant toevoegen">
                 <font>
                     <Font name="Calibri" size="24.0" />
                 </font>

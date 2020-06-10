@@ -5,10 +5,7 @@ import BlueMatch.model.Medewerker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class AddKlantController {
 
@@ -26,9 +23,11 @@ public class AddKlantController {
 
     @FXML
     private TableView<Klant> klantTable;
-
+ @FXML
+ private Label titellabel;
 
     public Klant getNewKlant() {
+        titellabel.setText("Klant toevoegen");
         String klantnaam = klantnaamField.getText();
         String klantcontactpersoon = klantcontactpersoonField.getText();
         String klantcontacttelnr = klantcontacttelnrField.getText();
@@ -47,7 +46,10 @@ public class AddKlantController {
     }
 
 
+
+
     public void editKlant(Klant klant) {
+     titellabel.setText("Klantgegevens bewerken");
         klantnaamField.setText(klant.getKlantnaam());
         klantcontactpersoonField.setText(klant.getKlantcontactpersoon());
         klantcontacttelnrField.setText(klant.getKlantcontacttelnr());

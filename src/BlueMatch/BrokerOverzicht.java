@@ -2,7 +2,10 @@ package BlueMatch;
 
 import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
+import BlueMatch.model.Klant;
 import BlueMatch.model.Medewerker;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -11,10 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -73,51 +73,108 @@ public class BrokerOverzicht {
                 Datasource.getInstance().brokerToevoegen(broker);
             }
         }
-        //updateMainView();
+
         ObservableList<Broker> Brokerlist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
         brokerTable.itemsProperty().unbind();
         brokerTable.setItems(Brokerlist);
-
-
     }
 
+    @FXML
+    public void updateBroker(ActionEvent event) throws IOException, SQLException {
+        Broker broker = (Broker) brokerTable.getSelectionModel().getSelectedItem();
+
+        if (broker != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addBroker.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddBrokerController addbrokercontroller = loader.getController();
+            addbrokercontroller.editBroker(broker);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+            System.out.println(broker.getIdbroker());
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (broker.getBrokernaam().isEmpty()) {
+                        System.out.println("geen brokernaam ingevuld");
+                    } else {
+                        addbrokercontroller.updateBroker(broker);
+                        Datasource.getInstance().updateBroker(broker);
+                    }
+                }
+            }
+            ObservableList<Broker> Brokerlist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+            brokerTable.itemsProperty().unbind();
+            brokerTable.setItems(Brokerlist);
+            btnmodbroker.setDisable(true);
+        }
+    }
+    
     @FXML
     private TableView<Broker> brokerTable;
 
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Main.windowWidth = (int) window.getWidth();
-        // updateView();
+        updateView();
     }
 
+    @FXML
+    private Button btnmodbroker;
+
     public void updateView() {
-        double Kolumnwidthbrokernaam = (columnbrokernaam.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthcontactpersoon = (columncontactpersoon.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthtelbroker = (columntelbroker.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthemailbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
-        double Kolumnwidthopmerkingbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
-
-        ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
-
-        for (Broker huidigebroker : brokerslist) {
-            if (!(huidigebroker.getBrokernaam() == null))
-                huidigebroker.setBrokernaam(Editaanvraag.lineWrap(huidigebroker.getBrokernaam(), (int) Kolumnwidthbrokernaam));
-            if (!(huidigebroker.getContactpersoon() == null)) {
-                huidigebroker.setContactpersoon(Editaanvraag.lineWrap(huidigebroker.getContactpersoon(), (int) Kolumnwidthcontactpersoon));
-            }
-            if (!(huidigebroker.getTelbroker() == null)) {
-                huidigebroker.setTelbroker(Editaanvraag.lineWrap(huidigebroker.getTelbroker(), (int) Kolumnwidthtelbroker));
-            }
-            if (!(huidigebroker.getEmailbroker() == null)) {
-                huidigebroker.setEmailbroker(Editaanvraag.lineWrap(huidigebroker.getEmailbroker(), (int) Kolumnwidthemailbroker));
-            }
-            if (!(huidigebroker.getOpmerkingbroker() == null)) {
-                huidigebroker.setOpmerkingbroker(Editaanvraag.lineWrap(huidigebroker.getOpmerkingbroker(), (int) Kolumnwidthopmerkingbroker));
-            }
-
-            brokerTable.itemsProperty().unbind();
-            brokerTable.setItems(brokerslist);
+        if (brokerTable.getSelectionModel().getSelectedItem() == null) {
+            System.out.println("brokertable not selected");
+            btnmodbroker.setDisable(true);
+        } else {
+            System.out.println("brokertable selected");
+            btnmodbroker.setDisable(false);
         }
+
+        changelistener(columnbrokernaam);
+        changelistener(columncontactpersoon);
+        changelistener(columntelbroker);
+        changelistener(columnemailbroker);
+        //changelistener(columnopmerkingbroker);
+    }
+
+    public void changelistener(final TableColumn listerColumn) {
+        listerColumn.widthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
+            double Kolumnwidthbrokernaam = (columnbrokernaam.widthProperty().getValue()) / 4.9;
+            double Kolumnwidthcontactpersoon = (columncontactpersoon.widthProperty().getValue()) / 4.9;
+            double Kolumnwidthtelbroker = (columntelbroker.widthProperty().getValue()) / 4.9;
+            double Kolumnwidthemailbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
+            double Kolumnwidthopmerkingbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
+
+            ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+
+        for(
+            Broker huidigebroker :brokerslist)
+
+            {
+                if (!(huidigebroker.getBrokernaam() == null))
+                    huidigebroker.setBrokernaam(Editaanvraag.lineWrap(huidigebroker.getBrokernaam(), (int) Kolumnwidthbrokernaam));
+                if (!(huidigebroker.getContactpersoon() == null)) {
+                    huidigebroker.setContactpersoon(Editaanvraag.lineWrap(huidigebroker.getContactpersoon(), (int) Kolumnwidthcontactpersoon));
+                }
+                if (!(huidigebroker.getTelbroker() == null)) {
+                    huidigebroker.setTelbroker(Editaanvraag.lineWrap(huidigebroker.getTelbroker(), (int) Kolumnwidthtelbroker));
+                }
+                if (!(huidigebroker.getEmailbroker() == null)) {
+                    huidigebroker.setEmailbroker(Editaanvraag.lineWrap(huidigebroker.getEmailbroker(), (int) Kolumnwidthemailbroker));
+                }
+                if (!(huidigebroker.getOpmerkingbroker() == null)) {
+                    huidigebroker.setOpmerkingbroker(Editaanvraag.lineWrap(huidigebroker.getOpmerkingbroker(), (int) Kolumnwidthopmerkingbroker));
+                }
+
+                brokerTable.itemsProperty().unbind();
+                brokerTable.setItems(brokerslist);
+            }}
+        });
     }
 
 

@@ -1,6 +1,7 @@
 package BlueMatch;
 
 import BlueMatch.model.Aanvraag;
+import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -84,6 +85,38 @@ public class Editaanvraag {
         updateView();
     }
 
+@FXML
+private Button btnmodaanvraag;
+
+    @FXML
+    public void modAanvraag(ActionEvent event) throws IOException, SQLException {
+        Aanvraag aanvraag = (Aanvraag) aanvraagTable.getSelectionModel().getSelectedItem();
+
+        if (aanvraag != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddAanvraagController addaanvraagcontroller = loader.getController();
+            addaanvraagcontroller.editAanvraag(aanvraag);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+            System.out.println(aanvraag.getIdaanvraag());
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    addaanvraagcontroller.updateAanvraag(aanvraag);
+                    Datasource.getInstance().updateAanvraag(aanvraag);
+                }
+            }
+        }
+        ObservableList<Aanvraag> Aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
+        aanvraagTable.itemsProperty().unbind();
+        aanvraagTable.setItems(Aanvraaglist);
+        btnmodaanvraag.setDisable(true);
+    }
+
+
     @FXML
     private TableView<Aanvraag> aanvraagTable;
 
@@ -93,6 +126,12 @@ public class Editaanvraag {
     }
 
     public void updateView() {
+        if (aanvraagTable.getSelectionModel().getSelectedItem() == null){
+            btnmodaanvraag.setDisable(true);
+        } else{
+            btnmodaanvraag.setDisable(false);
+        }
+
         changelistener(columnopm);
         changelistener(columnfunctie);
         changelistener(columncontact);
@@ -109,7 +148,7 @@ public class Editaanvraag {
                 double Kolumnwidthopm = (columnopm.widthProperty().getValue()) / 7; //4.9 is amount of pixels/4.9= amount of characters
                 double Kolumnwidthfunctie = (columnfunctie.widthProperty().getValue()) / 7;
                 double Kolumnwidthcontact = (columncontact.widthProperty().getValue()) / 7;
-                double Kolumnwidthstatus = (columnstatus.widthProperty().getValue()) / 7;
+                // double Kolumnwidthstatus = (columnstatus.widthProperty().getValue()) / 7;
                 double Kolumnwidthlocatie = (columnlocatie.widthProperty().getValue()) / 7;
                 double Kolumnwidthlink = (columnlink.widthProperty().getValue()) / 7;
 
@@ -125,9 +164,9 @@ public class Editaanvraag {
                     if (!(huidigeaanvraag.getRefcontact() == null)) {
                         huidigeaanvraag.setRefcontact(lineWrap(huidigeaanvraag.getRefcontact(), (int) Kolumnwidthcontact));
                     }
-                    if (!(huidigeaanvraag.getStatusklant() == null)) {
-                        huidigeaanvraag.setStatusklant(lineWrap(huidigeaanvraag.getStatusklant(), (int) Kolumnwidthstatus));
-                    }
+//                    if (!(huidigeaanvraag.getStatusklant() == null)) {
+//                        huidigeaanvraag.setStatusklant(lineWrap(huidigeaanvraag.getStatusklant(), (int) Kolumnwidthstatus));
+//                    }
                     if (!(huidigeaanvraag.getLocatie() == null)) {
                         huidigeaanvraag.setLocatie(lineWrap(huidigeaanvraag.getLocatie(), (int) Kolumnwidthlocatie));
                     }
