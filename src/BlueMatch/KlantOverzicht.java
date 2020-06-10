@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -63,16 +64,11 @@ public class KlantOverzicht {
         Main.windowWidth = (int) window.getWidth();
     }
 
-
     @FXML
     public void addKlant(ActionEvent event) throws IOException, SQLException {
-
-
-        //System.out.println("add medewerker");
-
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
-        // FXMLLoader addklantcontroller = FXMLLoader.getController()
+        FXMLLoader addklantcontroller = loader.getController();
         dialog.getDialogPane().setContent(loader.load());
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
@@ -94,37 +90,43 @@ public class KlantOverzicht {
                 }
             }
         }
-        //updateMainView();
+
         ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
         klantTable.itemsProperty().unbind();
         klantTable.setItems(Klantlist);
-        updateView();
-
-
     }
 
     @FXML
     public void updateKlant(ActionEvent event) throws IOException, SQLException {
-        final Klant klant = (Klant) klantTable.getSelectionModel().getSelectedItem();
+        Klant klant2 = (Klant) klantTable.getSelectionModel().getSelectedItem();
 
-        Task<Boolean> task = new Task<Boolean>(){
-            @Override
-            protected Boolean call() throws  Exception {
-                System.out.println(Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietrto"));
-                System.out.println(klant.getKlantID() + klant.getKlantnaam());
-                return Datasource.getInstance().updateKlant (klant.getKlantID() ,"pietrto");
+        if (klant2 != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddKlantController addklantcontroller = loader.getController();
+            addklantcontroller.editKlant(klant2);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    System.out.println(klant2.getKlantnaam());
+                    if (klant2.getKlantnaam().isEmpty()) {
+                        System.out.println("geen klantnaam ingevuld");
+                    } else {
+                        addklantcontroller.updateKlant(klant2);
+                        Datasource.getInstance().updateKlant(klant2);
+                    }
+                }
             }
-        };
-        ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
-
-        new Thread(task).start();
-        Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
-
-        klantTable.itemsProperty().unbind();
-        klantTable.setItems(Klantlist);
-        System.out.println("populated");
-        updateView();
-  }
+            ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+            klantTable.itemsProperty().unbind();
+            klantTable.setItems(Klantlist);
+        }
+    }
 
     @FXML
     private TableView<Klant> klantTable;
@@ -138,7 +140,7 @@ public class KlantOverzicht {
     public void updateView() {
         if (klantTable.getSelectionModel().getSelectedItem() == null) {
 
-                btnklanttoevoegen.setText("Klant Toevoegen");
+            btnklanttoevoegen.setText("Klant Toevoegen");
         }
 
         changelistener(columnklantnaam);
@@ -190,17 +192,18 @@ public class KlantOverzicht {
         Task<ObservableList<Klant>> task = new GetAllKlantenTask();
         klantTable.itemsProperty().bind(task.valueProperty());
         new Thread(task).start();
-}
-}
-    class GetAllKlantenTask extends Task {
-
-        @Override
-        public ObservableList<Klant> call() {
-
-            ObservableList<Klant> klantenList = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
-            return klantenList;
-
-        }
     }
+}
+
+class GetAllKlantenTask extends Task {
+
+    @Override
+    public ObservableList<Klant> call() {
+
+        ObservableList<Klant> klantenList = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+        return klantenList;
+
+    }
+}
 
 

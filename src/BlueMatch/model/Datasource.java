@@ -135,7 +135,7 @@ public class Datasource {
     //public static final String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.statusklant, aanbod.refmedewerker from aanvraag JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
     //public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + " VALUES (' ',?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    public static final String UPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM + " = ? WHERE " + COLUMN_IDKLANT + " =  ?";
+    public static final String UPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM  + " = ?, " + COLUMN_KLANTCONTACTPERSOON + " = ?, " + COLUMN_KLANTCONTACTTELNR + " = ?, " + COLUMN_KLANTCONTACTEMAIL + " = ?, " + COLUMN_KLANTOPMERKING + " = ? WHERE " + COLUMN_IDKLANT + " =  ?";
 
     private Connection conn;
     private PreparedStatement insertIntoAanvraag;
@@ -277,11 +277,17 @@ public class Datasource {
         return 1;
     }
 
-    public boolean updateKlant (int id, String newKlantnaam){
+    public boolean updateKlant (Klant klant){
         try {
-            updateklant.setString(1, newKlantnaam);
-            updateklant.setInt  (2, id);
+
+            updateklant.setString(1, klant.getKlantnaam());
+            updateklant.setInt  (6, klant.getKlantID());
+            updateklant.setString(2, klant.getKlantcontactpersoon());
+            updateklant.setString(3,klant.getKlantcontacttelnr());
+            updateklant.setString(4, klant.getKlantcontactemail());
+            updateklant.setString(5,klant.getKlantopmerking());
             System.out.println(updateklant.toString());
+            System.out.println(UPDATE_KLANT);
             int affectedRecords = updateklant.executeUpdate();
             return affectedRecords ==1;
 
