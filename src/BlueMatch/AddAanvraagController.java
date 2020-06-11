@@ -13,10 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
@@ -24,6 +21,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import static java.time.LocalDate.parse;
 
 public class AddAanvraagController {
 
@@ -69,7 +68,7 @@ public class AddAanvraagController {
     @FXML
     private TextField StartDatumField;
     @FXML
-    private TextField OpmerkingField;
+    private TextArea OpmerkingField;
     @FXML
     private TextField KlantField;
     @FXML
@@ -125,10 +124,18 @@ public class AddAanvraagController {
         FunctieField.setText(aanvraag.getFunctie());
         UrenPerWeekField.setText(aanvraag.getVraagurenweek());
         statusklantBox.setValue(aanvraag.getStatusklant());
-        //datePickAanvraagDate.setValue(LocalDate.parse(aanvraag.getDatumaanvraag()));
+        //StartDatumField.setText(aanvraag.getStartdatum());
         LocatieField.setText(aanvraag.getLocatie());
-        // datePickerStartDate.setValue(LocalDate.parse(aanvraag.getStartdatum()));
-        OpmerkingField.setText(aanvraag.getOpmerking());
+        //DatumAanvraagField.setText(aanvraag.getDatumaanvraag());
+        if ((aanvraag.getStartdatum()).isEmpty()==true) {} else {
+            System.out.println("startdatum: " + aanvraag.getStartdatum());
+            datePickerStartDate.setValue(LOCAL_DATE(aanvraag.getStartdatum()));}
+
+        if (aanvraag.getDatumaanvraag().isEmpty()==true) {}else{
+            System.out.println("datumaanvraag: "+ aanvraag.getDatumaanvraag());
+            datePickAanvraagDate.setValue(LOCAL_DATE(aanvraag.getDatumaanvraag()));}
+
+            OpmerkingField.setText(aanvraag.getOpmerking());
         KlantField.setText(aanvraag.getRefklant());
         LinkField.setText(aanvraag.getLinkaanvraag());
         TariefField.setText(aanvraag.getTariefaanvraag());
@@ -151,6 +158,13 @@ public class AddAanvraagController {
           aanvraag.setRefklant(KlantField.getText());
           aanvraag.setLinkaanvraag(LinkField.getText());
           aanvraag.setTariefaanvraag(TariefField.getText());
+    }
+
+    public static final LocalDate LOCAL_DATE (String dateString){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.println("date: " + dateString);
+        LocalDate localDate = parse(dateString, formatter);
+        return localDate;
     }
 }
 

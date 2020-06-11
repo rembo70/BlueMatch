@@ -1,9 +1,6 @@
 package BlueMatch;
 
-import BlueMatch.model.Aanbod;
-import BlueMatch.model.Aanvraag;
-import BlueMatch.model.Datasource;
-import BlueMatch.model.Medewerker;
+import BlueMatch.model.*;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
@@ -81,5 +78,22 @@ public class addAanbiedingController {
         newAanbod.setRefaanvraag(idaanvraag);
 
         return newAanbod;
+    }
+
+    public void editAanbod(Aanbod aanbod) {
+        // headertext.setText("Aanbod wijzigen");
+        selectMedewerkerBox.setValue(aanbod.getRefmedewerker());
+        tariefaanbodField.setText(aanbod.getTariefaanbod());
+        urenperweekaanbodField.setText(aanbod.getUrenperweekaanbod());
+        aanbodBox.setValue(aanbod.getStatusaanbod());
+
+    }
+
+    public void updateAanbod (Aanbod aanbod){
+        aanbod.setRefmedewerker(selectMedewerkerBox.getValue());
+        aanbod.setTariefaanbod(tariefaanbodField.getText());
+        aanbod.setUrenperweekaanbod(urenperweekaanbodField.getText());
+        aanbod.setStatusaanbod(aanbodBox.getValue());
+
     }
 }

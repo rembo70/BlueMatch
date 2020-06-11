@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Datasource {
     public static final String DATABASENAME = "jdbc:sqlite:C:\\Bluematch\\Bluematch.db";
+    // public static final String DATABASENAME = "jdbc:sqlite:https://newspark.sharepoint.com/Gedeelde%20Documenten/Sales/Bluematch.db";
     public static final String COLUMN_IDAANBOD = "idaanbod";
     public static final String TABLE_AANBOD = "Aanbod";
     public static final String COLUMN_REFAANVRAAG = "refaanvraag";
@@ -131,7 +132,7 @@ public class Datasource {
     public static String filtermedewerker = "";
     public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
             "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
-            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanbod.refmedewerker IS NULL)"  ;
+            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanbod.refmedewerker IS NULL) OR (aanbod.statusaanbod IS NULL)"  ;
 
 
     public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?, " + COLUMN_FUNCTIE + " = ?, "
@@ -149,6 +150,9 @@ public class Datasource {
     public static final String QUERYUPDATE_BROKER = "UPDATE " + TABLE_BROKER + " SET " + COLUMN_BROKERNAAM  + " = ?, " + COLUMN_CONTACTPERSOON + " = ?, "
             + COLUMN_TELBROKER + " = ?, " + COLUMN_EMAILBROKER + " = ?, " + COLUMN_OPMERKINGBROKER + " = ? WHERE " + COLUMN_IDBROKER + " =  ?";
 
+    public static final String QUERYUPDATE_AANBOD = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_REFMEDEWERKER  + " = ?, " + COLUMN_TARIEFAANBOD + " = ?, "
+            + COLUMN_URENPERWEEKAANBOD + " = ?, " + COLUMN_STATUSAANBOD + " = ? WHERE "  + COLUMN_IDAANBOD + " = ?";
+
     private Connection conn;
     private PreparedStatement insertIntoAanvraag;
     private PreparedStatement insertIntoAanbod;
@@ -158,7 +162,7 @@ public class Datasource {
     private PreparedStatement updateklant;
     private PreparedStatement updatebroker;
     private PreparedStatement updateaanvraag;
-    
+    private PreparedStatement updateaanbod;
 
 
     private static Datasource instance = new Datasource();
@@ -172,12 +176,18 @@ public class Datasource {
          QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
                     "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
                     "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanvraag.refbroker LIKE '%" +
-                    filterbroker + "%' AND aanbod.refmedewerker IS NULL)";
+                    filterbroker + "%' AND (aanbod.refmedewerker IS NULL OR aanbod.statusaanbod IS NULL))";
         } else {
-            System.out.println("filtermedewerker is not null: " + filtermedewerker);
-            QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
-                    "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
-            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%')";
+            if (filterstatusaanb.isEmpty()) {
+                System.out.println("filtermedewerker is not null: " + filtermedewerker);
+                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
+                        "%' OR aanbod.statusaanbod IS NULL) AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND (aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'))";
+            } else {
+                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
+                        "%') AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND (aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'))";
+            }
         }
         return QUERYSTRINGMAIN;
     }
@@ -197,10 +207,11 @@ public class Datasource {
             updateklant = conn.prepareStatement(QUERYUPDATE_KLANT);
             updatebroker = conn.prepareStatement(QUERYUPDATE_BROKER);
             updateaanvraag = conn.prepareStatement(QUERYUPDATE_AANVRAAG);
+            updateaanbod = conn.prepareStatement(QUERYUPDATE_AANBOD);
             return true;
 
         } catch (SQLException e) {
-            System.out.println("Could not connect to database" + e.getMessage());
+            System.out.println("Could not connect to database " + e.getMessage());
             return false;
         }
     }
@@ -216,6 +227,7 @@ public class Datasource {
                 insertIntoKlant.close();
                 updateklant.close();
                 updatebroker.close();
+                updateaanvraag.close();
                 updateaanvraag.close();
             }
 
@@ -328,6 +340,22 @@ public class Datasource {
         }
     }
 
+    public boolean updateAanbod (Aanbod aanbod){
+        try {
+            updateaanbod.setString(1, aanbod.getRefmedewerker());
+            updateaanbod.setString(2, aanbod.getTariefaanbod());
+            updateaanbod.setString(3,aanbod.getUrenperweekaanbod());
+            updateaanbod.setString(4, aanbod.getStatusaanbod());
+            updateaanbod.setInt(5,aanbod.getIdaanbod());
+            int affectedRecords = updateaanbod.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }
+    
 //    public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?1, " + COLUMN_FUNCTIE + " = ?2, "
 //            + COLUMN_REFCONTACT + " = ?3, " + COLUMN_VRAAGURENWEEK + " = ?4, " + COLUMN_STATUSKLANT  + " = ?5, " + COLUMN_DATUMAANVRAAG  + " = ?6, " + COLUMN_LOCATIE  + " = ?7, "
 //            + COLUMN_STARTDATUM  + " = ?8, " + COLUMN_OPMERKING  + " = ?9, " + COLUMN_LINKAANVRAAG  + " = ?10, " + COLUMN_TARIEFAANVRAAG  + " = ?11 WHERE " + COLUMN_IDAANVRAAG + " =  ?12";
@@ -396,6 +424,7 @@ public class Datasource {
             while (results.next()) {
                 Aanbod aanbod = new Aanbod();
 
+                aanbod.setIdaanbod(results.getInt(INDEX_IDAANBOD));
                 aanbod.setRefaanvraag(results.getString(INDEX_REFAANVRAAG));
                 aanbod.setRefmedewerker(results.getString(INDEX_REFMEDEWERKER));
                 aanbod.setTariefaanbod(results.getString(INDEX_TARIEFAANBOD));
@@ -480,6 +509,7 @@ public class Datasource {
 
     public List<OverviewRecord> queryMain() {
         QUERYSTRINGMAIN=setQueryStringMain();
+        //System.out.println(QUERYSTRINGMAIN);
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
 

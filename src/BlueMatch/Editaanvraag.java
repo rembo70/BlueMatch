@@ -82,11 +82,12 @@ public class Editaanvraag {
                 Datasource.getInstance().aanvraagToevoegen(aanvraag);
             }
         }
+        refreshscreen();
         updateView();
     }
 
-@FXML
-private Button btnmodaanvraag;
+    @FXML
+    private Button btnmodaanvraag;
 
     @FXML
     public void modAanvraag(ActionEvent event) throws IOException, SQLException {
@@ -110,9 +111,10 @@ private Button btnmodaanvraag;
                 }
             }
         }
-        ObservableList<Aanvraag> Aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
-        aanvraagTable.itemsProperty().unbind();
-        aanvraagTable.setItems(Aanvraaglist);
+//        ObservableList<Aanvraag> Aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
+//        aanvraagTable.itemsProperty().unbind();
+//        aanvraagTable.setItems(Aanvraaglist);
+        refreshscreen();
         btnmodaanvraag.setDisable(true);
     }
 
@@ -126,9 +128,9 @@ private Button btnmodaanvraag;
     }
 
     public void updateView() {
-        if (aanvraagTable.getSelectionModel().getSelectedItem() == null){
+        if (aanvraagTable.getSelectionModel().getSelectedItem() == null) {
             btnmodaanvraag.setDisable(true);
-        } else{
+        } else {
             btnmodaanvraag.setDisable(false);
         }
 
@@ -176,10 +178,19 @@ private Button btnmodaanvraag;
                     aanvraagTable.itemsProperty().unbind();
                     aanvraagTable.setItems(aanvraaglist);
                 }
+
             }
+
         });
 
     }
+
+    public void refreshscreen() {
+        ObservableList<Aanvraag> Aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
+        aanvraagTable.itemsProperty().
+        unbind();
+        aanvraagTable.setItems(Aanvraaglist);
+}
 
     public static String lineWrap(String text, int limit) {
         int offset = 0;

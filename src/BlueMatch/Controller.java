@@ -180,9 +180,10 @@ public class Controller {
                     Datasource.getInstance().aanbodToevoegen(aanbod);
                 }
             }
-            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
-            overviewRecordTable.itemsProperty().unbind();
-            overviewRecordTable.setItems(Overviewlist);
+//            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+//            overviewRecordTable.itemsProperty().unbind();
+//            overviewRecordTable.setItems(Overviewlist);
+            refreshscreen();
             updateMainView();
         }
     }
@@ -202,10 +203,8 @@ public class Controller {
                 Datasource.getInstance().aanvraagToevoegen(aanvraag);
             }
         }
-        ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
-        overviewRecordTable.itemsProperty().unbind();
-        overviewRecordTable.setItems(Overviewlist);
-        updateMainView();
+    refreshscreen();
+    updateMainView();
     }
 
 
@@ -232,7 +231,11 @@ public class Controller {
 
 
     }
-
+    public void refreshscreen (){
+        ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+        overviewRecordTable.itemsProperty().unbind();
+        overviewRecordTable.setItems(Overviewlist);
+    }
 
     @FXML
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
