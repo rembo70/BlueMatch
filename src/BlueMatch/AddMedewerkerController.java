@@ -1,13 +1,12 @@
 package BlueMatch;
 
 import BlueMatch.model.Aanvraag;
+import BlueMatch.model.Broker;
 import BlueMatch.model.Medewerker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class AddMedewerkerController {
 
@@ -36,26 +35,55 @@ public class AddMedewerkerController {
     @FXML
     private TextField urenperweekField;
     @FXML
-    private TextField UrenPerWeekField;
+    private TextField emailmedewerkerField;
+    @FXML
+    private TextArea opmerkingmedewerkerField;
+
 
     @FXML
     private TableView<Medewerker> medewerkerTable;
+    @FXML
+    private Label titelmdwlabel;
+
 
 
     public Medewerker getNewMedewerker() {
-        String voornaam = voornaamField.getText();
-        String achternaam = achternaamField.getText();
-        String urenperweek = urenperweekField.getText();
+        titelmdwlabel.setText("Medewerker toevoegen");
+        String voornaammdw = voornaamField.getText();
+        String achternaammdw = achternaamField.getText();
+        String urenperweekmdw = urenperweekField.getText();
+        String emailmdw = emailmedewerkerField.getText();
+        String opmerkingmdw = opmerkingmedewerkerField.getText();
 
 
         Medewerker newMedewerker = new Medewerker();
-        newMedewerker.setVoornaam(voornaam);
-        newMedewerker.setAchternaam(achternaam);
-        newMedewerker.setUren(urenperweek);
+        newMedewerker.setVoornaam(voornaammdw);
+        newMedewerker.setAchternaam(achternaammdw);
+        newMedewerker.setUren(urenperweekmdw);
         newMedewerker.setStatusmdw(statusmdwBox.getValue());
+        newMedewerker.setEmailmedewerker(emailmdw);
+        newMedewerker.setOpmerkingmedewerker(opmerkingmdw);
 
         return newMedewerker;
     }
+    public void editMedewerker(Medewerker medewerker, String type) {
+        if (type=="update"){titelmdwlabel.setText("Medewerker wijzigen");}
+        else {
+            titelmdwlabel.setText("Medewerker verwijderen ?");
+        }
+        voornaamField.setText(medewerker.getVoornaam());
+        achternaamField.setText(medewerker.getAchternaam());
+        urenperweekField.setText(medewerker.getUrenperweek());
+        emailmedewerkerField.setText(medewerker.getEmailmedewerker());
+        opmerkingmedewerkerField.setText(medewerker.getOpmerkingmedewerker());
+    }
 
+    public void updateMedewerker (Medewerker medewerker){
+        medewerker.setVoornaam(voornaamField.getText());
+        medewerker.setAchternaam(achternaamField.getText());
+        medewerker.setUren(urenperweekField.getText());
+        medewerker.setEmailmedewerker(emailmedewerkerField.getText());
+        medewerker.setOpmerkingmedewerker(opmerkingmedewerkerField.getText());
+    }
 }
 

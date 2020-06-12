@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class addAanbiedingController {
     private TextField urenperweekaanbodField;
     @FXML
     private TextField statusaanbodField;
+    @FXML
+    private TextArea opmerkingaanbodField;
 
     @FXML
     private TableView<Aanbod> aanbodTable;
@@ -68,6 +71,7 @@ public class addAanbiedingController {
         String tariefaanbod = tariefaanbodField.getText();
         String urenperweekaanbod = urenperweekaanbodField.getText();
         String statusaanbod = aanbodBox.getValue();
+        String opmerkingaanbod = opmerkingaanbodField.getText();
 
         Aanbod newAanbod = new Aanbod();
         System.out.println(medewerker);
@@ -75,6 +79,7 @@ public class addAanbiedingController {
         newAanbod.setStatusaanbod(statusaanbod);
         newAanbod.setTariefaanbod(tariefaanbod);
         newAanbod.setUrenperweekaanbod(urenperweekaanbod);
+        newAanbod.setOpmerkingaanbod(opmerkingaanbod);
         newAanbod.setRefaanvraag(idaanvraag);
 
         return newAanbod;
@@ -86,6 +91,7 @@ public class addAanbiedingController {
         tariefaanbodField.setText(aanbod.getTariefaanbod());
         urenperweekaanbodField.setText(aanbod.getUrenperweekaanbod());
         aanbodBox.setValue(aanbod.getStatusaanbod());
+        opmerkingaanbodField.setText(aanbod.getOpmerkingaanbod());
 
     }
 
@@ -94,6 +100,7 @@ public class addAanbiedingController {
         aanbod.setTariefaanbod(tariefaanbodField.getText());
         aanbod.setUrenperweekaanbod(urenperweekaanbodField.getText());
         aanbod.setStatusaanbod(aanbodBox.getValue());
+        aanbod.setOpmerkingaanbod(opmerkingaanbodField.getText());
 
     }
 }

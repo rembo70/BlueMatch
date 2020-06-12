@@ -92,7 +92,7 @@ public class Controller {
     }
 
     @FXML
-    private void refrfilter () {
+    private void refrfilter() {
         listOverviewRecord();
     }
 
@@ -131,6 +131,7 @@ public class Controller {
         window.show();
         ctrlmdwoverzicht.updateView();
     }
+
     @FXML
     public void overzichtBroker(ActionEvent event) throws IOException {
 
@@ -147,6 +148,7 @@ public class Controller {
         window.show();
         ctrlbrokeroverzicht.updateView();
     }
+
     @FXML
     public void overzichtKlant(ActionEvent event) throws IOException {
 
@@ -163,6 +165,7 @@ public class Controller {
         window.show();
         ctrlklantoverzicht.updateView();
     }
+
     @FXML
     public void aanbieden(ActionEvent event) throws IOException, SQLException {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
@@ -203,8 +206,8 @@ public class Controller {
                 Datasource.getInstance().aanvraagToevoegen(aanvraag);
             }
         }
-    refreshscreen();
-    updateMainView();
+        refreshscreen();
+        updateMainView();
     }
 
 
@@ -228,10 +231,9 @@ public class Controller {
 
             ctrleditaanbod.updateView();
         });
-
-
     }
-    public void refreshscreen (){
+
+    public void refreshscreen() {
         ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
         overviewRecordTable.itemsProperty().unbind();
         overviewRecordTable.setItems(Overviewlist);
@@ -239,7 +241,26 @@ public class Controller {
 
     @FXML
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
-        // resize table on mouse clicked
+        if (event.getClickCount() > 1) {
+            System.out.println("Table double clicked");
+            System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
+            Parent detailViewParent = loader.load();
+            OverzichtdtlsController ctrldetailsoverzicht = loader.getController();
+            ctrldetailsoverzicht.listDetailsRecord(overviewRecordTable.getSelectionModel().getSelectedItem());
+            Scene detailViewScene = new Scene(detailViewParent);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            ctrldetailsoverzicht.setParentScene(window.getScene());
+            ctrldetailsoverzicht.setParentController(this);
+            window.setScene((detailViewScene));
+            window.show();
+            //ctrldetailsoverzicht.updateView();
+
+
+        }
+
         updateMainView();
     }
 
@@ -250,17 +271,15 @@ public class Controller {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() == null) {
 
             aanbiedingmaken.setDisable(true);
-        }
-        else
-        {
+        } else {
 
             aanbiedingmaken.setDisable(false);
         }
 
-        Datasource.filterstatus=statusKlantCombo.getValue();
-        Datasource.filterstatusaanb=statusAanbiedingCombo.getValue();
-        Datasource.filterbroker=brokerTextField.getText();
-        Datasource.filtermedewerker=medewerkerTextField.getText();
+        Datasource.filterstatus = statusKlantCombo.getValue();
+        Datasource.filterstatusaanb = statusAanbiedingCombo.getValue();
+        Datasource.filterbroker = brokerTextField.getText();
+        Datasource.filtermedewerker = medewerkerTextField.getText();
 
         changelistener(columnBroker);
         changelistener(columnFunctie);
@@ -291,8 +310,8 @@ public class Controller {
                     if (!(huidigeoverviewrecord.getFunctie() == null)) {
                         huidigeoverviewrecord.setFunctie(Editaanvraag.lineWrap(huidigeoverviewrecord.getFunctie(), (int) Kolumnwidthfunctie));
                     }
-                    if (!(huidigeoverviewrecord.getStatusKlant() == null)) {
-                        huidigeoverviewrecord.setStatusKlant(Editaanvraag.lineWrap(huidigeoverviewrecord.getStatusKlant(), (int) Kolumnwidthstatus));
+                    if (!(huidigeoverviewrecord.getStatusklant() == null)) {
+                        huidigeoverviewrecord.setStatusklant(Editaanvraag.lineWrap(huidigeoverviewrecord.getStatusklant(), (int) Kolumnwidthstatus));
                     }
                     overviewRecordTable.itemsProperty().unbind();
                     overviewRecordTable.setItems(Overviewlist);
@@ -305,6 +324,6 @@ public class Controller {
 class GetAllOverviewRecordTask extends Task {
     @Override
     public ObservableList<OverviewRecord> call() {
-       return FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+        return FXCollections.observableArrayList(Datasource.getInstance().queryMain());
     }
 }

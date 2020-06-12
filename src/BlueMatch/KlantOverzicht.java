@@ -2,23 +2,17 @@ package BlueMatch;
 
 import BlueMatch.model.Datasource;
 import BlueMatch.model.Klant;
-import BlueMatch.model.Medewerker;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -40,7 +34,10 @@ public class KlantOverzicht {
     @FXML
     private TableColumn columnklantopmerking;
     @FXML
-    private Button btnklantwijzigen;
+    private Button btnklanttoevoegen;
+
+
+
 
     private Controller parentController;
 
@@ -69,6 +66,7 @@ public class KlantOverzicht {
         dialog.getDialogPane().setContent(loader.load());
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 
         Optional<ButtonType> result = dialog.showAndWait();
         {
@@ -76,6 +74,7 @@ public class KlantOverzicht {
 
                  AddKlantController addKlantController = loader.getController();
                  Klant klant = addKlantController.getNewKlant();
+                System.out.println(klant.getKlantnaam());
                 if (klant.getKlantnaam().isEmpty()){
                     System.out.println("geen klantnaam ingevuld");
                 }
@@ -95,7 +94,6 @@ public class KlantOverzicht {
     public void updateKlant(ActionEvent event) throws IOException, SQLException {
         Klant klant2 = (Klant) klantTable.getSelectionModel().getSelectedItem();
 
-
         if (klant2 != null) {
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
@@ -104,11 +102,12 @@ public class KlantOverzicht {
             addklantcontroller.editKlant(klant2);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 
             Optional<ButtonType> result = dialog.showAndWait();
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
+                    System.out.println(klant2.getKlantnaam());
                     if (klant2.getKlantnaam().isEmpty()) {
                         System.out.println("geen klantnaam ingevuld");
                     } else {
@@ -120,7 +119,6 @@ public class KlantOverzicht {
             ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
             klantTable.itemsProperty().unbind();
             klantTable.setItems(Klantlist);
-            btnklantwijzigen.setDisable(true);
         }
     }
 
@@ -136,19 +134,14 @@ public class KlantOverzicht {
     public void updateView() {
         if (klantTable.getSelectionModel().getSelectedItem() == null) {
 
-            btnklantwijzigen.setDisable(true);
-        }
-        else
-        {
-
-            btnklantwijzigen.setDisable(false);
+            btnklanttoevoegen.setText("Klant Toevoegen");
         }
 
         changelistener(columnklantnaam);
         changelistener(columnklantcontactpersoon);
         changelistener(columnklantcontacttelnr);
         changelistener(columnklantcontactemail);
-        // changelistener(columnklantopmerking);
+        changelistener(columnklantopmerking);
     }
 
     public void changelistener(final TableColumn listerColumn) {

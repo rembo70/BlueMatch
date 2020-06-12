@@ -20,7 +20,7 @@
 
                   <Button fx:id="btnklantwijzigen" mnemonicParsing="false" onAction="#updateKlant" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
 
-                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga terug" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
                <font>
                   <Font name="Calibri" size="12.0" />
                </font></Button>

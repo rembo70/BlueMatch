@@ -1,8 +1,6 @@
 package BlueMatch;
 
 import BlueMatch.model.Aanbod;
-import BlueMatch.model.Aanvraag;
-import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,15 +14,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Editaanbod {
 
@@ -54,8 +48,8 @@ public class Editaanbod {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene((ParentScene));
         window.show();
-        parentController.refreshscreen();
-        parentController.updateMainView();
+        //parentController.refreshscreen();
+//        parentController.updateMainView();
         Main.windowWidth = (int) window.getWidth();
 
 

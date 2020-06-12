@@ -7,6 +7,15 @@ public class Aanbod {
     private String tariefaanbod;
     private String urenperweekaanbod;
     private String statusaanbod;
+    private String opmerkingaanbod;
+
+    public String getOpmerkingaanbod() {
+        return opmerkingaanbod;
+    }
+
+    public void setOpmerkingaanbod(String opmerkingaanbod) {
+        this.opmerkingaanbod = opmerkingaanbod;
+    }
 
     public int getIdaanbod() {
         return idaanbod;

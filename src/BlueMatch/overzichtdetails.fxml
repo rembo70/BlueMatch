@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.OverzichtdtlsController">
+    <left>
+        <Pane minWidth="-Infinity" prefHeight="530.0" prefWidth="31.0" style="-fx-background-color: #e0e0e0;" BorderPane.alignment="CENTER">
+            <children>
+            <Label layoutX="-28.0" layoutY="39.0" prefHeight="33.0" prefWidth="85.0" rotate="-90.0" text="Details" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font></Label>
+            </children>
+        </Pane>
+    </left>
+    <bottom>
+        <ButtonBar buttonMinWidth="50.0" prefHeight="32.0" style="-fx-background-color: #e0e0e0;" BorderPane.alignment="CENTER">
+            <buttons>
+                <Button fx:id="aanboddetails" maxHeight="25.0" maxWidth="100.0" minWidth="80.0" mnemonicParsing="false" onAction="#changeSceneAanbodDetails" prefHeight="25.0" prefWidth="80.0" rotate="2.9" text="Aanbiedingen" translateX="3.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+                <Button fx:id="aanvraagdetails" maxHeight="25.0" maxWidth="100.0" minWidth="49.0" mnemonicParsing="false" onAction="#changeSceneAanvraagDetails" prefHeight="25.0" prefWidth="70.0" rotate="2.9" text="Aanvragen" translateX="3.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
+                    <opaqueInsets>
+                        <Insets left="10.0" right="10.0" />
+                    </opaqueInsets>
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+                <Button fx:id="overzichtmedewerkers" alignment="CENTER" maxHeight="25.0" maxWidth="100.0" minWidth="55.0" mnemonicParsing="false" onAction="#overzichtMedewerker" prefHeight="25.0" prefWidth="150.0" rotate="2.9" text="Medewerkers " translateX="3.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+                <Button fx:id="overzichtbrokers" alignment="CENTER" maxHeight="25.0" maxWidth="100.0" minWidth="55.0" mnemonicParsing="false" onAction="#overzichtBroker" prefHeight="25.0" prefWidth="150.0" rotate="2.9" text="Brokers" translateX="3.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+                <Button fx:id="overzichtklanten" alignment="CENTER" maxHeight="25.0" maxWidth="100.0" minWidth="55.0" mnemonicParsing="false" onAction="#overzichtKlant" prefHeight="25.0" prefWidth="150.0" rotate="2.9" text="Klanten" translateX="3.0" translateY="-1.0" ButtonBar.buttonData="LEFT">
+                    <rotationAxis>
+                        <Point3D />
+                    </rotationAxis>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#changeSceneMain" text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+
+        </buttons>
+    </ButtonBar>
+</bottom>
+    <effect>
+        <Blend />
+    </effect>
+   <top>
+      <Pane prefHeight="47.0" prefWidth="1024.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+              <Label layoutX="175.0" layoutY="7.0" prefHeight="32.0" prefWidth="300.0" style="-fx-text-fill: #2ba8cf; -fx-background-color: white;" text="BlueMatch - Overzicht" textAlignment="RIGHT" textOverrun="WORD_ELLIPSIS" translateY="-4.0">
+                  <font>
+                      <Font name="Calibri Bold" size="28.0" />
+                  </font>
+              </Label>
+                <ImageView fitHeight="56.0" fitWidth="223.0" layoutX="-27.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" scaleX="0.67" scaleY="0.67" translateY="-1.0">
+                    <image>
+                        <Image url="@../NewsparkLogo.png" />
+                    </image>
+                    <effect>
+                        <Blend />
+                    </effect>
+                </ImageView>
+         </children>
+      </Pane>
+   </top>
+   <center>
+      <GridPane prefHeight="537.0" prefWidth="993.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.0" minWidth="10.0" prefWidth="11.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.0" minWidth="10.0" prefWidth="114.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="421.0" minWidth="10.0" prefWidth="295.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="421.0" minWidth="10.0" prefWidth="24.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="91.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="573.0" minWidth="10.0" prefWidth="296.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="412.0" minWidth="10.0" prefWidth="69.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="44.0" minHeight="3.0" prefHeight="40.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="95.0" minHeight="15.0" prefHeight="35.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="117.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="148.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="148.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="117.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="134.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="157.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="173.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="176.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="183.0" minHeight="10.0" prefHeight="130.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+             <Label  text="Broker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <TextField fx:id="refbrokerfield" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+             <Label text="Medewerker" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+             <TextField fx:id="refmedewerkerfield" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+
+             <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+             <Label text="Contact klant" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+             <TextField fx:id="refcontactfield" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+
+             <Label text="Functie" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+             <TextField fx:id="functiefield" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+
+             <Label text="Locatie" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+             <TextField fx:id="locatiefield" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+
+
+            <Label text="Uren per week" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+             <TextField fx:id="vraagurenfield" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+             <Label text="Uren per week" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+            <TextField fx:id="refurenperweekaanbodfield" prefHeight="25.0" prefWidth="270.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+
+
+            <Label text="Start datum" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+             <TextField fx:id="startdatumfield" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+
+            <Label text="Aanvraagdatum" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+             <TextField fx:id="aanvraagdatumfield" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+
+            <Label text="Tarief" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+             <TextField fx:id="tariefaanvraagfield" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+            <Label text="Tarief" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+             <TextField fx:id="tariefaanbodfield" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+
+            <Label text="Opmerking" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <TextArea fx:id="opmerkingfield" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <Label alignment="TOP_LEFT" text="Opmerking" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+            <TextArea fx:id="opmerkingaanbodfield" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="11" />
+
+            <Label text="Link aanvraag" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <TextField fx:id="linkaanvraagfield" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+
+
+
+            <Label text="Aanvraag" textFill="#00000092" GridPane.columnIndex="2">
+               <font>
+                  <Font name="Calibri Bold" size="23.0" />
+               </font>
+            </Label>
+            <Label text="Aanbieding" textFill="#2ba8cf" GridPane.columnIndex="5">
+               <font>
+                  <Font name="Calibri Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label text="Contact broker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Klant" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+         </children>
+      </GridPane>
+   </center>
+</BorderPane>

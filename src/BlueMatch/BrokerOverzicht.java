@@ -2,8 +2,6 @@ package BlueMatch;
 
 import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
-import BlueMatch.model.Klant;
-import BlueMatch.model.Medewerker;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -144,36 +142,35 @@ public class BrokerOverzicht {
 
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
-            double Kolumnwidthbrokernaam = (columnbrokernaam.widthProperty().getValue()) / 4.9;
-            double Kolumnwidthcontactpersoon = (columncontactpersoon.widthProperty().getValue()) / 4.9;
-            double Kolumnwidthtelbroker = (columntelbroker.widthProperty().getValue()) / 4.9;
-            double Kolumnwidthemailbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
-            double Kolumnwidthopmerkingbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthbrokernaam = (columnbrokernaam.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthcontactpersoon = (columncontactpersoon.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthtelbroker = (columntelbroker.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthemailbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
+                double Kolumnwidthopmerkingbroker = (columnemailbroker.widthProperty().getValue()) / 4.9;
 
-            ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+                ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
 
-        for(
-            Broker huidigebroker :brokerslist)
+                for (
+                        Broker huidigebroker : brokerslist) {
+                    if (!(huidigebroker.getBrokernaam() == null))
+                        huidigebroker.setBrokernaam(Editaanvraag.lineWrap(huidigebroker.getBrokernaam(), (int) Kolumnwidthbrokernaam));
+                    if (!(huidigebroker.getContactpersoon() == null)) {
+                        huidigebroker.setContactpersoon(Editaanvraag.lineWrap(huidigebroker.getContactpersoon(), (int) Kolumnwidthcontactpersoon));
+                    }
+                    if (!(huidigebroker.getTelbroker() == null)) {
+                        huidigebroker.setTelbroker(Editaanvraag.lineWrap(huidigebroker.getTelbroker(), (int) Kolumnwidthtelbroker));
+                    }
+                    if (!(huidigebroker.getEmailbroker() == null)) {
+                        huidigebroker.setEmailbroker(Editaanvraag.lineWrap(huidigebroker.getEmailbroker(), (int) Kolumnwidthemailbroker));
+                    }
+                    if (!(huidigebroker.getOpmerkingbroker() == null)) {
+                        huidigebroker.setOpmerkingbroker(Editaanvraag.lineWrap(huidigebroker.getOpmerkingbroker(), (int) Kolumnwidthopmerkingbroker));
+                    }
 
-            {
-                if (!(huidigebroker.getBrokernaam() == null))
-                    huidigebroker.setBrokernaam(Editaanvraag.lineWrap(huidigebroker.getBrokernaam(), (int) Kolumnwidthbrokernaam));
-                if (!(huidigebroker.getContactpersoon() == null)) {
-                    huidigebroker.setContactpersoon(Editaanvraag.lineWrap(huidigebroker.getContactpersoon(), (int) Kolumnwidthcontactpersoon));
+                    brokerTable.itemsProperty().unbind();
+                    brokerTable.setItems(brokerslist);
                 }
-                if (!(huidigebroker.getTelbroker() == null)) {
-                    huidigebroker.setTelbroker(Editaanvraag.lineWrap(huidigebroker.getTelbroker(), (int) Kolumnwidthtelbroker));
-                }
-                if (!(huidigebroker.getEmailbroker() == null)) {
-                    huidigebroker.setEmailbroker(Editaanvraag.lineWrap(huidigebroker.getEmailbroker(), (int) Kolumnwidthemailbroker));
-                }
-                if (!(huidigebroker.getOpmerkingbroker() == null)) {
-                    huidigebroker.setOpmerkingbroker(Editaanvraag.lineWrap(huidigebroker.getOpmerkingbroker(), (int) Kolumnwidthopmerkingbroker));
-                }
-
-                brokerTable.itemsProperty().unbind();
-                brokerTable.setItems(brokerslist);
-            }}
+            }
         });
     }
 

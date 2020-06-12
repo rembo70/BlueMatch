@@ -13,8 +13,10 @@
     <bottom>
         <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
             <buttons>
-                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#addMedewerker" text="Medewerker toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
-                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addMedewerker" text="Toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="BtnModMedewerker" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateMedewerker" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="BtnDelMedewerker" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteMedewerker" text="Verwijderen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga terug" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
             </buttons>
         </ButtonBar>
     </bottom>
@@ -29,7 +31,7 @@
                         <PropertyValueFactory property="voornaam" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnachternaam" minWidth="0.0" prefWidth="273.0" text="Achternaam">
+                <TableColumn fx:id="columnachternaam" minWidth="0.0" prefWidth="270.0" text="Achternaam">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
@@ -37,7 +39,7 @@
                         <PropertyValueFactory property="achternaam" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnurenperweek" prefWidth="117.0" text="Uren per week contract">
+                <TableColumn fx:id="columnurenperweek" prefWidth="87.0" text="Uren / Week">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
@@ -45,7 +47,7 @@
                         <PropertyValueFactory property="urenperweek" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnstatusmdw" prefWidth="210.0" text="Beschikbaarheid">
+                <TableColumn fx:id="columnstatusmdw" prefWidth="132.0" text="Beschikbaarheid">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
@@ -54,6 +56,23 @@
                     </cellValueFactory>
 
                 </TableColumn>
+                <TableColumn fx:id="columnemailmedewerker" prefWidth="169.0" text="Email">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="emailmedewerker" />
+                    </cellValueFactory>
+
+                </TableColumn><TableColumn fx:id="columnopmerkingmedewerker" prefWidth="222.0" text="Opmerking">
+                <cellFactory>
+                    <FormattedTableCellFactory />
+                </cellFactory>
+                <cellValueFactory>
+                    <PropertyValueFactory property="opmerkingmedewerker" />
+                </cellValueFactory>
+
+            </TableColumn>
             </columns>
             <effect>
                 <Blend />

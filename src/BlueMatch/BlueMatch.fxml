@@ -10,14 +10,14 @@
 
 <BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Controller">
     <center>
-        <TableView fx:id="overviewRecordTable" onMouseClicked="#tableViewMouseClicked" prefHeight="548.0" prefWidth="899.0" stylesheets="@styles.css" BorderPane.alignment="CENTER">
+        <TableView fx:id="overviewRecordTable"  onMouseClicked="#tableViewMouseClicked" prefHeight="548.0" prefWidth="899.0" stylesheets="@styles.css" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="columnidAanvraag" minWidth="0.0" prefWidth="30.0" text="ID">
                     <cellValueFactory>
                         <PropertyValueFactory property="idaanvraag" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnBroker" editable="false" prefWidth="136.0" text="Broker">
+                <TableColumn fx:id="columnBroker" editable="false" prefWidth="121.0" text="Broker">
                     <cellValueFactory>
                         <PropertyValueFactory property="refbroker" />
                     </cellValueFactory>
@@ -27,24 +27,29 @@
                         <PropertyValueFactory property="functie" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnContact" editable="false" prefWidth="109.0" text="Klant contact">
+                <TableColumn fx:id="columnContact" editable="false" prefWidth="130.0" text="Klant contact">
                     <cellValueFactory>
                         <PropertyValueFactory property="refcontact" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnStatusKlant" prefWidth="164.0" text="Statusklant">
+                <TableColumn fx:id="columnStatusKlant" prefWidth="105.0" text="Statusklant">
                     <cellValueFactory>
                         <PropertyValueFactory property="statusklant" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnMedewerker" minWidth="0.0" prefWidth="144.0" text="Medewerker">
+                <TableColumn fx:id="columnMedewerker" minWidth="0.0" prefWidth="135.0" text="Medewerker">
                     <cellValueFactory>
                         <PropertyValueFactory property="medewerker" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnStatusAanbod" prefWidth="122.0" text="Status aanbieding">
+                <TableColumn fx:id="columnStatusAanbod" prefWidth="146.0" text="Status aanbieding">
                     <cellValueFactory>
                         <PropertyValueFactory property="statusaanbod" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnAanbodOpmerking" prefWidth="145.0" text="Opmerking">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="opmerkingaanbod" />
                     </cellValueFactory>
                 </TableColumn>
             </columns>

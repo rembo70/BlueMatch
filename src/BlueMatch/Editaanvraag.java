@@ -1,9 +1,7 @@
 package BlueMatch;
 
 import BlueMatch.model.Aanvraag;
-import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,13 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ListIterator;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +26,8 @@ import java.util.regex.Pattern;
 public class Editaanvraag {
 
     private Scene ParentScene;
+    @FXML
+    private TableColumn columnidaanvraag;
     @FXML
     private TableColumn columnopm;
     @FXML
@@ -52,17 +49,19 @@ public class Editaanvraag {
 
     public void setParentController(Controller controller) {
         this.parentController = controller;
+        Controller parentcontrol = controller;
     }
 
     public void changeSceneMain(ActionEvent event) throws IOException {
-        //       Parent detailViewParent = FXMLLoader.load(getClass().getResource("BlueMatch.fxml"));
-        //      Scene detailViewScene = new Scene(detailViewParent);
+               Parent detailViewParent = FXMLLoader.load(getClass().getResource("BlueMatch.fxml"));
+              Scene detailViewScene = new Scene(detailViewParent);
 
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene((ParentScene));
         window.show();
         parentController.updateMainView();
+        parentController.refreshscreen();
     }
 
 
@@ -111,9 +110,6 @@ public class Editaanvraag {
                 }
             }
         }
-//        ObservableList<Aanvraag> Aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
-//        aanvraagTable.itemsProperty().unbind();
-//        aanvraagTable.setItems(Aanvraaglist);
         refreshscreen();
         btnmodaanvraag.setDisable(true);
     }

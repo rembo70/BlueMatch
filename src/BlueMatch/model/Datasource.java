@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Datasource {
-    public static final String DATABASENAME = "jdbc:sqlite:C:\\Bluematch\\Bluematch.db";
+    public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
     // public static final String DATABASENAME = "jdbc:sqlite:https://newspark.sharepoint.com/Gedeelde%20Documenten/Sales/Bluematch.db";
     public static final String COLUMN_IDAANBOD = "idaanbod";
     public static final String TABLE_AANBOD = "Aanbod";
@@ -14,12 +14,14 @@ public class Datasource {
     public static final String COLUMN_TARIEFAANBOD = "tariefaanbod";
     public static final String COLUMN_URENPERWEEKAANBOD = "urenperweekaanbod";
     public static final String COLUMN_STATUSAANBOD = "statusaanbod";
+    public static final String COLUMN_OPMERKINGAANBOD = "opmerkingaanbod";
     public static final int INDEX_IDAANBOD = 1;
     public static final int INDEX_REFAANVRAAG = 2;
     public static final int INDEX_REFMEDEWERKER = 3;
     public static final int INDEX_TARIEFAANBOD = 4;
     public static final int INDEX_URENPERWEEKAANBOD = 5;
     public static final int INDEX_STATUSAANBOD = 6;
+    public static final int INDEX_OPMERKINGAANBOD = 7;
 
 
     public static final String TABLE_AANVRAAG = "Aanvraag";
@@ -54,15 +56,19 @@ public class Datasource {
 
     public static final String TABLE_MEDEWERKER = "Medewerker";
     public static final String COLUMN_IDMDW = "idmdw";
-    public static final String COLUMN_VOORNAAM = "voornaam";
-    public static final String COLUMN_ACHTERNAAM = "achternaam";
-    public static final String COLUMN_URENPERWEEK = "urenperweek";
-    public static final String COLUMN_STATUS = "statusmdw";
+    public static final String COLUMN_MDWVOORNAAM = "voornaammdw";
+    public static final String COLUMN_MDWACHTERNAAM = "achternaammdw";
+    public static final String COLUMN_MDWURENPERWEEK = "urenperweekmdw";
+    public static final String COLUMN_MDWSTATUS = "statusmdw";
+    public static final String COLUMN_MDWEMAIL = "emailmdw";
+    public static final String COLUMN_MDWOPMERKING = "opmerkingmdw";
     public static final int INDEX_IDMDW = 1;
-    public static final int INDEX_VOORNAAM = 2;
-    public static final int INDEX_ACHTERNAAM = 3;
-    public static final int INDEX_URENPERWEEK = 4;
-    public static final int INDEX_STATUSMDW = 5;
+    public static final int INDEX_MDWVOORNAAM = 2;
+    public static final int INDEX_MDWACHTERNAAM = 3;
+    public static final int INDEX_MDWURENPERWEEK = 4;
+    public static final int INDEX_MDWSTATUSMDW = 5;
+    public static final int INDEX_MDWEMAILMEDEWERKER = 6;
+    public static final int INDEX_MDWOPMERKINGMEDEWERKER = 7;
 
 
     public static final String TABLE_KLANT = "Klant";
@@ -105,14 +111,13 @@ public class Datasource {
             ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
     public static final String InsertAanbod = "INSERT INTO " + TABLE_AANBOD + '(' + COLUMN_REFAANVRAAG
-            + "," + COLUMN_REFMEDEWERKER + "," + COLUMN_TARIEFAANBOD + "," + COLUMN_URENPERWEEKAANBOD + "," + COLUMN_STATUSAANBOD
-            +
-            ") VALUES (?,?,?,?,?)";
+            + "," + COLUMN_REFMEDEWERKER + "," + COLUMN_TARIEFAANBOD + "," + COLUMN_URENPERWEEKAANBOD + "," + COLUMN_STATUSAANBOD + "," + COLUMN_OPMERKINGAANBOD +
+            ") VALUES (?,?,?,?,?,?)";
 
-    public static final String InsertMedewerker = "INSERT INTO " + TABLE_MEDEWERKER + '(' + COLUMN_VOORNAAM
-            + "," + COLUMN_ACHTERNAAM + "," + COLUMN_URENPERWEEK + "," + COLUMN_STATUS
-            +
-            ") VALUES (?,?,?,?)";
+    public static final String InsertMedewerker = "INSERT INTO " + TABLE_MEDEWERKER + '(' + COLUMN_MDWVOORNAAM
+            + "," + COLUMN_MDWACHTERNAAM + "," + COLUMN_MDWURENPERWEEK + "," + COLUMN_MDWSTATUS
+            + "," + COLUMN_MDWEMAIL +"," + COLUMN_MDWOPMERKING +
+            ") VALUES (?,?,?,?,?,?)";
 
     public static final String InsertBroker = "INSERT INTO " + TABLE_BROKER + '(' + COLUMN_BROKERNAAM
             + "," + COLUMN_CONTACTPERSOON + "," + COLUMN_TELBROKER + "," + COLUMN_EMAILBROKER +","
@@ -130,7 +135,7 @@ public class Datasource {
     public static String filterstatusaanb = "";
     public static String filterbroker = "";
     public static String filtermedewerker = "";
-    public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+    public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
             "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
             "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanbod.refmedewerker IS NULL) OR (aanbod.statusaanbod IS NULL)"  ;
 
@@ -151,7 +156,12 @@ public class Datasource {
             + COLUMN_TELBROKER + " = ?, " + COLUMN_EMAILBROKER + " = ?, " + COLUMN_OPMERKINGBROKER + " = ? WHERE " + COLUMN_IDBROKER + " =  ?";
 
     public static final String QUERYUPDATE_AANBOD = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_REFMEDEWERKER  + " = ?, " + COLUMN_TARIEFAANBOD + " = ?, "
-            + COLUMN_URENPERWEEKAANBOD + " = ?, " + COLUMN_STATUSAANBOD + " = ? WHERE "  + COLUMN_IDAANBOD + " = ?";
+            + COLUMN_URENPERWEEKAANBOD + " = ?, " + COLUMN_STATUSAANBOD +" = ?, " + COLUMN_OPMERKINGAANBOD + " = ? WHERE "  + COLUMN_IDAANBOD + " = ?";
+
+    public static final String QUERYUPDATE_MEDEWERKER = "UPDATE " + TABLE_MEDEWERKER + " SET " + COLUMN_MDWVOORNAAM  + " = ?, " + COLUMN_MDWACHTERNAAM + " = ?, "
+            + COLUMN_MDWURENPERWEEK + " = ?, " + COLUMN_MDWSTATUS + " = ?, " + COLUMN_MDWEMAIL + " = ?, " + COLUMN_MDWOPMERKING + " = ?  WHERE " + COLUMN_IDMDW + " =  ?";
+
+    public static final String QUERYDELETE_MEDEWERKER = "DELETE FROM " + TABLE_MEDEWERKER +  " WHERE " + COLUMN_IDMDW + " =  ?";
 
     private Connection conn;
     private PreparedStatement insertIntoAanvraag;
@@ -163,6 +173,9 @@ public class Datasource {
     private PreparedStatement updatebroker;
     private PreparedStatement updateaanvraag;
     private PreparedStatement updateaanbod;
+    private PreparedStatement updatemedewerker;
+    private PreparedStatement deletemedewerker;
+
 
 
     private static Datasource instance = new Datasource();
@@ -173,19 +186,20 @@ public class Datasource {
 
     public  String setQueryStringMain (){
         if (filtermedewerker.trim().isEmpty() && filterstatusaanb.isEmpty()) {
-         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
+         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanbod.opmerkingaanbod " +
+                 ", aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie  from aanvraag " +
                     "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
                     "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanvraag.refbroker LIKE '%" +
                     filterbroker + "%' AND (aanbod.refmedewerker IS NULL OR aanbod.statusaanbod IS NULL))";
         } else {
             if (filterstatusaanb.isEmpty()) {
                 System.out.println("filtermedewerker is not null: " + filtermedewerker);
-                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
-                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
+                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie  from aanvraag " +
+                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
                         "%' OR aanbod.statusaanbod IS NULL) AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND (aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'))";
             } else {
-                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod from aanvraag " +
-                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
+                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie  from aanvraag " +
+                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
                         "%') AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND (aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'))";
             }
         }
@@ -208,6 +222,8 @@ public class Datasource {
             updatebroker = conn.prepareStatement(QUERYUPDATE_BROKER);
             updateaanvraag = conn.prepareStatement(QUERYUPDATE_AANVRAAG);
             updateaanbod = conn.prepareStatement(QUERYUPDATE_AANBOD);
+            updatemedewerker = conn.prepareStatement(QUERYUPDATE_MEDEWERKER);
+            deletemedewerker = conn.prepareStatement(QUERYDELETE_MEDEWERKER);
             return true;
 
         } catch (SQLException e) {
@@ -228,7 +244,9 @@ public class Datasource {
                 updateklant.close();
                 updatebroker.close();
                 updateaanvraag.close();
-                updateaanvraag.close();
+                updateaanbod.close();
+                updatemedewerker.close();
+                deletemedewerker.close();
             }
 
         } catch (SQLException e) {
@@ -261,7 +279,7 @@ public class Datasource {
         insertIntoAanbod.setString(3, aanbod.getTariefaanbod());
         insertIntoAanbod.setString(4, aanbod.getUrenperweekaanbod());
         insertIntoAanbod.setString(5, aanbod.getStatusaanbod());
-
+        insertIntoAanbod.setString(6, aanbod.getOpmerkingaanbod());
         insertIntoAanbod.executeUpdate();
         conn.setAutoCommit(true);
         return 1;
@@ -273,10 +291,43 @@ public class Datasource {
         insertIntoMedewerker.setString(2, medewerker.getAchternaam());
         insertIntoMedewerker.setString(3, medewerker.getUrenperweek());
         insertIntoMedewerker.setString(4, medewerker.getStatusmdw());
-
+        insertIntoMedewerker.setString(5,medewerker.getEmailmedewerker());
+        insertIntoMedewerker.setString(6,medewerker.getOpmerkingmedewerker());
+        System.out.println(InsertMedewerker);
         insertIntoMedewerker.executeUpdate();
         conn.setAutoCommit(true);
         return 1;
+    }
+
+    public boolean updateMedewerker (Medewerker medewerker){
+        try {
+
+            updatemedewerker.setString(1, medewerker.getVoornaam());
+            updatemedewerker.setInt  (7, medewerker.getIDmdw());
+            updatemedewerker.setString(2, medewerker.getAchternaam());
+            updatemedewerker.setString(3,medewerker.getUrenperweek());
+            updatemedewerker.setString(4, medewerker.getStatusmdw());
+            updatemedewerker.setString(5,medewerker.getEmailmedewerker());
+            updatemedewerker.setString(6,medewerker.getOpmerkingmedewerker());
+            int affectedRecords = updatemedewerker.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }
+    public boolean deleteMedewerker (Medewerker medewerker){
+        try {
+
+            deletemedewerker.setInt  (1, medewerker.getIDmdw());
+            int affectedRecords = deletemedewerker.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
     }
 
     public int brokerToevoegen(Broker broker) throws SQLException {
@@ -346,7 +397,8 @@ public class Datasource {
             updateaanbod.setString(2, aanbod.getTariefaanbod());
             updateaanbod.setString(3,aanbod.getUrenperweekaanbod());
             updateaanbod.setString(4, aanbod.getStatusaanbod());
-            updateaanbod.setInt(5,aanbod.getIdaanbod());
+            updateaanbod.setString(5,aanbod.getOpmerkingaanbod());
+            updateaanbod.setInt(6,aanbod.getIdaanbod());
             int affectedRecords = updateaanbod.executeUpdate();
             return affectedRecords ==1;
 
@@ -430,6 +482,7 @@ public class Datasource {
                 aanbod.setTariefaanbod(results.getString(INDEX_TARIEFAANBOD));
                 aanbod.setUrenperweekaanbod(results.getString(INDEX_URENPERWEEKAANBOD));
                 aanbod.setStatusaanbod(results.getString(INDEX_STATUSAANBOD));
+                aanbod.setOpmerkingaanbod(results.getString(INDEX_OPMERKINGAANBOD));
 
                 aanbiedingen.add(aanbod);
             }
@@ -447,10 +500,13 @@ public class Datasource {
             List<Medewerker> medewerkers = new ArrayList<>();
             while (results.next()) {
                 Medewerker medewerker = new Medewerker();
-                medewerker.setVoornaam(results.getString(INDEX_VOORNAAM));
-                medewerker.setAchternaam(results.getString(INDEX_ACHTERNAAM));
-                medewerker.setUren(results.getString(INDEX_URENPERWEEK));
-                medewerker.setStatusmdw(results.getString(INDEX_STATUSMDW));
+                medewerker.setIDmdw(results.getInt(INDEX_IDMDW));
+                medewerker.setVoornaam(results.getString(INDEX_MDWVOORNAAM));
+                medewerker.setAchternaam(results.getString(INDEX_MDWACHTERNAAM));
+                medewerker.setUren(results.getString(INDEX_MDWURENPERWEEK));
+                medewerker.setStatusmdw(results.getString(INDEX_MDWACHTERNAAM));
+                medewerker.setEmailmedewerker(results.getString(INDEX_MDWEMAILMEDEWERKER));
+                medewerker.setOpmerkingmedewerker(results.getString(INDEX_MDWOPMERKINGMEDEWERKER));
                 medewerkers.add(medewerker);
             }
             return medewerkers;
@@ -506,7 +562,6 @@ public class Datasource {
         }
     }
 
-
     public List<OverviewRecord> queryMain() {
         QUERYSTRINGMAIN=setQueryStringMain();
         //System.out.println(QUERYSTRINGMAIN);
@@ -520,10 +575,19 @@ public class Datasource {
                 overviewrecord.setRefbroker(results.getString(1));
                 overviewrecord.setFunctie(results.getString(2));
                 overviewrecord.setRefcontact(results.getString(3));
-                overviewrecord.setStatusKlant(results.getString(4));
+              //  overviewrecord.setStatusKlant(results.getString(4));
                 overviewrecord.setMedewerker(results.getString(5));
                 overviewrecord.setIdaanvraag(results.getString(6));
                 overviewrecord.setStatusaanbod(results.getString(7));
+                overviewrecord.setOpmerkingaanbod(results.getString(8));
+                overviewrecord.setUrenperweekaanbod(results.getString(9));
+                overviewrecord.setTariefaanbod(results.getString(10));
+                overviewrecord.setTariefaanvraag(results.getString(11));
+                overviewrecord.setLinkaanvraag(results.getString(12));
+                overviewrecord.setVraagurenweek(results.getString(13));
+                overviewrecord.setStartdatum(results.getString(14));
+                overviewrecord.setDatumaanvraag(results.getString(15));
+                overviewrecord.setLocatie(results.getString(16));
 
                 overviewlist.add(overviewrecord);
             }
