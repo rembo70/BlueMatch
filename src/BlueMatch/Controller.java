@@ -1,12 +1,11 @@
 package BlueMatch;
 
-import BlueMatch.model.Aanbod;
-import BlueMatch.model.Aanvraag;
-import BlueMatch.model.Datasource;
-import BlueMatch.model.OverviewRecord;
-import javafx.application.Application;
+import BlueMatch.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -146,8 +141,17 @@ public class Controller {
         ctrlbrokeroverzicht.setParentController(this);
         window.setScene((detailViewScene));
         window.show();
+        Main.windowWidth = (int) window.getWidth();
+        window.widthProperty().addListener((obs, oldVal, newVal) -> {
+            Main.windowWidth = (int) window.getWidth();
+
+            ctrlbrokeroverzicht.updateView();
+            ctrlbrokeroverzicht.refreshScreen();
+            //System.out.println("updated aanbod");
+        });
         ctrlbrokeroverzicht.updateView();
-    }
+
+}
 
     @FXML
     public void overzichtKlant(ActionEvent event) throws IOException {
@@ -179,7 +183,7 @@ public class Controller {
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     addAanbiedingController addAanbiedingController = loader.getController();
-                    Aanbod aanbod = addAanbiedingController.getNewAanbod(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+                    Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
                     Datasource.getInstance().aanbodToevoegen(aanbod);
                 }
             }
@@ -227,11 +231,12 @@ public class Controller {
         window.setScene((detailViewScene));
         window.show();
 //        window.widthProperty().addListener((obs, oldVal, newVal) -> {
-//            Main.windowWidth = (int) window.getWidth();
-
-            ctrleditaanbod.updateView();
-            System.out.println("updated aanbod");
-        //});
+//           Main.windowWidth = (int) window.getWidth();
+//
+//            ctrleditaanbod.updateView();
+//
+//            //System.out.println("updated aanbod");
+//        });
     }
 
     public void refreshscreen() {
@@ -244,7 +249,7 @@ public class Controller {
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         if (event.getClickCount() > 1) {
             //System.out.println("Table double clicked");
-            //System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+            System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
             Parent detailViewParent = loader.load();

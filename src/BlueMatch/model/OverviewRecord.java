@@ -1,5 +1,6 @@
 package BlueMatch.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -19,12 +20,12 @@ public class OverviewRecord {
     private SimpleStringProperty tariefaanvraag;
     private SimpleStringProperty statusklant;
     private SimpleStringProperty medewerker;
-    private SimpleStringProperty idaanvraag;
+    private SimpleIntegerProperty idaanvraag;
     private SimpleStringProperty statusaanbod;
-    //private SimpleStringProperty statusaanvraag;
     private SimpleStringProperty opmerkingaanbod;
     private SimpleStringProperty tariefaanbod;
     private SimpleStringProperty urenperweekaanbod;
+    private SimpleIntegerProperty idaanbod;
 
 
     public OverviewRecord() {
@@ -33,7 +34,7 @@ public class OverviewRecord {
         this.refcontact = new SimpleStringProperty();
         this.statusklant = new SimpleStringProperty();
         this.medewerker = new SimpleStringProperty();
-        this.idaanvraag = new SimpleStringProperty();
+        this.idaanvraag = new SimpleIntegerProperty();
         this.statusaanbod = new SimpleStringProperty();
         this.opmerkingaanbod = new SimpleStringProperty();
         this.vraagurenweek = new SimpleStringProperty();
@@ -45,11 +46,22 @@ public class OverviewRecord {
         this.linkaanvraag = new SimpleStringProperty();
         this.tariefaanvraag = new SimpleStringProperty();
         this.tariefaanbod = new SimpleStringProperty();
-        //this.statusaanvraag = new SimpleStringProperty();
         this.urenperweekaanbod = new SimpleStringProperty();
+        this.idaanbod = new SimpleIntegerProperty();
 
     }
 
+    public int getIdaanbod() {
+        return idaanbod.get();
+    }
+
+    public SimpleIntegerProperty idaanbodProperty() {
+        return idaanbod;
+    }
+
+    public void setIdaanbod(int idaanbod) {
+        this.idaanbod.set(idaanbod);
+    }
 
     public String getUrenperweekaanbod() {
         return urenperweekaanbod.get();
@@ -219,15 +231,15 @@ public class OverviewRecord {
         this.medewerker.set(medewerker);
     }
 
-    public String getIdaanvraag() {
+    public int getIdaanvraag() {
         return idaanvraag.get();
     }
 
-    public SimpleStringProperty idaanvraagProperty() {
+    public SimpleIntegerProperty idaanvraagProperty() {
         return idaanvraag;
     }
 
-    public void setIdaanvraag(String idaanvraag) {
+    public void setIdaanvraag(int idaanvraag) {
         this.idaanvraag.set(idaanvraag);
     }
 

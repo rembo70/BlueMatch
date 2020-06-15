@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class OverzichtdtlsController {
@@ -57,6 +58,15 @@ public class OverzichtdtlsController {
     private TextField statusklantfield;
     @FXML
     private TextField statusaanbodfield;
+    @FXML
+    private int idaanbodfield;
+    @FXML
+    private int idaanvraagfield;
+
+    private Aanvraag aanvraag=new Aanvraag();
+    private Aanbod aanbod=new Aanbod();
+    private OverviewRecord overviewrecordtmp = new OverviewRecord();
+
 
 
 //    @FXML
@@ -97,6 +107,7 @@ public class OverzichtdtlsController {
     private Controller parentController;
     private Scene ParentScene;
 
+
     public void setParentScene(Scene scene) {
         this.ParentScene = scene;
     }
@@ -109,6 +120,10 @@ public class OverzichtdtlsController {
     
     public void listDetailsRecord(OverviewRecord overviewrecord) {
 
+        overviewrecordtmp = overviewrecord;
+        System.out.println(overviewrecord.getIdaanbod());
+        System.out.println(refbrokerfield);
+        System.out.println(this);
         refbrokerfield.setText(overviewrecord.getRefbroker());
         refmedewerkerfield.setText(overviewrecord.getMedewerker());
         refcontactfield.setText(overviewrecord.getRefcontact());
@@ -125,6 +140,75 @@ public class OverzichtdtlsController {
         linkaanvraagfield.setText(overviewrecord.getLinkaanvraag());
         statusklantfield.setText(overviewrecord.getStatusklant());
         statusaanbodfield.setText(overviewrecord.getStatusaanbod());
+        idaanbodfield= overviewrecord.getIdaanbod();
+        idaanvraagfield= overviewrecord.getIdaanvraag();
+
+        aanvraag.setIdaanvraag(overviewrecord.getIdaanvraag());
+        aanvraag.setRefbroker(overviewrecord.getRefbroker());
+        aanvraag.setRefcontact(overviewrecord.getRefklant());
+        aanvraag.setFunctie(overviewrecord.getFunctie());
+        aanvraag.setVraagurenweek(overviewrecord.getVraagurenweek());
+        aanvraag.setStatusklant(overviewrecord.getStatusklant());
+        if (overviewrecord.getDatumaanvraag() != null) {
+            aanvraag.setDatumaanvraag(overviewrecord.getDatumaanvraag());
+        }else{
+            aanvraag.setDatumaanvraag(null);
+        }
+
+        aanvraag.setLocatie(overviewrecord.getLocatie());
+        if (overviewrecord.getStartdatum() != null) {
+            aanvraag.setStartdatum(overviewrecord.getStartdatum());
+        } else {
+            aanvraag.setStartdatum(null);
+        }
+
+        aanvraag.setOpmerking(overviewrecord.getOpmerking());
+        aanvraag.setRefklant(overviewrecord.getRefklant());
+        aanvraag.setLinkaanvraag(overviewrecord.getLinkaanvraag());
+        aanvraag.setTariefaanvraag(overviewrecord.getLinkaanvraag());
+
+    }
+
+    @FXML
+    public void modaanvraag(MouseEvent event) throws IOException, SQLException {
+
+        if (aanvraag != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddAanvraagController addaanvraagcontroller = loader.getController();
+            addaanvraagcontroller.editAanvraag(aanvraag);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+            //          System.out.println(aanvraag.getIdaanvraag());
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    addaanvraagcontroller.updateAanvraag(aanvraag);
+                    Datasource.getInstance().updateAanvraag(aanvraag);
+                }
+            }
+        }
+        System.out.println("Object: " + this);
+        //updateMainView();
+        // loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
+        //Parent detailViewParent = loader.load();
+        //OverzichtdtlsController ctrldetailsoverzicht = loader.getController();
+        listDetailsRecord(Datasource.getInstance().getOverviewDetails(overviewrecordtmp.getIdaanbod()));
+        //Scene detailViewScene = new Scene(detailViewParent);
+        //Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        //setParentScene(window.getScene());
+        //setParentController(this.parentController);
+        //window.setScene((detailViewScene));
+        //window.show();
+
+    }
+
+    @FXML
+    public void modaanbod(MouseEvent event) throws IOException {
+
     }
 
     public void changeSceneMain(ActionEvent event) throws IOException {

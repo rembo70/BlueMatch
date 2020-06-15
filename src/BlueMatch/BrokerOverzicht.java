@@ -13,9 +13,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -33,7 +36,6 @@ public class BrokerOverzicht {
     private TableColumn columnemailbroker;
     @FXML
     private TableColumn columnopmerkingbroker;
-
 
     private Controller parentController;
 
@@ -90,7 +92,7 @@ public class BrokerOverzicht {
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
-            System.out.println(broker.getIdbroker());
+            // System.out.println(broker.getIdbroker());
             Optional<ButtonType> result = dialog.showAndWait();
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -108,6 +110,12 @@ public class BrokerOverzicht {
             btnmodbroker.setDisable(true);
         }
     }
+
+    public void refreshScreen(){
+        ObservableList<Broker> Brokerlist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+        brokerTable.itemsProperty().unbind();
+        brokerTable.setItems(Brokerlist);
+    }
     
     @FXML
     private TableView<Broker> brokerTable;
@@ -116,9 +124,7 @@ public class BrokerOverzicht {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Main.windowWidth = (int) window.getWidth();
         ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
-        brokerTable.itemsProperty().unbind();
-        brokerTable.setItems(brokerslist);
-        updateView();
+
     }
 
     @FXML
@@ -138,7 +144,6 @@ public class BrokerOverzicht {
         changelistener(columntelbroker);
         changelistener(columnemailbroker);
         //changelistener(columnopmerkingbroker);
-
     }
 
     public void changelistener(final TableColumn listerColumn) {

@@ -139,7 +139,7 @@ public class Datasource {
     public static String filterbroker = "";
     public static String filtermedewerker = "";
     public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
-            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
+            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod from aanvraag " +
             "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+
             "%' ) ";
 
@@ -150,7 +150,9 @@ public class Datasource {
             + COLUMN_STARTDATUM  + " = ?, " + COLUMN_OPMERKING  + " = ?, " + COLUMN_LINKAANVRAAG  + " = ?, " + COLUMN_TARIEFAANVRAAG  + " = ? WHERE " + COLUMN_IDAANVRAAG + " =  ?";
 
 
-
+    public static final String QUERYOVERZICHTDETAILS = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
+            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod from aanvraag " +
+            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE " + COLUMN_IDAANBOD  + "= ?";
 
 
     public static final String QUERYUPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM  + " = ?, " + COLUMN_KLANTCONTACTPERSOON + " = ?, "
@@ -179,6 +181,7 @@ public class Datasource {
     private PreparedStatement updateaanbod;
     private PreparedStatement updatemedewerker;
     private PreparedStatement deletemedewerker;
+    private PreparedStatement searchoverviewrecord;
 
 
 
@@ -191,7 +194,7 @@ public class Datasource {
     public  String setQueryStringMain (){
 
         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
-                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
+                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod from aanvraag " +
                 "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
 
         boolean wherestatement = false;
@@ -272,6 +275,7 @@ public class Datasource {
             updateaanbod = conn.prepareStatement(QUERYUPDATE_AANBOD);
             updatemedewerker = conn.prepareStatement(QUERYUPDATE_MEDEWERKER);
             deletemedewerker = conn.prepareStatement(QUERYDELETE_MEDEWERKER);
+            searchoverviewrecord = conn.prepareStatement(QUERYOVERZICHTDETAILS);
             return true;
 
         } catch (SQLException e) {
@@ -295,6 +299,7 @@ public class Datasource {
                 updateaanbod.close();
                 updatemedewerker.close();
                 deletemedewerker.close();
+                searchoverviewrecord.close();
             }
 
         } catch (SQLException e) {
@@ -519,7 +524,7 @@ public class Datasource {
     public List<Aanbod> queryAanbod() {
 
         try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_AANBOD)) {
+            ResultSet results = statement.executeQuery("SELECT * FROM " + TABLE_AANBOD)) {
             List<Aanbod> aanbiedingen = new ArrayList<>();
             while (results.next()) {
                 Aanbod aanbod = new Aanbod();
@@ -611,8 +616,8 @@ public class Datasource {
     }
 
     public List<OverviewRecord> queryMain() {
-        QUERYSTRINGMAIN=setQueryStringMain();
-       // System.out.println(QUERYSTRINGMAIN);
+        QUERYSTRINGMAIN = setQueryStringMain();
+        // System.out.println(QUERYSTRINGMAIN);
         try (Statement statement = conn.createStatement();
 
              ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
@@ -627,7 +632,7 @@ public class Datasource {
                 overviewrecord.setRefcontact(results.getString(3));
                 overviewrecord.setStatusklant(results.getString(4));
                 overviewrecord.setMedewerker(results.getString(5));
-                overviewrecord.setIdaanvraag(results.getString(6));
+                overviewrecord.setIdaanvraag(results.getInt(6));
                 overviewrecord.setStatusaanbod(results.getString(7));
                 overviewrecord.setOpmerkingaanbod(results.getString(8));
                 overviewrecord.setUrenperweekaanbod(results.getString(9));
@@ -638,7 +643,8 @@ public class Datasource {
                 overviewrecord.setStartdatum(results.getString(14));
                 overviewrecord.setDatumaanvraag(results.getString(15));
                 overviewrecord.setLocatie(results.getString(16));
-
+                overviewrecord.setIdaanbod((results.getInt(17)));
+                System.out.println(results.getInt(17));
                 overviewlist.add(overviewrecord);
             }
             return overviewlist;
@@ -648,7 +654,51 @@ public class Datasource {
         }
     }
 
+    public OverviewRecord getOverviewDetails(int idaanbod) {
+        System.out.println("Aanbod gevraagd: " + idaanbod);
 
+        try{
+            searchoverviewrecord.setInt(1,idaanbod);
+            ResultSet results = searchoverviewrecord.executeQuery();
+            System.out.println(QUERYOVERZICHTDETAILS);
+            List<OverviewRecord> overviewlist = new ArrayList<>();
+            while (results.next()) {
+                System.out.println(results.getInt(17));
+                OverviewRecord overviewrecord = new OverviewRecord();
+
+                overviewrecord.setRefbroker(results.getString(1));
+                overviewrecord.setFunctie(results.getString(2));
+                overviewrecord.setRefcontact(results.getString(3));
+                overviewrecord.setStatusklant(results.getString(4));
+                overviewrecord.setMedewerker(results.getString(5));
+                overviewrecord.setIdaanvraag(results.getInt(6));
+                overviewrecord.setStatusaanbod(results.getString(7));
+                overviewrecord.setOpmerkingaanbod(results.getString(8));
+                overviewrecord.setUrenperweekaanbod(results.getString(9));
+                overviewrecord.setTariefaanbod(results.getString(10));
+                overviewrecord.setTariefaanvraag(results.getString(11));
+                overviewrecord.setLinkaanvraag(results.getString(12));
+                overviewrecord.setVraagurenweek(results.getString(13));
+                overviewrecord.setStartdatum(results.getString(14));
+                overviewrecord.setDatumaanvraag(results.getString(15));
+                overviewrecord.setLocatie(results.getString(16));
+                overviewrecord.setIdaanbod((results.getInt(17)));
+
+                overviewlist.add(overviewrecord);
+                if (overviewrecord.getIdaanbod() == idaanbod) {
+                    System.out.println("Record found");
+                    return overviewrecord;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+
+        }
+
+        return null;
+
+    }
 
 }
 
