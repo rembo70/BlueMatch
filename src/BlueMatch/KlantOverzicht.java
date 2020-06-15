@@ -35,6 +35,8 @@ public class KlantOverzicht {
     private TableColumn columnklantopmerking;
     @FXML
     private Button btnklanttoevoegen;
+    @FXML
+    private Button btnklantwijzigen;
 
 
 
@@ -134,8 +136,11 @@ public class KlantOverzicht {
     public void updateView() {
         if (klantTable.getSelectionModel().getSelectedItem() == null) {
 
-            btnklanttoevoegen.setText("Klant Toevoegen");
-        }
+            btnklanttoevoegen.setText("Toevoegen");
+            btnklantwijzigen.setDisable(true);
+        } else{
+            btnklantwijzigen.setDisable(false);}
+
 
         changelistener(columnklantnaam);
         changelistener(columnklantcontactpersoon);

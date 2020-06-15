@@ -1,5 +1,8 @@
 package BlueMatch.model;
 
+import org.w3c.dom.ls.LSOutput;
+
+import java.security.spec.RSAOtherPrimeInfo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,18 +138,19 @@ public class Datasource {
     public static String filterstatusaanb = "";
     public static String filterbroker = "";
     public static String filtermedewerker = "";
-    public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
-            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+ "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
-            "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanbod.refmedewerker IS NULL) OR (aanbod.statusaanbod IS NULL)"  ;
+    public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
+            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
+            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+
+            "%' ) ";
+
 
 
     public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?, " + COLUMN_FUNCTIE + " = ?, "
             + COLUMN_REFCONTACT + " = ?, " + COLUMN_VRAAGURENWEEK + " = ?, " + COLUMN_STATUSKLANT  + " = ?, " + COLUMN_DATUMAANVRAAG  + " = ?, " + COLUMN_LOCATIE  + " = ?, "
             + COLUMN_STARTDATUM  + " = ?, " + COLUMN_OPMERKING  + " = ?, " + COLUMN_LINKAANVRAAG  + " = ?, " + COLUMN_TARIEFAANVRAAG  + " = ? WHERE " + COLUMN_IDAANVRAAG + " =  ?";
 
-//    public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?, " + COLUMN_FUNCTIE + " = ?, "
-//            + COLUMN_REFCONTACT + " = ?, " + COLUMN_VRAAGURENWEEK + " = ?, " + COLUMN_STATUSKLANT  + " = ?, " + COLUMN_DATUMAANVRAAG  + " = ?, "
-//            + COLUMN_STARTDATUM  + " = ?, " + COLUMN_OPMERKING  + " = ?, " + COLUMN_LINKAANVRAAG  + " = ?, " + COLUMN_TARIEFAANVRAAG  + " = ? WHERE " + COLUMN_IDAANVRAAG + " =  ?";
+
+
 
 
     public static final String QUERYUPDATE_KLANT = "UPDATE " + TABLE_KLANT + " SET " + COLUMN_KLANTNAAM  + " = ?, " + COLUMN_KLANTCONTACTPERSOON + " = ?, "
@@ -185,24 +189,61 @@ public class Datasource {
     }
 
     public  String setQueryStringMain (){
-        if (filtermedewerker.trim().isEmpty() && filterstatusaanb.isEmpty()) {
-         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanbod.opmerkingaanbod " +
-                 ", aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie  from aanvraag " +
-                    "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanbod.statusaanbod LIKE '" + filterstatusaanb +
-                    "%' AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND aanbod.refmedewerker LIKE '%" + filtermedewerker + "%') OR (aanvraag.statusklant LIKE '" + filterstatus + "%' AND aanvraag.refbroker LIKE '%" +
-                    filterbroker + "%' AND (aanbod.refmedewerker IS NULL OR aanbod.statusaanbod IS NULL))";
-        } else {
-            if (filterstatusaanb.isEmpty()) {
-                System.out.println("filtermedewerker is not null: " + filtermedewerker);
-                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie  from aanvraag " +
-                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
-                        "%' OR aanbod.statusaanbod IS NULL) AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND (aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'))";
+        QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
+                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
+                "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE ((aanvraag.statusklant LIKE '" + filterstatus + "%') AND (aanbod.statusaanbod LIKE '" + filterstatusaanb + "%' OR aanbod.statusaanbod IS NULL))" ;
+                //
+        // AND aanbod.statusaanbod LIKE '" + filterstatusaanb + "%')";
+        QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
+                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
+                "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
+
+        boolean wherestatement = false;
+        String aanbodstatusfltr = "";
+        String aanvraagstatusfltr = "";
+
+
+        if (filterstatus.isEmpty()) {
+            System.out.println("geen klantstatus filter");
             } else {
-                QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie  from aanvraag " +
-                        "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek WHERE (aanvraag.statusklant LIKE '" + filterstatus + "%' AND (aanbod.statusaanbod LIKE '" + filterstatusaanb +
-                        "%') AND aanvraag.refbroker LIKE '%" + filterbroker + "%' AND (aanbod.refmedewerker LIKE '%" + filtermedewerker + "%'))";
+            System.out.println("klantstatus filter");
+            if (!wherestatement) {
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
+                wherestatement = true;
             }
+            else{
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " AND ";
+            }
+            QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanvraag.statusklant LIKE '" + filterstatus + "%')";
         }
+        if (filterstatusaanb.isEmpty()) {
+            System.out.println("geen status aanbieding filter");
+        } else {
+            System.out.println("status aanbieding filter");
+            if (!wherestatement) {
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
+                wherestatement = true;
+            }
+            else{
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " AND ";
+            }
+            QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanbod.statusaanbod LIKE '%" + filterstatusaanb + "%')";
+        }
+
+        if (filterbroker.isEmpty()) {
+            System.out.println("geen broker filter");
+        } else {
+            System.out.println("status broker filter");
+            if (!wherestatement) {
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
+                wherestatement = true;
+            }
+            else{
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " AND ";
+            }
+            QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanvraag.refbroker LIKE '%" + filterbroker + "%')";
+        }
+
         return QUERYSTRINGMAIN;
     }
 
@@ -293,7 +334,7 @@ public class Datasource {
         insertIntoMedewerker.setString(4, medewerker.getStatusmdw());
         insertIntoMedewerker.setString(5,medewerker.getEmailmedewerker());
         insertIntoMedewerker.setString(6,medewerker.getOpmerkingmedewerker());
-        System.out.println(InsertMedewerker);
+        // System.out.println(InsertMedewerker);
         insertIntoMedewerker.executeUpdate();
         conn.setAutoCommit(true);
         return 1;
@@ -414,14 +455,14 @@ public class Datasource {
 
     public boolean updateAanvraag (Aanvraag aanvraag){
         try {
-            System.out.println(QUERYUPDATE_AANVRAAG);
+            //System.out.println(QUERYUPDATE_AANVRAAG);
             updateaanvraag.setString(1, aanvraag.getRefbroker());
             updateaanvraag.setString(2, aanvraag.getFunctie());
             updateaanvraag.setString(3,aanvraag.getRefcontact());
             updateaanvraag.setString(4, aanvraag.getVraagurenweek());
             updateaanvraag.setString(5,aanvraag.getStatusklant());
             updateaanvraag.setString(6, aanvraag.getDatumaanvraag());
-            System.out.println("locatie" + aanvraag.getLocatie());
+           // System.out.println("locatie" + aanvraag.getLocatie());
             updateaanvraag.setString(7,aanvraag.getLocatie());
             updateaanvraag.setString(8, aanvraag.getStartdatum());
             updateaanvraag.setString(9,aanvraag.getOpmerking());
@@ -564,10 +605,12 @@ public class Datasource {
 
     public List<OverviewRecord> queryMain() {
         QUERYSTRINGMAIN=setQueryStringMain();
-        //System.out.println(QUERYSTRINGMAIN);
+       // System.out.println(QUERYSTRINGMAIN);
         try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
 
+             ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
+            System.out.println(QUERYSTRINGMAIN);
+            System.out.println(filterstatus);
             List<OverviewRecord> overviewlist = new ArrayList<>();
             while (results.next()) {
                 OverviewRecord overviewrecord = new OverviewRecord();
@@ -575,7 +618,8 @@ public class Datasource {
                 overviewrecord.setRefbroker(results.getString(1));
                 overviewrecord.setFunctie(results.getString(2));
                 overviewrecord.setRefcontact(results.getString(3));
-              //  overviewrecord.setStatusKlant(results.getString(4));
+                overviewrecord.setStatusklant(results.getString(4));
+                //System.out.println(results.getString(4));
                 overviewrecord.setMedewerker(results.getString(5));
                 overviewrecord.setIdaanvraag(results.getString(6));
                 overviewrecord.setStatusaanbod(results.getString(7));

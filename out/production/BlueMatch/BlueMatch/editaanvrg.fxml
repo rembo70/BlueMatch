@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanvraag">
+<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanvraag">
     <bottom>
         <ButtonBar prefHeight="32.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <buttons>
                 <Button mnemonicParsing="false" onAction="#addAanvraag" text="Toevoegen" translateX="-5.0" />
                 <Button fx:id="btnmodaanvraag" mnemonicParsing="false" onAction="#modAanvraag" text="Wijzigen" translateX="-5.0" />
-                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" prefHeight="25.0" prefWidth="139.0" text="Ga naar hoofdscherm" translateX="-5.0">
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" prefHeight="25.0" prefWidth="139.0" text="Ga terug" translateX="-5.0">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -28,7 +24,12 @@
 
         <TableView fx:id="aanvraagTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn editable="false" prefWidth="80.0" text="Broker">
+                <TableColumn fx:id="columnidaanvraag" editable="false" minWidth="5.0" prefWidth="26.0" resizable="false" text="ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="idaanvraag" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn editable="false" prefWidth="69.0" text="Broker">
                     <cellValueFactory>
                         <PropertyValueFactory property="refbroker" />
                     </cellValueFactory>

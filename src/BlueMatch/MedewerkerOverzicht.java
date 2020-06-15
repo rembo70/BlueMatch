@@ -32,6 +32,8 @@ public class MedewerkerOverzicht {
     private TableColumn columnstatusmdw;
     @FXML
     private Button BtnModMedewerker;
+    @FXML
+    private Button BtnSendMail;
 
 
     private Controller parentController;
@@ -54,6 +56,15 @@ public class MedewerkerOverzicht {
 
     }
 
+    @FXML
+    public void sendmail(ActionEvent event) throws IOException, SQLException {
+        System.out.println("send mail");
+
+
+
+
+
+    }
 
     @FXML
     public void addMedewerker(ActionEvent event) throws IOException, SQLException {

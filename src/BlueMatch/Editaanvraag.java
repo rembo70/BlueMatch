@@ -67,7 +67,7 @@ public class Editaanvraag {
 
     @FXML
     public void addAanvraag(ActionEvent event) throws IOException, SQLException {
-        System.out.println("add aanvraag");
+//        System.out.println("add aanvraag");
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
         dialog.getDialogPane().setContent(loader.load());
@@ -101,7 +101,7 @@ public class Editaanvraag {
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
-            System.out.println(aanvraag.getIdaanvraag());
+  //          System.out.println(aanvraag.getIdaanvraag());
             Optional<ButtonType> result = dialog.showAndWait();
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -230,7 +230,7 @@ public class Editaanvraag {
     public void listAanvragen() {
         Task<ObservableList<Aanvraag>> task = new GetAllAanvragenTask();
         aanvraagTable.itemsProperty().bind(task.valueProperty());
-        System.out.println("View list on screen 2");
+        // System.out.println("View list on screen 2");
         new Thread(task).start();
     }
 }

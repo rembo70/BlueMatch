@@ -21,7 +21,7 @@ public class OverviewRecord {
     private SimpleStringProperty medewerker;
     private SimpleStringProperty idaanvraag;
     private SimpleStringProperty statusaanbod;
-    private SimpleStringProperty statusaanvraag;
+    //private SimpleStringProperty statusaanvraag;
     private SimpleStringProperty opmerkingaanbod;
     private SimpleStringProperty tariefaanbod;
     private SimpleStringProperty urenperweekaanbod;
@@ -45,10 +45,11 @@ public class OverviewRecord {
         this.linkaanvraag = new SimpleStringProperty();
         this.tariefaanvraag = new SimpleStringProperty();
         this.tariefaanbod = new SimpleStringProperty();
-        this.statusaanvraag = new SimpleStringProperty();
+        //this.statusaanvraag = new SimpleStringProperty();
         this.urenperweekaanbod = new SimpleStringProperty();
 
     }
+
 
     public String getUrenperweekaanbod() {
         return urenperweekaanbod.get();
@@ -242,17 +243,17 @@ public class OverviewRecord {
         this.statusaanbod.set(statusaanbod);
     }
 
-    public String getStatusaanvraag() {
-        return statusaanvraag.get();
-    }
-
-    public SimpleStringProperty statusaanvraagProperty() {
-        return statusaanvraag;
-    }
-
-    public void setStatusaanvraag(String statusaanvraag) {
-        this.statusaanvraag.set(statusaanvraag);
-    }
+//    public String getStatusaanvraag() {
+//        return statusaanvraag.get();
+//    }
+//
+//    public SimpleStringProperty statusaanvraagProperty() {
+//        return statusaanvraag;
+//    }
+//
+//    public void setStatusaanvraag(String statusaanvraag) {
+//        this.statusaanvraag.set(statusaanvraag);
+//    }
 
     public String getOpmerkingaanbod() {
         return opmerkingaanbod.get();

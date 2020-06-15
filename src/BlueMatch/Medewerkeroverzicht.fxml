@@ -16,6 +16,7 @@
                 <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addMedewerker" text="Toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
                 <Button fx:id="BtnModMedewerker" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateMedewerker" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
                 <Button fx:id="BtnDelMedewerker" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteMedewerker" text="Verwijderen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="BtnSendMail" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendmail" text="Mail sturen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
                 <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga terug" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
             </buttons>
         </ButtonBar>

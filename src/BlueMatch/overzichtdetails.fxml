@@ -145,6 +145,12 @@
             <Label text="Link aanvraag" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <TextField fx:id="linkaanvraagfield" GridPane.columnIndex="2" GridPane.rowIndex="12" />
 
+             <Label text="Status aanvraag" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+             <TextField fx:id="statusklantfield" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+
+             <Label text="Status aanbod" GridPane.columnIndex="4" GridPane.rowIndex="13" />
+             <TextField fx:id="statusaanbodfield" GridPane.columnIndex="5" GridPane.rowIndex="13" />
+
 
 
             <Label text="Aanvraag" textFill="#00000092" GridPane.columnIndex="2">

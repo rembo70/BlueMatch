@@ -57,7 +57,7 @@ public class Editaanbod {
     
     @FXML
     public void modAanbod(ActionEvent event) throws IOException, SQLException {
-        System.out.println("bijwerken aanbod");
+       //System.out.println("bijwerken aanbod");
         Aanbod aanbod = (Aanbod) aanbodTable.getSelectionModel().getSelectedItem();
 
         if (aanbod != null) {

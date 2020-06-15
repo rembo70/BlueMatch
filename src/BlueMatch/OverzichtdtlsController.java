@@ -53,6 +53,10 @@ public class OverzichtdtlsController {
     private TextArea opmerkingaanbodfield;
     @FXML
     private TextField linkaanvraagfield;
+    @FXML
+    private TextField statusklantfield;
+    @FXML
+    private TextField statusaanbodfield;
 
 
 //    @FXML
@@ -119,6 +123,8 @@ public class OverzichtdtlsController {
         opmerkingfield.setText(overviewrecord.getOpmerking());
         opmerkingaanbodfield.setText(overviewrecord.getOpmerkingaanbod());
         linkaanvraagfield.setText(overviewrecord.getLinkaanvraag());
+        statusklantfield.setText(overviewrecord.getStatusklant());
+        statusaanbodfield.setText(overviewrecord.getStatusaanbod());
     }
 
     public void changeSceneMain(ActionEvent event) throws IOException {
@@ -143,7 +149,7 @@ public class OverzichtdtlsController {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         ctrleditaanvraag.setParentScene(window.getScene());
-        System.out.println(parentController);
+        // System.out.println(parentController);
         ctrleditaanvraag.setParentController(this.parentController);
         window.setScene((detailViewScene));
         window.show();
@@ -241,6 +247,6 @@ public class OverzichtdtlsController {
         });
     }
     public void updateMainView(){
-         System.out.println("update view in detailscreen");
+        System.out.println("update view in detailscreen");
     };
 }
