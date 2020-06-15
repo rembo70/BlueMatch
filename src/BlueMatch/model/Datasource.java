@@ -626,7 +626,6 @@ public class Datasource {
                 overviewrecord.setFunctie(results.getString(2));
                 overviewrecord.setRefcontact(results.getString(3));
                 overviewrecord.setStatusklant(results.getString(4));
-                //System.out.println(results.getString(4));
                 overviewrecord.setMedewerker(results.getString(5));
                 overviewrecord.setIdaanvraag(results.getString(6));
                 overviewrecord.setStatusaanbod(results.getString(7));

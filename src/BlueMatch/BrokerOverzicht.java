@@ -115,6 +115,9 @@ public class BrokerOverzicht {
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Main.windowWidth = (int) window.getWidth();
+        ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+        brokerTable.itemsProperty().unbind();
+        brokerTable.setItems(brokerslist);
         updateView();
     }
 
@@ -135,6 +138,7 @@ public class BrokerOverzicht {
         changelistener(columntelbroker);
         changelistener(columnemailbroker);
         //changelistener(columnopmerkingbroker);
+
     }
 
     public void changelistener(final TableColumn listerColumn) {
