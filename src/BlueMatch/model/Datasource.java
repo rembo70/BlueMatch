@@ -188,11 +188,11 @@ public class Datasource {
 
     }
 
-    public  String setQueryStringMain (){
+    public  String setQueryStringMain () {
         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
                 "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
-                "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE ((aanvraag.statusklant LIKE '" + filterstatus + "%') AND (aanbod.statusaanbod LIKE '" + filterstatusaanb + "%' OR aanbod.statusaanbod IS NULL))" ;
-                //
+                "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE ((aanvraag.statusklant LIKE '" + filterstatus + "%') AND (aanbod.statusaanbod LIKE '" + filterstatusaanb + "%' OR aanbod.statusaanbod IS NULL))";
+        //
         // AND aanbod.statusaanbod LIKE '" + filterstatusaanb + "%')";
         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
                 "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie from aanvraag " +
@@ -205,13 +205,12 @@ public class Datasource {
 
         if (filterstatus.isEmpty()) {
             System.out.println("geen klantstatus filter");
-            } else {
+        } else {
             System.out.println("klantstatus filter");
             if (!wherestatement) {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
                 wherestatement = true;
-            }
-            else{
+            } else {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " AND ";
             }
             QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanvraag.statusklant LIKE '" + filterstatus + "%')";
@@ -223,8 +222,7 @@ public class Datasource {
             if (!wherestatement) {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
                 wherestatement = true;
-            }
-            else{
+            } else {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " AND ";
             }
             QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanbod.statusaanbod LIKE '%" + filterstatusaanb + "%')";
@@ -237,15 +235,28 @@ public class Datasource {
             if (!wherestatement) {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
                 wherestatement = true;
-            }
-            else{
+            } else {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " AND ";
             }
             QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanvraag.refbroker LIKE '%" + filterbroker + "%')";
         }
 
+
+        if (filtermedewerker.isEmpty()) {
+            System.out.println("geen broker filter");
+        } else {
+            System.out.println("status broker filter");
+            if (!wherestatement) {
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
+                wherestatement = true;
+            } else {
+                QUERYSTRINGMAIN = QUERYSTRINGMAIN + " AND ";
+            }
+            QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanbod.refmedewerker LIKE '%" + filtermedewerker + "%')";
+        }
+
         return QUERYSTRINGMAIN;
-    }
+}
 
     public static Datasource getInstance() {
         return instance;
