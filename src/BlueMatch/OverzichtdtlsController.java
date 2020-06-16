@@ -165,6 +165,13 @@ public class OverzichtdtlsController {
         aanvraag.setLinkaanvraag(overviewrecord.getLinkaanvraag());
         aanvraag.setTariefaanvraag(overviewrecord.getTariefaanvraag());
 
+        aanbod.setIdaanbod(overviewrecord.getIdaanbod());
+        aanbod.setRefmedewerker(overviewrecord.getMedewerker());
+        aanbod.setUrenperweekaanbod(overviewrecord.getUrenperweekaanbod());
+        aanbod.setTariefaanbod(overviewrecord.getTariefaanbod());
+        aanbod.setOpmerkingaanbod(overviewrecord.getOpmerkingaanbod());
+        aanbod.setStatusaanbod(overviewrecord.getStatusaanbod());
+
     }
 
     @FXML
@@ -194,8 +201,29 @@ public class OverzichtdtlsController {
 
     @FXML
     public void modaanbod(MouseEvent event) throws IOException {
+        if (aanbod != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            addAanbiedingController addaanbodcontroller = loader.getController();
+            addaanbodcontroller.editAanbod(aanbod);
 
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    addaanbodcontroller.updateAanbod(aanbod);
+                    Datasource.getInstance().updateAanbod(aanbod);
+                }
+            }
+        }
+        //System.out.println("Object: " + this);
+        listDetailsRecord(Datasource.getInstance().getOverviewDetails(overviewrecordtmp.getIdaanbod()));
+        System.out.println(aanbod.getTariefaanbod());
     }
+
 
     public void changeSceneMain(ActionEvent event) throws IOException {
 

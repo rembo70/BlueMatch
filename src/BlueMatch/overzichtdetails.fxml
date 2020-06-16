@@ -105,83 +105,131 @@
             <RowConstraints />
         </rowConstraints>
          <children>
-             <Label text="Broker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+             <Label text="Broker" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
              <TextField fx:id="refbrokerfield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-             <Label text="Medewerker" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-             <TextField fx:id="refmedewerkerfield" editable="false" onAction="#modaanbod" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+             <Label text="Medewerker" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+             <TextField fx:id="refmedewerkerfield" editable="false" onMouseClicked="#modaanbod" GridPane.columnIndex="5" GridPane.rowIndex="1" />
 
-             <TextField GridPane.columnIndex="2" editable="false" GridPane.rowIndex="2" />
+             <TextField editable="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
-             <Label text="Contact klant" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+             <Label text="Contact klant" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
              <TextField fx:id="refcontactfield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="4" />
 
-             <Label text="Functie" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-             <TextField fx:id="functiefield" editable="false"  onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+             <Label text="Functie" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+             <TextField fx:id="functiefield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="5" />
 
-             <Label text="Locatie" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-             <TextField fx:id="locatiefield"  editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+             <Label text="Locatie" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+             <TextField fx:id="locatiefield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="6" />
 
 
-            <Label text="Uren per week" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-             <TextField fx:id="vraagurenfield" editable="false"  onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-             <Label text="Uren per week" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-            <TextField fx:id="refurenperweekaanbodfield" editable="false"  onAction="#modaanbod" prefHeight="25.0" prefWidth="270.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+            <Label text="Uren per week" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+             <TextField fx:id="vraagurenfield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+             <Label text="Uren per week" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+            <TextField fx:id="refurenperweekaanbodfield" editable="false" onMouseClicked="#modaanbod" prefHeight="25.0" prefWidth="270.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
 
 
-            <Label text="Start datum" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Label text="Start datum" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
              <TextField fx:id="startdatumfield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="8" />
 
-            <Label text="Aanvraagdatum" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label text="Aanvraagdatum" GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
              <TextField fx:id="aanvraagdatumfield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="9" />
 
-            <Label text="Tarief" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <Label text="Tarief" GridPane.columnIndex="1" GridPane.rowIndex="10">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
              <TextField fx:id="tariefaanvraagfield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-            <Label text="Tarief" GridPane.columnIndex="4" GridPane.rowIndex="10" />
-             <TextField fx:id="tariefaanbodfield" editable="false" onAction="#modaanbod" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+            <Label text="Tarief" GridPane.columnIndex="4" GridPane.rowIndex="10">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+             <TextField fx:id="tariefaanbodfield" editable="false" onMouseClicked="#modaanbod" GridPane.columnIndex="5" GridPane.rowIndex="10" />
 
-            <Label text="Opmerking" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <Label text="Opmerking" GridPane.columnIndex="1" GridPane.rowIndex="11">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
             <TextArea fx:id="opmerkingfield" editable="false" onMouseClicked="#modaanvraag" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-            <Label alignment="TOP_LEFT" text="Opmerking" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+            <Label alignment="TOP_LEFT" text="Opmerking" GridPane.columnIndex="4" GridPane.rowIndex="11">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
             <TextArea fx:id="opmerkingaanbodfield" editable="false" onMouseClicked="#modaanbod" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="11" />
 
-            <Label text="Link aanvraag" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <Label text="Link aanvraag" GridPane.columnIndex="1" GridPane.rowIndex="12">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
             <TextField fx:id="linkaanvraagfield" editable="false" onMouseClicked="#modaanvraag" GridPane.columnIndex="2" GridPane.rowIndex="12" />
 
 
 
-            <Label text="Aanvraag" textFill="#00000092" GridPane.columnIndex="2">
+            <Label text="Aanvraag" textFill="#00000092" GridPane.columnIndex="1">
                <font>
-                  <Font name="Calibri Bold" size="23.0" />
+                  <Font name="Calibri Bold" size="18.0" />
                </font>
             </Label>
-            <Label text="Contact broker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Klant" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Contact broker" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
+            <Label text="Klant" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Label>
             <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Pane prefHeight="37.0" prefWidth="231.0" GridPane.columnIndex="2">
                <children>
-                   <TextField fx:id="statusklantfield" editable="false" layoutX="139.0" layoutY="5.0" prefHeight="25.0" prefWidth="169.0" style="-fx-background-color: lightgrey;">
+                   <TextField fx:id="statusklantfield" editable="false" layoutX="62.0" layoutY="5.0" prefHeight="25.0" prefWidth="246.0" style="-fx-background-color: lightgrey;">
                      <font>
                         <Font name="Calibri" size="11.0" />
                      </font></TextField>
       
-                   <Label layoutX="103.0" layoutY="6.0" prefHeight="17.0" prefWidth="36.0" text="Status" />
+                   <Label layoutX="25.0" layoutY="9.0" prefHeight="17.0" prefWidth="36.0" text="Status" />
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5">
                <children>
-                  <Label layoutY="5.0" prefHeight="28.0" prefWidth="172.0" text="Aanbieding" textFill="#2ba8cf">
-                     <font>
-                        <Font name="Calibri Bold" size="24.0" />
-                     </font>
-                  </Label>
-                   <TextField fx:id="statusaanbodfield" editable="false"  layoutX="158.0" layoutY="6.0" prefHeight="25.0" prefWidth="152.0" style="-fx-background-color: lightgrey;">
+                   <TextField fx:id="statusaanbodfield" editable="false" layoutX="65.0" layoutY="6.0" prefHeight="25.0" prefWidth="245.0" style="-fx-background-color: lightgrey;">
                      <font>
                         <Font name="Calibri" size="11.0" />
                      </font></TextField>
       
-                   <Label layoutX="123.0" layoutY="6.0" prefHeight="17.0" prefWidth="38.0" text="Status" />
+                   <Label layoutX="29.0" layoutY="10.0" prefHeight="17.0" prefWidth="38.0" text="Status" />
                </children>
             </Pane>
+            <Label prefHeight="28.0" prefWidth="165.0" text="Aanbieding" textFill="#2ba8cf" GridPane.columnIndex="4">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Label>
 
          </children>
       </GridPane>

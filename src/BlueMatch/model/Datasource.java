@@ -724,12 +724,12 @@ public class Datasource {
     }
 
     public OverviewRecord getOverviewDetails(int idaanbod) {
-        //System.out.println("Aanbod gevraagd: " + idaanbod);
+        System.out.println("Aanbod gevraagd: " + idaanbod);
 
         try{
             searchoverviewrecord.setInt(1,idaanbod);
             ResultSet results = searchoverviewrecord.executeQuery();
-            //System.out.println(QUERYOVERZICHTDETAILS);
+            System.out.println(QUERYOVERZICHTDETAILS);
             List<OverviewRecord> overviewlist = new ArrayList<>();
             while (results.next()) {
                 // System.out.println(results.getInt(17));
@@ -745,6 +745,7 @@ public class Datasource {
                 overviewrecord.setOpmerkingaanbod(results.getString(8));
                 overviewrecord.setUrenperweekaanbod(results.getString(9));
                 overviewrecord.setTariefaanbod(results.getString(10));
+                System.out.println(overviewrecord.getTariefaanbod());
                 overviewrecord.setTariefaanvraag(results.getString(11));
                 overviewrecord.setLinkaanvraag(results.getString(12));
                 overviewrecord.setVraagurenweek(results.getString(13));
@@ -756,7 +757,7 @@ public class Datasource {
 
                 overviewlist.add(overviewrecord);
                 if (overviewrecord.getIdaanbod() == idaanbod) {
-                    //System.out.println("Record found");
+                    System.out.println("Record found");
                     return overviewrecord;
                 }
             }
