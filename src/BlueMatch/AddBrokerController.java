@@ -44,8 +44,15 @@ public class AddBrokerController {
         return newBroker;
     }
 
-    public void editBroker(Broker broker) {
-        headertext.setText("Broker wijzigen");
+    public void editBroker(Broker broker, String type) {
+        if (type=="update"){
+            headertext.setText("Broker wijzigen");
+            //System.out.println("update selected");
+        }
+        else {
+            headertext.setText("Broker verwijderen ?");
+            //System.out.println("delete selected");
+        }
         brokernaamField.setText(broker.getBrokernaam());
         contactpersoonField.setText(broker.getContactpersoon());
         telbrokerField.setText(broker.getTelbroker());

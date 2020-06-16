@@ -151,7 +151,7 @@ public class Datasource {
 
 
     public static final String QUERYOVERZICHTDETAILS = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
-            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod from aanvraag " +
+            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.opmerking from aanvraag " +
             "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE " + COLUMN_IDAANBOD  + "= ?";
 
 
@@ -169,6 +169,14 @@ public class Datasource {
 
     public static final String QUERYDELETE_MEDEWERKER = "DELETE FROM " + TABLE_MEDEWERKER +  " WHERE " + COLUMN_IDMDW + " =  ?";
 
+    public static final String QUERYDELETE_BROKER = "DELETE FROM " + TABLE_BROKER +  " WHERE " + COLUMN_IDBROKER + " =  ?";
+
+    public static final String QUERYDELETE_KLANT = "DELETE FROM " + TABLE_KLANT +  " WHERE " + COLUMN_IDKLANT + " =  ?";
+
+    public static final String QUERYDELETE_AANBOD = "DELETE FROM " + TABLE_AANBOD +  " WHERE " + COLUMN_IDAANBOD + " =  ?";
+    public static final String QUERYDELETE_AANVRAAG = "DELETE FROM " + TABLE_AANVRAAG + " WHERE " + COLUMN_IDAANVRAAG + " =  ?";
+
+
     private Connection conn;
     private PreparedStatement insertIntoAanvraag;
     private PreparedStatement insertIntoAanbod;
@@ -181,6 +189,10 @@ public class Datasource {
     private PreparedStatement updateaanbod;
     private PreparedStatement updatemedewerker;
     private PreparedStatement deletemedewerker;
+    private PreparedStatement deletebroker;
+    private PreparedStatement deleteklant;
+    private PreparedStatement deleteaanvraag;
+    private PreparedStatement deleteaanbod;
     private PreparedStatement searchoverviewrecord;
 
 
@@ -194,7 +206,7 @@ public class Datasource {
     public  String setQueryStringMain (){
 
         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
-                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod from aanvraag " +
+                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.opmerking from aanvraag " +
                 "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
 
         boolean wherestatement = false;
@@ -202,9 +214,9 @@ public class Datasource {
 
 
         if (filterstatus.isEmpty()) {
-            System.out.println("geen klantstatus filter");
+            //System.out.println("geen klantstatus filter");
             } else {
-            System.out.println("klantstatus filter");
+            //System.out.println("klantstatus filter");
             if (!wherestatement) {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
                 wherestatement = true;
@@ -215,9 +227,9 @@ public class Datasource {
             QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanvraag.statusklant LIKE '" + filterstatus + "%')";
         }
         if (filterstatusaanb.isEmpty()) {
-            System.out.println("geen status aanbieding filter");
+            //System.out.println("geen status aanbieding filter");
         } else {
-            System.out.println("status aanbieding filter");
+            //System.out.println("status aanbieding filter");
             if (!wherestatement) {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
                 wherestatement = true;
@@ -229,9 +241,9 @@ public class Datasource {
         }
 
         if (filterbroker.isEmpty()) {
-            System.out.println("geen broker filter");
+            //System.out.println("geen broker filter");
         } else {
-            System.out.println("status broker filter");
+            //System.out.println("status broker filter");
             if (!wherestatement) {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
                 wherestatement = true;
@@ -242,9 +254,9 @@ public class Datasource {
             QUERYSTRINGMAIN = QUERYSTRINGMAIN + " (aanvraag.refbroker LIKE '%" + filterbroker + "%')";
         }
         if (filtermedewerker.isEmpty()) {
-            System.out.println("geen medewerker filter");
+            //System.out.println("geen medewerker filter");
         } else {
-            System.out.println("status medewerker filter");
+            //System.out.println("status medewerker filter");
             if (!wherestatement) {
                 QUERYSTRINGMAIN = QUERYSTRINGMAIN + " WHERE ";
                 wherestatement = true;
@@ -275,6 +287,10 @@ public class Datasource {
             updateaanbod = conn.prepareStatement(QUERYUPDATE_AANBOD);
             updatemedewerker = conn.prepareStatement(QUERYUPDATE_MEDEWERKER);
             deletemedewerker = conn.prepareStatement(QUERYDELETE_MEDEWERKER);
+            deletebroker = conn.prepareStatement(QUERYDELETE_BROKER);
+            deleteklant = conn.prepareStatement(QUERYDELETE_KLANT);
+            deleteaanvraag = conn.prepareStatement(QUERYDELETE_AANVRAAG);
+            deleteaanbod = conn.prepareStatement(QUERYDELETE_AANBOD);
             searchoverviewrecord = conn.prepareStatement(QUERYOVERZICHTDETAILS);
             return true;
 
@@ -299,6 +315,10 @@ public class Datasource {
                 updateaanbod.close();
                 updatemedewerker.close();
                 deletemedewerker.close();
+                deletebroker.close();
+                deleteaanvraag.close();
+                deleteaanbod.close();
+                deleteklant.close();
                 searchoverviewrecord.close();
             }
 
@@ -375,6 +395,51 @@ public class Datasource {
 
             deletemedewerker.setInt  (1, medewerker.getIDmdw());
             int affectedRecords = deletemedewerker.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }
+    public boolean deleteKlant (Klant klant){
+        try {
+
+            deleteklant.setInt  (1, klant.getKlantID());
+            int affectedRecords = deleteklant.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }public boolean deleteBroker (Broker broker){
+        try {
+
+            deletebroker.setInt  (1, broker.getIdbroker());
+            int affectedRecords = deletebroker.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }public boolean deleteAanbod (Aanbod aanbod){
+        try {
+
+            deleteaanbod.setInt  (1, aanbod.getIdaanbod());
+            int affectedRecords = deleteaanbod.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }public boolean deleteAanvraag (Aanvraag aanvraag){
+        try {
+
+            deleteaanvraag.setInt  (1, aanvraag.getIdaanvraag());
+            int affectedRecords = deleteaanvraag.executeUpdate();
             return affectedRecords ==1;
 
         } catch(SQLException e) {
@@ -512,6 +577,7 @@ public class Datasource {
                 aanvraag.setLinkaanvraag(results.getString(INDEX_LINKAANVRAAG));
                 aanvraag.setTariefaanvraag(results.getString(INDEX_TARIEFAANVRAAG));
 
+
                 aanvragen.add(aanvraag);
             }
             return aanvragen;
@@ -557,7 +623,7 @@ public class Datasource {
                 medewerker.setVoornaam(results.getString(INDEX_MDWVOORNAAM));
                 medewerker.setAchternaam(results.getString(INDEX_MDWACHTERNAAM));
                 medewerker.setUren(results.getString(INDEX_MDWURENPERWEEK));
-                medewerker.setStatusmdw(results.getString(INDEX_MDWACHTERNAAM));
+                medewerker.setStatusmdw(results.getString(INDEX_MDWSTATUSMDW));
                 medewerker.setEmailmedewerker(results.getString(INDEX_MDWEMAILMEDEWERKER));
                 medewerker.setOpmerkingmedewerker(results.getString(INDEX_MDWOPMERKINGMEDEWERKER));
                 medewerkers.add(medewerker);
@@ -621,8 +687,8 @@ public class Datasource {
         try (Statement statement = conn.createStatement();
 
              ResultSet results = statement.executeQuery(QUERYSTRINGMAIN)) {
-            System.out.println(QUERYSTRINGMAIN);
-            System.out.println(filterstatus);
+            //System.out.println(QUERYSTRINGMAIN);
+            //System.out.println(filterstatus);
             List<OverviewRecord> overviewlist = new ArrayList<>();
             while (results.next()) {
                 OverviewRecord overviewrecord = new OverviewRecord();
@@ -630,6 +696,8 @@ public class Datasource {
                 overviewrecord.setRefbroker(results.getString(1));
                 overviewrecord.setFunctie(results.getString(2));
                 overviewrecord.setRefcontact(results.getString(3));
+
+                //System.out.println(results.getString(3));
                 overviewrecord.setStatusklant(results.getString(4));
                 overviewrecord.setMedewerker(results.getString(5));
                 overviewrecord.setIdaanvraag(results.getInt(6));
@@ -644,7 +712,8 @@ public class Datasource {
                 overviewrecord.setDatumaanvraag(results.getString(15));
                 overviewrecord.setLocatie(results.getString(16));
                 overviewrecord.setIdaanbod((results.getInt(17)));
-                System.out.println(results.getInt(17));
+                overviewrecord.setOpmerking(results.getString(18));
+                //System.out.println(results.getInt(17));
                 overviewlist.add(overviewrecord);
             }
             return overviewlist;
@@ -655,15 +724,15 @@ public class Datasource {
     }
 
     public OverviewRecord getOverviewDetails(int idaanbod) {
-        System.out.println("Aanbod gevraagd: " + idaanbod);
+        //System.out.println("Aanbod gevraagd: " + idaanbod);
 
         try{
             searchoverviewrecord.setInt(1,idaanbod);
             ResultSet results = searchoverviewrecord.executeQuery();
-            System.out.println(QUERYOVERZICHTDETAILS);
+            //System.out.println(QUERYOVERZICHTDETAILS);
             List<OverviewRecord> overviewlist = new ArrayList<>();
             while (results.next()) {
-                System.out.println(results.getInt(17));
+                // System.out.println(results.getInt(17));
                 OverviewRecord overviewrecord = new OverviewRecord();
 
                 overviewrecord.setRefbroker(results.getString(1));
@@ -683,10 +752,11 @@ public class Datasource {
                 overviewrecord.setDatumaanvraag(results.getString(15));
                 overviewrecord.setLocatie(results.getString(16));
                 overviewrecord.setIdaanbod((results.getInt(17)));
+                overviewrecord.setOpmerking((results.getString(18)));
 
                 overviewlist.add(overviewrecord);
                 if (overviewrecord.getIdaanbod() == idaanbod) {
-                    System.out.println("Record found");
+                    //System.out.println("Record found");
                     return overviewrecord;
                 }
             }

@@ -230,13 +230,7 @@ public class Controller {
         ctrleditaanbod.setParentController(this);
         window.setScene((detailViewScene));
         window.show();
-//        window.widthProperty().addListener((obs, oldVal, newVal) -> {
-//           Main.windowWidth = (int) window.getWidth();
-//
-//            ctrleditaanbod.updateView();
-//
-//            //System.out.println("updated aanbod");
-//        });
+
     }
 
     public void refreshscreen() {
@@ -249,7 +243,7 @@ public class Controller {
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         if (event.getClickCount() > 1) {
             //System.out.println("Table double clicked");
-            System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+            //System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
             Parent detailViewParent = loader.load();

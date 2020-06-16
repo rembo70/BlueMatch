@@ -1,6 +1,7 @@
 package BlueMatch;
 
-import BlueMatch.model.*;
+import BlueMatch.model.Datasource;
+import BlueMatch.model.Medewerker;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,9 +16,16 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Optional;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MedewerkerOverzicht {
 
@@ -34,7 +42,8 @@ public class MedewerkerOverzicht {
     private Button BtnModMedewerker;
     @FXML
     private Button BtnSendMail;
-
+    @FXML
+    private Button BtnDelMedewerker;
 
     private Controller parentController;
 
@@ -53,18 +62,19 @@ public class MedewerkerOverzicht {
         window.show();
         parentController.updateMainView();
         Main.windowWidth = (int) window.getWidth();
-
     }
 
     @FXML
+    private PasswordField passwordmail;
+
+    @FXML
     public void sendmail(ActionEvent event) throws IOException, SQLException {
+        Medewerker medewerker = (Medewerker) medewerkerTable.getSelectionModel().getSelectedItem();
+        String destination = medewerker.getEmailmedewerker();
         System.out.println("send mail");
-
-
-
-
-
+        new SendEmailOffice365().sendEmail(passwordmail,destination);
     }
+
 
     @FXML
     public void addMedewerker(ActionEvent event) throws IOException, SQLException {
@@ -171,9 +181,15 @@ public class MedewerkerOverzicht {
         if (medewerkerTable.getSelectionModel().getSelectedItem() == null) {
 
             BtnModMedewerker.setDisable(true);
+            BtnSendMail.setDisable(true);
+            BtnDelMedewerker.setDisable(true);
         } else {
 
             BtnModMedewerker.setDisable(false);
+            if (!passwordmail.getText().isEmpty()) {
+                BtnSendMail.setDisable(false);
+            }
+            BtnDelMedewerker.setDisable(false);
         }
 
         changelistener(columnvoornaam);
@@ -238,4 +254,3 @@ public class MedewerkerOverzicht {
 
         }
     }
-

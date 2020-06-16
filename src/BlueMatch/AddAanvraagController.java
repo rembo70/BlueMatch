@@ -96,13 +96,14 @@ public class AddAanvraagController {
             startdatum = datePickerStartDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }
         String opmerking = OpmerkingField.getText();
+
         String klant = KlantField.getText();
-        System.out.println("klantnaam" + klant);
+
         String link = LinkField.getText();
         String tarief = TariefField.getText();
 
         Aanvraag newAanvraag = new Aanvraag();
-        System.out.println(broker);
+
         newAanvraag.setRefbroker(broker);
         newAanvraag.setRefcontact(contact);
         newAanvraag.setFunctie(functie);
@@ -118,9 +119,11 @@ public class AddAanvraagController {
         return newAanvraag;
     }
     public void editAanvraag(Aanvraag aanvraag) {
-        // headertext.setText("Aanvraag wijzigen");
+
         BrokerField.setText(aanvraag.getRefbroker());
         ContactField.setText(aanvraag.getRefcontact());
+
+
         FunctieField.setText(aanvraag.getFunctie());
         UrenPerWeekField.setText(aanvraag.getVraagurenweek());
         statusklantBox.setValue(aanvraag.getStatusklant());
@@ -128,14 +131,15 @@ public class AddAanvraagController {
         LocatieField.setText(aanvraag.getLocatie());
         //DatumAanvraagField.setText(aanvraag.getDatumaanvraag());
         if ((aanvraag.getStartdatum()).isEmpty()==true) {} else {
-            System.out.println("startdatum: " + aanvraag.getStartdatum());
+
             datePickerStartDate.setValue(LOCAL_DATE(aanvraag.getStartdatum()));}
 
         if (aanvraag.getDatumaanvraag().isEmpty()==true) {}else{
-            System.out.println("datumaanvraag: "+ aanvraag.getDatumaanvraag());
+
             datePickAanvraagDate.setValue(LOCAL_DATE(aanvraag.getDatumaanvraag()));}
 
-            OpmerkingField.setText(aanvraag.getOpmerking());
+        OpmerkingField.setText(aanvraag.getOpmerking());
+
         KlantField.setText(aanvraag.getRefklant());
         LinkField.setText(aanvraag.getLinkaanvraag());
         TariefField.setText(aanvraag.getTariefaanvraag());
@@ -155,6 +159,7 @@ public class AddAanvraagController {
             aanvraag.setStartdatum(datePickerStartDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         }
           aanvraag.setOpmerking(OpmerkingField.getText());
+
           aanvraag.setRefklant(KlantField.getText());
           aanvraag.setLinkaanvraag(LinkField.getText());
           aanvraag.setTariefaanvraag(TariefField.getText());
@@ -162,7 +167,7 @@ public class AddAanvraagController {
 
     public static final LocalDate LOCAL_DATE (String dateString){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        System.out.println("date: " + dateString);
+
         LocalDate localDate = parse(dateString, formatter);
         return localDate;
     }

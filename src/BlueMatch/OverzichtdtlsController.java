@@ -121,9 +121,6 @@ public class OverzichtdtlsController {
     public void listDetailsRecord(OverviewRecord overviewrecord) {
 
         overviewrecordtmp = overviewrecord;
-        System.out.println(overviewrecord.getIdaanbod());
-        System.out.println(refbrokerfield);
-        System.out.println(this);
         refbrokerfield.setText(overviewrecord.getRefbroker());
         refmedewerkerfield.setText(overviewrecord.getMedewerker());
         refcontactfield.setText(overviewrecord.getRefcontact());
@@ -136,6 +133,7 @@ public class OverzichtdtlsController {
         tariefaanvraagfield.setText(overviewrecord.getTariefaanvraag());
         tariefaanbodfield.setText(overviewrecord.getTariefaanbod());
         opmerkingfield.setText(overviewrecord.getOpmerking());
+        //System.out.println(overviewrecord.getOpmerking());
         opmerkingaanbodfield.setText(overviewrecord.getOpmerkingaanbod());
         linkaanvraagfield.setText(overviewrecord.getLinkaanvraag());
         statusklantfield.setText(overviewrecord.getStatusklant());
@@ -145,7 +143,7 @@ public class OverzichtdtlsController {
 
         aanvraag.setIdaanvraag(overviewrecord.getIdaanvraag());
         aanvraag.setRefbroker(overviewrecord.getRefbroker());
-        aanvraag.setRefcontact(overviewrecord.getRefklant());
+        aanvraag.setRefcontact(overviewrecord.getRefcontact());
         aanvraag.setFunctie(overviewrecord.getFunctie());
         aanvraag.setVraagurenweek(overviewrecord.getVraagurenweek());
         aanvraag.setStatusklant(overviewrecord.getStatusklant());
@@ -165,7 +163,7 @@ public class OverzichtdtlsController {
         aanvraag.setOpmerking(overviewrecord.getOpmerking());
         aanvraag.setRefklant(overviewrecord.getRefklant());
         aanvraag.setLinkaanvraag(overviewrecord.getLinkaanvraag());
-        aanvraag.setTariefaanvraag(overviewrecord.getLinkaanvraag());
+        aanvraag.setTariefaanvraag(overviewrecord.getTariefaanvraag());
 
     }
 
@@ -181,7 +179,6 @@ public class OverzichtdtlsController {
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
-            //          System.out.println(aanvraag.getIdaanvraag());
             Optional<ButtonType> result = dialog.showAndWait();
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -190,19 +187,8 @@ public class OverzichtdtlsController {
                 }
             }
         }
-        System.out.println("Object: " + this);
-        //updateMainView();
-        // loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
-        //Parent detailViewParent = loader.load();
-        //OverzichtdtlsController ctrldetailsoverzicht = loader.getController();
-        listDetailsRecord(Datasource.getInstance().getOverviewDetails(overviewrecordtmp.getIdaanbod()));
-        //Scene detailViewScene = new Scene(detailViewParent);
-        //Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        //setParentScene(window.getScene());
-        //setParentController(this.parentController);
-        //window.setScene((detailViewScene));
-        //window.show();
+        //System.out.println("Object: " + this);
+          listDetailsRecord(Datasource.getInstance().getOverviewDetails(overviewrecordtmp.getIdaanbod()));
 
     }
 
@@ -218,6 +204,7 @@ public class OverzichtdtlsController {
         window.show();
         parentController.updateMainView();
         Main.windowWidth = (int) window.getWidth();
+        parentController.refreshscreen();
     }
 
     @FXML
@@ -291,23 +278,6 @@ public class OverzichtdtlsController {
         ctrlklantoverzicht.updateView();
     }
 
-    @FXML
-    public void aanvraagToevoegen(ActionEvent event) throws IOException, SQLException {
-        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
-        dialog.getDialogPane().setContent(loader.load());
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        Optional<ButtonType> result = dialog.showAndWait();
-        {
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                AddAanvraagController addaanvraagController = loader.getController();
-                Aanvraag aanvraag = addaanvraagController.getNewAanvraag();
-                Datasource.getInstance().aanvraagToevoegen(aanvraag);
-            }
-        }
-
-    }
 
     @FXML
     public void changeSceneAanbodDetails(ActionEvent event) throws IOException {

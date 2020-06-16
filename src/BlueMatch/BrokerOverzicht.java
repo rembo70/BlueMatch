@@ -2,6 +2,7 @@ package BlueMatch;
 
 import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
+import BlueMatch.model.Medewerker;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -78,6 +79,39 @@ public class BrokerOverzicht {
         brokerTable.itemsProperty().unbind();
         brokerTable.setItems(Brokerlist);
     }
+    @FXML
+    public void deleteBroker(ActionEvent event) throws IOException, SQLException {
+        Broker broker = (Broker) brokerTable.getSelectionModel().getSelectedItem();
+
+
+        if (broker != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addBroker.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddBrokerController addbrokercontroller = loader.getController();
+            addbrokercontroller.editBroker(broker,"delete");
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (broker.getBrokernaam().isEmpty()) {
+                        System.out.println("geen brokernaam ingevuld");
+                    } else {
+                        //addbrokercontroller.deleteBroker(broker);
+                        Datasource.getInstance().deleteBroker(broker);
+                    }
+                }
+            }
+            ObservableList<Broker> Brokerlist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+            brokerTable.itemsProperty().unbind();
+            brokerTable.setItems(Brokerlist);
+
+        } else {
+            System.out.println("geen broker selectie");
+        }
+    }
 
     @FXML
     public void updateBroker(ActionEvent event) throws IOException, SQLException {
@@ -88,7 +122,7 @@ public class BrokerOverzicht {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addBroker.fxml"));
             dialog.getDialogPane().setContent(loader.load());
             AddBrokerController addbrokercontroller = loader.getController();
-            addbrokercontroller.editBroker(broker);
+            addbrokercontroller.editBroker(broker,"update");
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
@@ -124,6 +158,7 @@ public class BrokerOverzicht {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Main.windowWidth = (int) window.getWidth();
         ObservableList<Broker> brokerslist = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
+        updateView();
 
     }
 
@@ -132,10 +167,10 @@ public class BrokerOverzicht {
 
     public void updateView() {
         if (brokerTable.getSelectionModel().getSelectedItem() == null) {
-            // System.out.println("brokertable not selected");
+            System.out.println("brokertable not selected");
             btnmodbroker.setDisable(true);
         } else {
-            //System.out.println("brokertable selected");
+            System.out.println("brokertable selected");
             btnmodbroker.setDisable(false);
         }
 
