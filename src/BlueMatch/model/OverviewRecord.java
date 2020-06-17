@@ -2,7 +2,6 @@ package BlueMatch.model;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 

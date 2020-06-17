@@ -242,7 +242,7 @@ class GetAllAanvragenTask extends Task {
     public ObservableList<Aanvraag> call() {
 
         ObservableList<Aanvraag> aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
-        System.out.println(aanvraaglist.size());
+        //System.out.println(aanvraaglist.size());
         return aanvraaglist;
 
     }

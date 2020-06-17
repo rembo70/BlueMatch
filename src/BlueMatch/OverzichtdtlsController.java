@@ -59,6 +59,8 @@ public class OverzichtdtlsController {
     @FXML
     private TextField statusaanbodfield;
     @FXML
+    private TextField klantfield;
+    @FXML
     private int idaanbodfield;
     @FXML
     private int idaanvraagfield;
@@ -120,7 +122,6 @@ public class OverzichtdtlsController {
     void listDetailsRecord(OverviewRecord overviewrecord) {
 
         overviewrecordtmp = overviewrecord;
-        System.out.println(overviewrecord.getMedewerker());
         refbrokerfield.setText(overviewrecord.getRefbroker());
         refmedewerkerfield.setText(overviewrecord.getMedewerker());
         refcontactfield.setText(overviewrecord.getRefcontact());
@@ -140,6 +141,7 @@ public class OverzichtdtlsController {
         statusaanbodfield.setText(overviewrecord.getStatusaanbod());
         idaanbodfield= overviewrecord.getIdaanbod();
         idaanvraagfield= overviewrecord.getIdaanvraag();
+        klantfield.setText(overviewrecord.getRefklant());
 
         aanvraag.setIdaanvraag(overviewrecord.getIdaanvraag());
         aanvraag.setRefbroker(overviewrecord.getRefbroker());
@@ -219,9 +221,9 @@ public class OverzichtdtlsController {
                 }
             }
         }
-        //System.out.println("Object: " + this);
+
         listDetailsRecord(Datasource.getInstance().getOverviewDetails(overviewrecordtmp.getIdaanbod()));
-        System.out.println(aanbod.getTariefaanbod());
+
     }
 
 

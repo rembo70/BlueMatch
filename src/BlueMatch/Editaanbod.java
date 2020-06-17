@@ -98,10 +98,10 @@ public class Editaanbod {
 
     public void updateView() {
         if (aanbodTable.getSelectionModel().getSelectedItem() == null) {
-            System.out.println("brokertable not selected");
+           // System.out.println("brokertable not selected");
             btnmodaanbod.setDisable(true);
         } else {
-            System.out.println("brokertable selected");
+            //System.out.println("brokertable selected");
             btnmodaanbod.setDisable(false);
         }
 

@@ -76,7 +76,7 @@ public class KlantOverzicht {
 
                  AddKlantController addKlantController = loader.getController();
                  Klant klant = addKlantController.getNewKlant();
-                System.out.println(klant.getKlantnaam());
+                // System.out.println(klant.getKlantnaam());
                 if (klant.getKlantnaam().isEmpty()){
                     System.out.println("geen klantnaam ingevuld");
                 }
@@ -109,7 +109,7 @@ public class KlantOverzicht {
             Optional<ButtonType> result = dialog.showAndWait();
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    System.out.println(klant2.getKlantnaam());
+                    //System.out.println(klant2.getKlantnaam());
                     if (klant2.getKlantnaam().isEmpty()) {
                         System.out.println("geen klantnaam ingevuld");
                     } else {

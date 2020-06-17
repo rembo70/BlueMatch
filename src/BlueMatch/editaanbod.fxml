@@ -37,7 +37,7 @@
                         <PropertyValueFactory property="refmedewerker" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columntariefaanbod" prefWidth="202.0" text="Tarief">
+                <TableColumn fx:id="columntariefaanbod" prefWidth="83.0" text="Tarief">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
@@ -45,7 +45,7 @@
                         <PropertyValueFactory property="tariefaanbod" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn prefWidth="157.0" text="Uren per week">
+                <TableColumn prefWidth="118.0" text="Uren per week">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
@@ -53,7 +53,7 @@
                         <PropertyValueFactory property="urenperweekaanbod" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnaanbodstatus" prefWidth="189.0" text="Statusaanbieding">
+                <TableColumn fx:id="columnaanbodstatus" prefWidth="179.0" text="Statusaanbieding">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>
@@ -61,7 +61,7 @@
                         <PropertyValueFactory property="statusaanbod" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnopmerkingaanbod" prefWidth="169.0" text="Opmerking">
+                <TableColumn fx:id="columnopmerkingaanbod" prefWidth="186.0" text="Opmerking">
                     <cellFactory>
                         <FormattedTableCellFactory />
                     </cellFactory>

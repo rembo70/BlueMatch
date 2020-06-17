@@ -86,11 +86,11 @@ public class addAanbiedingController {
     public void editAanbod(Aanbod aanbod,String type) {
         if (type=="update"){
             Dialogue.setText("Aanbieding wijzigen");
-            System.out.println("update selected");
+           // System.out.println("update selected");
         }
         else {
             Dialogue.setText("Aanbieding verwijderen ?");
-            System.out.println("delete selected");
+            //System.out.println("delete selected");
         }
         // headertext.setText("Aanbod wijzigen");
         selectMedewerkerBox.setValue(aanbod.getRefmedewerker());

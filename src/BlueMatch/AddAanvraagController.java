@@ -123,11 +123,11 @@ public class AddAanvraagController {
     public void editAanvraag(Aanvraag aanvraag, String type) {
         if (type=="update"){
             Dialogue.setText("Aanvraag wijzigen");
-            System.out.println("update selected");
+            //System.out.println("update selected");
         }
         else {
             Dialogue.setText("Aanvraag verwijderen ?");
-            System.out.println("delete selected");
+            //System.out.println("delete selected");
         }
 
         BrokerField.setText(aanvraag.getRefbroker());
