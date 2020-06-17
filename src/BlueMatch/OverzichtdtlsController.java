@@ -108,19 +108,19 @@ public class OverzichtdtlsController {
     private Scene ParentScene;
 
 
-    public void setParentScene(Scene scene) {
+    void setParentScene(Scene scene) {
         this.ParentScene = scene;
     }
 
-    public void setParentController(Controller controller) {
+    void setParentController(Controller controller) {
         this.parentController = controller;
         Controller parentcontrol;
-        parentcontrol = this.parentController;
     }
     
-    public void listDetailsRecord(OverviewRecord overviewrecord) {
+    void listDetailsRecord(OverviewRecord overviewrecord) {
 
         overviewrecordtmp = overviewrecord;
+        System.out.println(overviewrecord.getMedewerker());
         refbrokerfield.setText(overviewrecord.getRefbroker());
         refmedewerkerfield.setText(overviewrecord.getMedewerker());
         refcontactfield.setText(overviewrecord.getRefcontact());
@@ -175,10 +175,10 @@ public class OverzichtdtlsController {
     }
 
     @FXML
-    public void modaanvraag(MouseEvent event) throws IOException, SQLException {
+    public void modaanvraag(MouseEvent event) throws IOException {
 
         if (aanvraag != null) {
-            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            Dialog<ButtonType> dialog = new Dialog<>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
             dialog.getDialogPane().setContent(loader.load());
             AddAanvraagController addaanvraagcontroller = loader.getController();
@@ -202,7 +202,7 @@ public class OverzichtdtlsController {
     @FXML
     public void modaanbod(MouseEvent event) throws IOException {
         if (aanbod != null) {
-            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            Dialog<ButtonType> dialog = new Dialog<>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());
             addAanbiedingController addaanbodcontroller = loader.getController();
@@ -225,7 +225,7 @@ public class OverzichtdtlsController {
     }
 
 
-    public void changeSceneMain(ActionEvent event) throws IOException {
+    public void changeSceneMain(ActionEvent event) {
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene((ParentScene));
@@ -330,5 +330,5 @@ public class OverzichtdtlsController {
     }
     public void updateMainView(){
         System.out.println("update view in detailscreen");
-    };
+    }
 }
