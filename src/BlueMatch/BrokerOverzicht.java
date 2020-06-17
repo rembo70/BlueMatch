@@ -167,10 +167,10 @@ public class BrokerOverzicht {
 
     public void updateView() {
         if (brokerTable.getSelectionModel().getSelectedItem() == null) {
-            System.out.println("brokertable not selected");
+            //System.out.println("brokertable not selected");
             btnmodbroker.setDisable(true);
         } else {
-            System.out.println("brokertable selected");
+            //System.out.println("brokertable selected");
             btnmodbroker.setDisable(false);
         }
 

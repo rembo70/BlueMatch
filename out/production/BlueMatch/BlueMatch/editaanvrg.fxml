@@ -23,7 +23,7 @@
     </bottom>
     <center>
 
-        <TableView fx:id="aanvraagTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css" BorderPane.alignment="CENTER">
+        <TableView fx:id="aanvraagTable" onMouseClicked="#tableViewMouseClicked" prefWidth="1024.0" stylesheets="@styles.css" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="columnidaanvraag" editable="false" minWidth="5.0" prefWidth="26.0" resizable="false" text="ID">
                     <cellValueFactory>
@@ -35,7 +35,7 @@
                         <PropertyValueFactory property="refbroker" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="columnfunctie" prefWidth="84.0" text="Functie.">
+                <TableColumn fx:id="columnfunctie" prefWidth="84.0" text="Functie">
                     <cellValueFactory>
                         <PropertyValueFactory property="functie" />
                     </cellValueFactory>

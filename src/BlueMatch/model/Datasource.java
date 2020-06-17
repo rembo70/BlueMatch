@@ -736,7 +736,7 @@ public class Datasource {
             while (results.next()) {
 
                 OverviewRecord overviewrecord = new OverviewRecord();
-                System.out.println(results.getString(19));
+                //System.out.println(results.getString(19));
                 overviewrecord.setRefbroker(results.getString(1));
                 overviewrecord.setFunctie(results.getString(2));
                 overviewrecord.setRefcontact(results.getString(3));

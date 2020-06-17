@@ -72,7 +72,7 @@ public class addAanbiedingController {
         String opmerkingaanbod = opmerkingaanbodField.getText();
 
         Aanbod newAanbod = new Aanbod();
-        System.out.println(medewerker);
+        //System.out.println(medewerker);
         newAanbod.setRefmedewerker(medewerker);
         newAanbod.setStatusaanbod(statusaanbod);
         newAanbod.setTariefaanbod(tariefaanbod);
