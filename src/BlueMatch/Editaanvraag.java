@@ -97,7 +97,7 @@ public class Editaanvraag {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
             dialog.getDialogPane().setContent(loader.load());
             AddAanvraagController addaanvraagcontroller = loader.getController();
-            addaanvraagcontroller.editAanvraag(aanvraag);
+            addaanvraagcontroller.editAanvraag(aanvraag,"update");
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 

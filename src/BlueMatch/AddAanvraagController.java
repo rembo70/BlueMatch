@@ -76,6 +76,8 @@ public class AddAanvraagController {
     @FXML
     private TextField TariefField;
     @FXML
+    private Label Dialogue;
+    @FXML
     private TableView<Aanvraag> aanvraagTable;
 
 
@@ -118,7 +120,15 @@ public class AddAanvraagController {
         newAanvraag.setTariefaanvraag(tarief);
         return newAanvraag;
     }
-    public void editAanvraag(Aanvraag aanvraag) {
+    public void editAanvraag(Aanvraag aanvraag, String type) {
+        if (type=="update"){
+            Dialogue.setText("Aanvraag wijzigen");
+            System.out.println("update selected");
+        }
+        else {
+            Dialogue.setText("Aanvraag verwijderen ?");
+            System.out.println("delete selected");
+        }
 
         BrokerField.setText(aanvraag.getRefbroker());
         ContactField.setText(aanvraag.getRefcontact());
@@ -146,6 +156,7 @@ public class AddAanvraagController {
     }
 
     public void updateAanvraag (Aanvraag aanvraag){
+
           aanvraag.setRefbroker(BrokerField.getText());
           aanvraag.setRefcontact(ContactField.getText());
           aanvraag.setFunctie(FunctieField.getText());

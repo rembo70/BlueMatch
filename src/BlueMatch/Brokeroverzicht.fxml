@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.BrokerOverzicht">
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.BrokerOverzicht">
     <bottom>
         <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
             <buttons>

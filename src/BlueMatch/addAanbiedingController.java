@@ -6,10 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,8 @@ public class addAanbiedingController {
 
     @FXML
     private TableView<Aanbod> aanbodTable;
-
+    @FXML
+    private Label Dialogue;
 
     @FXML
     private ChoiceBox<String> selectMedewerkerBox;
@@ -85,7 +83,15 @@ public class addAanbiedingController {
         return newAanbod;
     }
 
-    public void editAanbod(Aanbod aanbod) {
+    public void editAanbod(Aanbod aanbod,String type) {
+        if (type=="update"){
+            Dialogue.setText("Aanbieding wijzigen");
+            System.out.println("update selected");
+        }
+        else {
+            Dialogue.setText("Aanbieding verwijderen ?");
+            System.out.println("delete selected");
+        }
         // headertext.setText("Aanbod wijzigen");
         selectMedewerkerBox.setValue(aanbod.getRefmedewerker());
         tariefaanbodField.setText(aanbod.getTariefaanbod());

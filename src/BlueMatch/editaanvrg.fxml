@@ -3,10 +3,11 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanvraag">
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanvraag">
     <bottom>
         <ButtonBar prefHeight="32.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <buttons>
@@ -95,11 +96,20 @@
             </columnResizePolicy>
         </TableView>
     </center>
-    <top>
-        <Label style="-fx-text-fill: Darkblue;" text="Details aanvraag" BorderPane.alignment="CENTER">
-            <font>
-                <Font name="Calibri Bold" size="20.0" />
-            </font>
-        </Label>
-    </top>
+   <top>
+      <Pane prefHeight="42.0" prefWidth="1024.0" style="-fx-background-color: White;" BorderPane.alignment="CENTER">
+         <children>
+              <Label layoutX="171.0" layoutY="2.0" prefHeight="37.0" prefWidth="283.0" style="-fx-text-fill: #2ba8cf;" text="Overzicht aanvragen">
+                  <font>
+                      <Font name="Calibri Bold" size="28.0" />
+                  </font>
+              </Label>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-16.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+               <image>
+                  <Image url="@../NewsparkLogo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </top>
 </BorderPane>

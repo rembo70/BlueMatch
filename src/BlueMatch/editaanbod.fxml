@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanbod">
+<BorderPane minHeight="-Infinity" prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanbod">
     <bottom>
-        <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
+        <ButtonBar prefHeight="22.0" prefWidth="1024.0" BorderPane.alignment="BOTTOM_LEFT">
             <buttons>
                 <Button fx:id="btnmodaanbod" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#modAanbod" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
                 <Button mnemonicParsing="false" onAction="#changeSceneMain" text="Ga terug" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
@@ -75,25 +75,19 @@
             </effect>
         </TableView>
     </center>
-    <top>
-        <SplitPane centerShape="false" dividerPositions="0.1986" prefHeight="31.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
-
-            <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.9" scaleY="0.9">
-                <Image url="@../NewsparkLogo.png" />
-            </ImageView>
-            <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="210.0" style="-fx-text-fill: Lightblue;" text=" Aanbieding">
-                <font>
-                    <Font name="Calibri Bold" size="24.0" />
-                </font>
-            </Label>
-
-            <effect>
-                <Glow level="0.0">
-                    <input>
-                        <InnerShadow />
-                    </input>
-                </Glow>
-            </effect>
-        </SplitPane>
-    </top>
+   <top>
+      <Pane prefHeight="44.0" prefWidth="1024.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+               <Label alignment="TOP_LEFT" contentDisplay="RIGHT" layoutX="168.0" layoutY="6.0" prefHeight="32.0" prefWidth="310.0" style="-fx-text-fill: #2ba8cf;" text=" Overzicht aanbiedingen">
+                   <font>
+                       <Font name="Calibri Bold" size="28.0" />
+                   </font>
+               </Label>
+   
+                        <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="-16.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                   <Image url="@../NewsparkLogo.png" />
+               </ImageView>
+         </children>
+      </Pane>
+   </top>
 </BorderPane>

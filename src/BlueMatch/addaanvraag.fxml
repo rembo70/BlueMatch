@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<DialogPane prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
+<DialogPane  prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
     <headerText>
         Aanvraag toevoegen
     </headerText>
@@ -62,7 +62,7 @@
     <header>
         <Pane prefHeight="33.0" prefWidth="424.0">
 
-            <Label contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Aanvraag toevoegen">
+            <Label fx:id="Dialogue" contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Aanvraag toevoegen">
                 <font>
                     <Font name="Calibri" size="24.0" />
                 </font>

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.OverzichtdtlsController">
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.OverzichtdtlsController">
     <left>
         <Pane minWidth="-Infinity" prefHeight="530.0" prefWidth="31.0" style="-fx-background-color: #e0e0e0;" BorderPane.alignment="CENTER">
             <children>
@@ -207,7 +207,7 @@
             <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Pane prefHeight="37.0" prefWidth="231.0" GridPane.columnIndex="2">
                <children>
-                   <TextField fx:id="statusklantfield" editable="false" layoutX="62.0" layoutY="5.0" prefHeight="25.0" prefWidth="246.0" style="-fx-background-color: lightgrey;">
+                   <TextField fx:id="statusklantfield" editable="false" layoutX="62.0" layoutY="5.0" onMouseClicked="#modaanvraag" prefHeight="25.0" prefWidth="246.0" style="-fx-background-color: lightgrey;">
                      <font>
                         <Font name="Calibri" size="11.0" />
                      </font></TextField>
@@ -217,7 +217,7 @@
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5">
                <children>
-                   <TextField fx:id="statusaanbodfield" editable="false" layoutX="65.0" layoutY="6.0" prefHeight="25.0" prefWidth="245.0" style="-fx-background-color: lightgrey;">
+                   <TextField fx:id="statusaanbodfield" editable="false" layoutX="65.0" layoutY="6.0" onMouseClicked="#modaanbod" prefHeight="25.0" prefWidth="245.0" style="-fx-background-color: lightgrey;">
                      <font>
                         <Font name="Calibri" size="11.0" />
                      </font></TextField>

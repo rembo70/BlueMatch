@@ -65,7 +65,7 @@ public class Editaanbod {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());
             addAanbiedingController addaanbodcontroller = loader.getController();
-            addaanbodcontroller.editAanbod(aanbod);
+            addaanbodcontroller.editAanbod(aanbod,"update");
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 

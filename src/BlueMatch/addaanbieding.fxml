@@ -38,7 +38,7 @@
     </content>
     <header>
         <Pane prefHeight="33.0" prefWidth="100">
-            <Label contentDisplay="CENTER" layoutX="160.0" layoutY="5.0" prefHeight="28.0" prefWidth="117.0" text="Aanbieden">
+            <Label fx:id="Dialogue" contentDisplay="CENTER" layoutX="99.0" layoutY="5.0" prefHeight="28.0" prefWidth="227.0" text="Aanbieding toevoegen">
                 <font>
                     <Font name="Calibri" size="24.0" />
                 </font>

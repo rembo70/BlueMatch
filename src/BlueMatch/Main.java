@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Main extends Application {
-    public static Integer windowWidth;
+    static Integer windowWidth;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,7 +23,7 @@ public class Main extends Application {
         controller.listOverviewRecord();
         // System.out.println("completed listaanvragen controller");
         primaryStage.setTitle("BlueMatch");
-        primaryStage.setScene(new Scene(root, 1024, 600));
+        primaryStage.setScene(new Scene(root, 1024, 700));
         primaryStage.show();
 
         //controller.updateMainView();
