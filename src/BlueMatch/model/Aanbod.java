@@ -1,11 +1,29 @@
 package BlueMatch.model;
 
 public class Aanbod {
+    private int idaanbod;
     private String refaanvraag;
     private String refmedewerker;
     private String tariefaanbod;
     private String urenperweekaanbod;
     private String statusaanbod;
+    private String opmerkingaanbod;
+
+    public String getOpmerkingaanbod() {
+        return opmerkingaanbod;
+    }
+
+    public void setOpmerkingaanbod(String opmerkingaanbod) {
+        this.opmerkingaanbod = opmerkingaanbod;
+    }
+
+    public int getIdaanbod() {
+        return idaanbod;
+    }
+
+    public void setIdaanbod(int idaanbod) {
+        this.idaanbod = idaanbod;
+    }
 
     public String getRefaanvraag() {
         return refaanvraag;

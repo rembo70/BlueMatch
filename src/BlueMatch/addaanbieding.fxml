@@ -5,47 +5,46 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<DialogPane prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="BlueMatch.addAanbiedingController">
+<DialogPane prefHeight="252.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.addAanbiedingController">
     <headerText>
         Aanbieding toevoegen
     </headerText>
     <content>
         <GridPane hgap="10" prefHeight="162.0" prefWidth="424.0" vgap="10">
-            <Label text="Medewerker" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <TextField fx:id="medewerkerField" prefHeight="25.0" prefWidth="298.0" GridPane.columnIndex="1"
-                       GridPane.rowIndex="0"/>
-            <ChoiceBox fx:id="selectMedewerkerBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <Label text="Aangeboden Tarief " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="tariefaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <Label text="Uren per week aangeboden" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <TextField fx:id="urenperweekaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <Label text="Status aanbod" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <TextField fx:id="statusaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-            <ChoiceBox fx:id="aanbodBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Medewerker" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="medewerkerField" prefHeight="25.0" prefWidth="298.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <ChoiceBox fx:id="selectMedewerkerBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Aangeboden Tarief " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="tariefaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Uren per week aangeboden" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="urenperweekaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Status aanbod" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id="statusaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="aanbodBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Opmerking" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextArea fx:id="opmerkingaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <columnConstraints>
-                <ColumnConstraints/>
-                <ColumnConstraints/>
+                <ColumnConstraints maxWidth="185.0" minWidth="37.0" prefWidth="148.0" />
+                <ColumnConstraints maxWidth="357.0" minWidth="209.0" prefWidth="246.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints/>
-                <RowConstraints/>
-                <RowConstraints/>
-                <RowConstraints/>
-                <RowConstraints/>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
             </rowConstraints>
         </GridPane>
     </content>
     <header>
         <Pane prefHeight="33.0" prefWidth="100">
-            <Label contentDisplay="CENTER" layoutX="160.0" layoutY="5.0" prefHeight="28.0" prefWidth="117.0"
-                   text="Aanbieden">
+            <Label fx:id="Dialogue" contentDisplay="CENTER" layoutX="99.0" layoutY="5.0" prefHeight="28.0" prefWidth="227.0" text="Aanbieding toevoegen">
                 <font>
-                    <Font name="Calibri" size="24.0"/>
+                    <Font name="Calibri" size="24.0" />
                 </font>
             </Label>
             <effect>
-                <Blend opacity="0.33"/>
+                <Blend opacity="0.33" />
             </effect>
         </Pane>
     </header>

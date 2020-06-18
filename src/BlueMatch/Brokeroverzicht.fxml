@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import BlueMatch.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.BrokerOverzicht">
+    <bottom>
+        <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
+            <buttons>
+                <Button alignment="CENTER" mnemonicParsing="false" onAction="#addBroker" text="Toevoegen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Button>
+                <Button fx:id="btnmodbroker" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateBroker" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
+                <font>
+                    <Font name="Calibri" size="12.0" />
+                </font></Button>
+                <Button fx:id="btndelbroker" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteBroker" text="Verwijderen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
+                    <font>
+                        <Font name="Calibri" size="12.0" />
+                    </font></Button>
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga naar hoofdscherm" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Button>
+            </buttons>
+        </ButtonBar>
+    </bottom>
+    <center>
+        <TableView fx:id="brokerTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="columnbrokernaam" editable="false" prefWidth="132.0" text="Brokernaam">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="brokernaam" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columncontactpersoon" minWidth="0.0" prefWidth="246.85711669921875" text="Contactpersoon">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="contactpersoon" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columntelbroker" prefWidth="143.42855834960938" text="Telefoonnummer">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="telbroker" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnemailbroker" prefWidth="210.0" text="Email adres">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="emailbroker" />
+                    </cellValueFactory>
+                </TableColumn>
+            <TableColumn fx:id="columnopmerking" prefWidth="194.28564453125" text="Opmerking">
+                <cellFactory>
+                    <FormattedTableCellFactory />
+                </cellFactory>
+                <cellValueFactory>
+                    <PropertyValueFactory property="opmerkingbroker" />
+                </cellValueFactory>
+            </TableColumn>
+            </columns>
+            <effect>
+                <Blend />
+            </effect>
+        </TableView>
+    </center>
+    <top>
+        <SplitPane centerShape="false" dividerPositions="0.19863013698630136" prefHeight="25.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+            <items>
+                <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                    <image>
+                        <Image url="@../NewsparkLogo.png" />
+                    </image>
+                </ImageView>
+                <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="412.0" style="-fx-text-fill: Lightblue;" text="Broker Overzicht" translateX="10.0">
+                    <font>
+                        <Font name="Calibri Bold" size="24.0" />
+                    </font>
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
+                </Label>
+            </items>
+            <effect>
+                <Glow level="0.0">
+                    <input>
+                        <InnerShadow />
+                    </input>
+                </Glow>
+            </effect>
+        </SplitPane>
+    </top>
+</BorderPane>

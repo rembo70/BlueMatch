@@ -1,27 +1,19 @@
 package BlueMatch;
 
-import BlueMatch.model.Aanbod;
-import BlueMatch.model.Aanvraag;
-import BlueMatch.model.Datasource;
-import BlueMatch.model.OverviewRecord;
-import javafx.application.Application;
+import BlueMatch.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -39,8 +31,52 @@ public class Controller {
     @FXML
     private TableColumn columnMedewerker;
     @FXML
+    private TableColumn columnbrokernaam;
+    @FXML
+    private TableColumn columnContact;
+    @FXML
     private TableView<OverviewRecord> overviewRecordTable;
 
+    @FXML
+    private TextField brokerTextField;
+
+    @FXML
+    private TextField medewerkerTextField;
+
+    @FXML
+    private ComboBox<String> statusKlantCombo;
+
+    ObservableList<String> options =
+            FXCollections.observableArrayList(
+                    "", "Nieuw",
+                    "Vrijblijvend aangeboden",
+                    "Aangeboden Broker",
+                    "Aangeboden Eindklant",
+                    "Aangeboden"
+
+
+            );
+    @FXML
+    private ComboBox<String> statusAanbiedingCombo;
+
+    ObservableList<String> optionsaanb =
+            FXCollections.observableArrayList(
+                    "",
+                    "Nieuw",
+                    "Uitgenodigd voor gesprek",
+                    "Plaatsing",
+                    "Afgewezen",
+                    "Teruggetrokken",
+                    "Overig"
+            );
+
+    @FXML
+    private void initialize() {
+        statusKlantCombo.setItems(options);
+        statusKlantCombo.setValue("");
+        statusAanbiedingCombo.setItems(optionsaanb);
+        statusAanbiedingCombo.setValue("");
+    }
 
     public void listOverviewRecord() {
         Task<ObservableList<OverviewRecord>> task = new GetAllOverviewRecordTask();
@@ -50,6 +86,10 @@ public class Controller {
         updateMainView();
     }
 
+    @FXML
+    private void refrfilter() {
+        listOverviewRecord();
+    }
 
     @FXML
     public void changeSceneAanvraagDetails(ActionEvent event) throws IOException {
@@ -62,7 +102,6 @@ public class Controller {
 
         Scene detailViewScene = new Scene(detailViewParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
 
         ctrleditaanvraag.setParentScene(window.getScene());
         ctrleditaanvraag.setParentController(this);
@@ -89,10 +128,52 @@ public class Controller {
     }
 
     @FXML
+    public void overzichtBroker(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Brokeroverzicht.fxml"));
+        Parent detailViewParent = loader.load();
+        BrokerOverzicht ctrlbrokeroverzicht = loader.getController();
+        ctrlbrokeroverzicht.listBrokers();
+        Scene detailViewScene = new Scene(detailViewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        ctrlbrokeroverzicht.setParentScene(window.getScene());
+        ctrlbrokeroverzicht.setParentController(this);
+        window.setScene((detailViewScene));
+        window.show();
+        Main.windowWidth = (int) window.getWidth();
+        window.widthProperty().addListener((obs, oldVal, newVal) -> {
+            Main.windowWidth = (int) window.getWidth();
+
+            ctrlbrokeroverzicht.updateView();
+            ctrlbrokeroverzicht.refreshScreen();
+            //System.out.println("updated aanbod");
+        });
+        ctrlbrokeroverzicht.updateView();
+
+}
+
+    @FXML
+    public void overzichtKlant(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Klantoverzicht.fxml"));
+        Parent detailViewParent = loader.load();
+        KlantOverzicht ctrlklantoverzicht = loader.getController();
+        ctrlklantoverzicht.listKlanten();
+        Scene detailViewScene = new Scene(detailViewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        ctrlklantoverzicht.setParentScene(window.getScene());
+        ctrlklantoverzicht.setParentController(this);
+        window.setScene((detailViewScene));
+        window.show();
+        ctrlklantoverzicht.updateView();
+    }
+
+    @FXML
     public void aanbieden(ActionEvent event) throws IOException, SQLException {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-            System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getRefbroker());
-            System.out.println("add aanbod");
+
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());
@@ -102,13 +183,14 @@ public class Controller {
             {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     addAanbiedingController addAanbiedingController = loader.getController();
-                    Aanbod aanbod = addAanbiedingController.getNewAanbod(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+                    Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
                     Datasource.getInstance().aanbodToevoegen(aanbod);
                 }
             }
-            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
-            overviewRecordTable.itemsProperty().unbind();
-            overviewRecordTable.setItems(Overviewlist);
+//            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+//            overviewRecordTable.itemsProperty().unbind();
+//            overviewRecordTable.setItems(Overviewlist);
+            refreshscreen();
             updateMainView();
         }
     }
@@ -128,9 +210,7 @@ public class Controller {
                 Datasource.getInstance().aanvraagToevoegen(aanvraag);
             }
         }
-        ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
-        overviewRecordTable.itemsProperty().unbind();
-        overviewRecordTable.setItems(Overviewlist);
+        refreshscreen();
         updateMainView();
     }
 
@@ -150,24 +230,56 @@ public class Controller {
         ctrleditaanbod.setParentController(this);
         window.setScene((detailViewScene));
         window.show();
-        window.widthProperty().addListener((obs, oldVal, newVal) -> {
-            Main.windowWidth = (int) window.getWidth();
-            // System.out.println(newVal);
-            ctrleditaanbod.updateView();
-        });
-
 
     }
 
+    public void refreshscreen() {
+        ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+        overviewRecordTable.itemsProperty().unbind();
+        overviewRecordTable.setItems(Overviewlist);
+    }
 
     @FXML
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
-        // resize table on mouse clicked
+        if (event.getClickCount() > 1) {
+            //System.out.println("Table double clicked");
+            //System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
+            Parent detailViewParent = loader.load();
+            OverzichtdtlsController ctrldetailsoverzicht = loader.getController();
+            ctrldetailsoverzicht.listDetailsRecord(overviewRecordTable.getSelectionModel().getSelectedItem());
+            Scene detailViewScene = new Scene(detailViewParent);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            ctrldetailsoverzicht.setParentScene(window.getScene());
+            ctrldetailsoverzicht.setParentController(this);
+            window.setScene((detailViewScene));
+            window.show();
+            //ctrldetailsoverzicht.updateView();
+
+
+        }
+
         updateMainView();
     }
 
+    @FXML
+    private Button aanbiedingmaken;
 
     public void updateMainView() {
+        if (overviewRecordTable.getSelectionModel().getSelectedItem() == null) {
+
+            aanbiedingmaken.setDisable(true);
+        } else {
+
+            aanbiedingmaken.setDisable(false);
+        }
+
+        Datasource.filterstatus = statusKlantCombo.getValue();
+        Datasource.filterstatusaanb = statusAanbiedingCombo.getValue();
+        Datasource.filterbroker = brokerTextField.getText();
+        Datasource.filtermedewerker = medewerkerTextField.getText();
 
         changelistener(columnBroker);
         changelistener(columnFunctie);
@@ -181,8 +293,6 @@ public class Controller {
 
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
-                // System.out.print(listerColumn.getText() + "  ");
-                // System.out.println(t1);
 
                 double Kolumnwidthmedewerker = (columnMedewerker.widthProperty().getValue()) / 7;
                 double Kolumnwidthbroker = (columnBroker.widthProperty().getValue()) / 7;
@@ -200,8 +310,8 @@ public class Controller {
                     if (!(huidigeoverviewrecord.getFunctie() == null)) {
                         huidigeoverviewrecord.setFunctie(Editaanvraag.lineWrap(huidigeoverviewrecord.getFunctie(), (int) Kolumnwidthfunctie));
                     }
-                    if (!(huidigeoverviewrecord.getStatusKlant() == null)) {
-                        huidigeoverviewrecord.setStatusKlant(Editaanvraag.lineWrap(huidigeoverviewrecord.getStatusKlant(), (int) Kolumnwidthstatus));
+                    if (!(huidigeoverviewrecord.getStatusklant() == null)) {
+                        huidigeoverviewrecord.setStatusklant(Editaanvraag.lineWrap(huidigeoverviewrecord.getStatusklant(), (int) Kolumnwidthstatus));
                     }
                     overviewRecordTable.itemsProperty().unbind();
                     overviewRecordTable.setItems(Overviewlist);

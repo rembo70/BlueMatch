@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<DialogPane prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
+<DialogPane  prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
     <headerText>
         Aanvraag toevoegen
     </headerText>
@@ -21,14 +21,13 @@
             <TextField fx:id="UrenPerWeekField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Status bij klant" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <TextField fx:id="StatusKlantField" prefHeight="27.0" prefWidth="297.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Datum aanvraag" GridPane.rowIndex="6" />
-            <TextField fx:id="DatumAanvraagField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            
             <Label text="Locatie" GridPane.rowIndex="7" />
             <TextField fx:id="LocatieField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label text="Start datum" GridPane.rowIndex="8" />
             <TextField fx:id="StartDatumField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label text="Opmerking" GridPane.rowIndex="9" />
-            <TextField fx:id="OpmerkingField" prefHeight="150.0" prefWidth="298.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <TextArea fx:id="OpmerkingField" prefHeight="150.0" prefWidth="298.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label text="Klant" GridPane.rowIndex="10" />
             <TextField fx:id="KlantField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <Label text="Link" GridPane.rowIndex="11" />
@@ -36,8 +35,8 @@
             <Label text="Tarief " GridPane.rowIndex="12" />
             <TextField fx:id="TariefField" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <ChoiceBox fx:id="statusklantBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-         <DatePicker fx:id="datePickAanvraagDate" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-         <DatePicker fx:id="datePickerStartDate" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <DatePicker fx:id="datePickAanvraagDate" prefHeight="25.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+            <DatePicker fx:id="datePickerStartDate" prefHeight="25.0" prefWidth="302.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
             <columnConstraints>
                 <ColumnConstraints />
                 <ColumnConstraints />
@@ -63,11 +62,11 @@
     <header>
         <Pane prefHeight="33.0" prefWidth="424.0">
 
-                <Label contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Aanvraag toevoegen">
-                    <font>
-                        <Font name="Calibri" size="24.0" />
-                    </font>
-                </Label>
+            <Label fx:id="Dialogue" contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Aanvraag toevoegen">
+                <font>
+                    <Font name="Calibri" size="24.0" />
+                </font>
+            </Label>
 
             <effect>
                 <Blend opacity="0.33" />

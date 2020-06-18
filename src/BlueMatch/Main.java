@@ -1,25 +1,18 @@
 package BlueMatch;
 
-import BlueMatch.model.Aanvraag;
 import BlueMatch.model.Datasource;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.util.concurrent.TimeUnit;
 
 
 public class Main extends Application {
-    public static Integer windowWidth;
+    static Integer windowWidth;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -30,10 +23,10 @@ public class Main extends Application {
         controller.listOverviewRecord();
         // System.out.println("completed listaanvragen controller");
         primaryStage.setTitle("BlueMatch");
-        primaryStage.setScene(new Scene(root, 1024, 600));
+        primaryStage.setScene(new Scene(root, 1024, 700));
         primaryStage.show();
 
-        controller.updateMainView();
+        //controller.updateMainView();
         windowWidth = 1024;
     }
 

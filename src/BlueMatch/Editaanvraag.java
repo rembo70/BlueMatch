@@ -2,7 +2,6 @@ package BlueMatch;
 
 import BlueMatch.model.Aanvraag;
 import BlueMatch.model.Datasource;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,13 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ListIterator;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +26,8 @@ import java.util.regex.Pattern;
 public class Editaanvraag {
 
     private Scene ParentScene;
+    @FXML
+    private TableColumn columnidaanvraag;
     @FXML
     private TableColumn columnopm;
     @FXML
@@ -51,23 +49,25 @@ public class Editaanvraag {
 
     public void setParentController(Controller controller) {
         this.parentController = controller;
+        Controller parentcontrol = controller;
     }
 
     public void changeSceneMain(ActionEvent event) throws IOException {
-        //       Parent detailViewParent = FXMLLoader.load(getClass().getResource("BlueMatch.fxml"));
-        //      Scene detailViewScene = new Scene(detailViewParent);
+               Parent detailViewParent = FXMLLoader.load(getClass().getResource("BlueMatch.fxml"));
+              Scene detailViewScene = new Scene(detailViewParent);
 
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene((ParentScene));
         window.show();
         parentController.updateMainView();
+        parentController.refreshscreen();
     }
 
 
     @FXML
     public void addAanvraag(ActionEvent event) throws IOException, SQLException {
-        System.out.println("add aanvraag");
+//        System.out.println("add aanvraag");
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
         dialog.getDialogPane().setContent(loader.load());
@@ -81,8 +81,39 @@ public class Editaanvraag {
                 Datasource.getInstance().aanvraagToevoegen(aanvraag);
             }
         }
+        refreshscreen();
         updateView();
     }
+
+    @FXML
+    private Button btnmodaanvraag;
+
+    @FXML
+    public void modAanvraag(ActionEvent event) throws IOException, SQLException {
+        Aanvraag aanvraag = (Aanvraag) aanvraagTable.getSelectionModel().getSelectedItem();
+
+        if (aanvraag != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddAanvraagController addaanvraagcontroller = loader.getController();
+            addaanvraagcontroller.editAanvraag(aanvraag,"update");
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+  //          System.out.println(aanvraag.getIdaanvraag());
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    addaanvraagcontroller.updateAanvraag(aanvraag);
+                    Datasource.getInstance().updateAanvraag(aanvraag);
+                }
+            }
+        }
+        refreshscreen();
+        btnmodaanvraag.setDisable(true);
+    }
+
 
     @FXML
     private TableView<Aanvraag> aanvraagTable;
@@ -93,6 +124,12 @@ public class Editaanvraag {
     }
 
     public void updateView() {
+        if (aanvraagTable.getSelectionModel().getSelectedItem() == null) {
+            btnmodaanvraag.setDisable(true);
+        } else {
+            btnmodaanvraag.setDisable(false);
+        }
+
         changelistener(columnopm);
         changelistener(columnfunctie);
         changelistener(columncontact);
@@ -109,7 +146,7 @@ public class Editaanvraag {
                 double Kolumnwidthopm = (columnopm.widthProperty().getValue()) / 7; //4.9 is amount of pixels/4.9= amount of characters
                 double Kolumnwidthfunctie = (columnfunctie.widthProperty().getValue()) / 7;
                 double Kolumnwidthcontact = (columncontact.widthProperty().getValue()) / 7;
-                double Kolumnwidthstatus = (columnstatus.widthProperty().getValue()) / 7;
+                // double Kolumnwidthstatus = (columnstatus.widthProperty().getValue()) / 7;
                 double Kolumnwidthlocatie = (columnlocatie.widthProperty().getValue()) / 7;
                 double Kolumnwidthlink = (columnlink.widthProperty().getValue()) / 7;
 
@@ -125,9 +162,9 @@ public class Editaanvraag {
                     if (!(huidigeaanvraag.getRefcontact() == null)) {
                         huidigeaanvraag.setRefcontact(lineWrap(huidigeaanvraag.getRefcontact(), (int) Kolumnwidthcontact));
                     }
-                    if (!(huidigeaanvraag.getStatusklant() == null)) {
-                        huidigeaanvraag.setStatusklant(lineWrap(huidigeaanvraag.getStatusklant(), (int) Kolumnwidthstatus));
-                    }
+//                    if (!(huidigeaanvraag.getStatusklant() == null)) {
+//                        huidigeaanvraag.setStatusklant(lineWrap(huidigeaanvraag.getStatusklant(), (int) Kolumnwidthstatus));
+//                    }
                     if (!(huidigeaanvraag.getLocatie() == null)) {
                         huidigeaanvraag.setLocatie(lineWrap(huidigeaanvraag.getLocatie(), (int) Kolumnwidthlocatie));
                     }
@@ -137,10 +174,19 @@ public class Editaanvraag {
                     aanvraagTable.itemsProperty().unbind();
                     aanvraagTable.setItems(aanvraaglist);
                 }
+
             }
+
         });
 
     }
+
+    public void refreshscreen() {
+        ObservableList<Aanvraag> Aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
+        aanvraagTable.itemsProperty().
+        unbind();
+        aanvraagTable.setItems(Aanvraaglist);
+}
 
     public static String lineWrap(String text, int limit) {
         int offset = 0;
@@ -184,7 +230,7 @@ public class Editaanvraag {
     public void listAanvragen() {
         Task<ObservableList<Aanvraag>> task = new GetAllAanvragenTask();
         aanvraagTable.itemsProperty().bind(task.valueProperty());
-        System.out.println("View list on screen 2");
+        // System.out.println("View list on screen 2");
         new Thread(task).start();
     }
 }
@@ -196,7 +242,7 @@ class GetAllAanvragenTask extends Task {
     public ObservableList<Aanvraag> call() {
 
         ObservableList<Aanvraag> aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
-        System.out.println(aanvraaglist.size());
+        //System.out.println(aanvraaglist.size());
         return aanvraaglist;
 
     }

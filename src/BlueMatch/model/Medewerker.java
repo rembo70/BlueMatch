@@ -1,33 +1,44 @@
 package BlueMatch.model;
 
 public class Medewerker {
-    private String voornaam;
-    private String achternaam;
-    private String urenperweek;
+    private int IDmdw;
+    private String voornaammdw;
+    private String achternaammdw;
+    private String urenperweekmdw;
     private String statusmdw;
+    private String emailmdw;
+    private String opmerkingmdw;
+
+    public int getIDmdw() {
+        return IDmdw;
+    }
+
+    public void setIDmdw(int IDmdw) {
+        this.IDmdw = IDmdw;
+    }
 
     public String getVoornaam() {
-        return voornaam;
+        return voornaammdw;
     }
 
     public void setVoornaam(String voornaam) {
-        this.voornaam = voornaam;
+        this.voornaammdw = voornaam;
     }
 
     public String getAchternaam() {
-        return achternaam;
+        return achternaammdw;
     }
 
     public void setAchternaam(String achternaam) {
-        this.achternaam = achternaam;
+        this.achternaammdw = achternaam;
     }
 
     public String getUrenperweek() {
-        return urenperweek;
+        return urenperweekmdw;
     }
 
     public void setUren(String urenperweek) {
-        this.urenperweek = urenperweek;
+        this.urenperweekmdw = urenperweek;
     }
 
     public String getStatusmdw() {
@@ -36,5 +47,21 @@ public class Medewerker {
 
     public void setStatusmdw(String statusmdw) {
         this.statusmdw = statusmdw;
+    }
+
+    public String getEmailmedewerker() {
+        return emailmdw;
+    }
+
+    public void setEmailmedewerker(String emailmedewerker) {
+        this.emailmdw = emailmedewerker;
+    }
+
+    public String getOpmerkingmedewerker() {
+        return opmerkingmdw;
+    }
+
+    public void setOpmerkingmedewerker(String opmerkingmedewerker) {
+        this.opmerkingmdw = opmerkingmedewerker;
     }
 }

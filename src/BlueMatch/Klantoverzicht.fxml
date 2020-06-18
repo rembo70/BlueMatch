@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import BlueMatch.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.KlantOverzicht">
+    <bottom>
+        <ButtonBar prefHeight="32.0" BorderPane.alignment="BOTTOM_LEFT">
+            <buttons>
+                <Button fx:id="btnklanttoevoegen" alignment="CENTER" mnemonicParsing="false" onAction="#addKlant" text="Toevoegen" textAlignment="CENTER" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Button>
+
+                  <Button fx:id="btnklantwijzigen" mnemonicParsing="false" onAction="#updateKlant" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+
+                <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga terug" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
+               <font>
+                  <Font name="Calibri" size="12.0" />
+               </font></Button>
+            </buttons>
+        </ButtonBar>
+    </bottom>
+    <center>
+        <TableView fx:id="klantTable" onMouseClicked="#tableViewMouseClicked" stylesheets="@styles.css" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="columnklantnaam" editable="false" prefWidth="132.0" text="Klant naam">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="klantnaam" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnklantcontactpersoon" minWidth="0.0" prefWidth="273.0" text="Contact persoon">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="klantcontactpersoon" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnklantcontacttelnr" prefWidth="117.0" text="Telefoon nummer">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="klantcontacttelnr" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="columnklantcontactemail" prefWidth="210.0" text="Email">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="klantcontactemail" />
+                    </cellValueFactory>
+
+                </TableColumn>
+                <TableColumn fx:id="columnklantopmerking" prefWidth="210.0" text="Opmerking">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="klantopmerking" />
+                    </cellValueFactory>
+
+                </TableColumn>
+            </columns>
+            <effect>
+                <Blend />
+            </effect>
+        </TableView>
+    </center>
+    <top>
+        <SplitPane centerShape="false" dividerPositions="0.19863013698630136" prefHeight="25.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+            <items>
+                <ImageView fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
+                    <image>
+                        <Image url="@../NewsparkLogo.png" />
+                    </image>
+                </ImageView>
+                <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="28.0" prefWidth="412.0" style="-fx-text-fill: Lightblue;" text="Klant Overzicht" translateX="10.0">
+                    <font>
+                        <Font name="Calibri Bold" size="24.0" />
+                    </font>
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
+                </Label>
+            </items>
+            <effect>
+                <Glow level="0.0">
+                    <input>
+                        <InnerShadow />
+                    </input>
+                </Glow>
+            </effect>
+        </SplitPane>
+    </top>
+</BorderPane>

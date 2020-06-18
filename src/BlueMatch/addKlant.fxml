@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<DialogPane prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddKlantController">
+    <headerText>
+        Klant toevoegen
+    </headerText>
+    <content>
+        <GridPane hgap="10" prefHeight="130" prefWidth="424.0" vgap="10">
+            <Label text="Klantnaam" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="klantnaamField" prefHeight="25.0" prefWidth="254.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Contact persoon" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="klantcontactpersoonField" prefHeight="25.0" prefWidth="380.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="telefoon nr" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="klantcontacttelnrField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="email adres" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id="klantcontactemailField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label prefHeight="17.0" prefWidth="272.0" text="Opmerking" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <TextArea fx:id="klantopmerkingField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+    </content>
+    <header>
+        <Pane prefHeight="33.0" prefWidth="424.0">
+
+            <Label fx:id="titellabel" contentDisplay="CENTER" layoutX="108.0" layoutY="5.0" prefHeight="17.0" prefWidth="258.0" text="Klant toevoegen">
+                <font>
+                    <Font name="Calibri" size="24.0" />
+                </font>
+            </Label>
+
+            <effect>
+                <Blend opacity="0.33" />
+            </effect>
+        </Pane>
+    </header>
+</DialogPane>
