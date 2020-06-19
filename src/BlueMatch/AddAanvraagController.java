@@ -155,6 +155,7 @@ public class AddAanvraagController {
 
 
         FunctieField.setText(aanvraag.getFunctie());
+        selectBrokerBox.setValue(aanvraag.getRefbroker());
         UrenPerWeekField.setText(aanvraag.getVraagurenweek());
         statusklantBox.setValue(aanvraag.getStatusklant());
         //StartDatumField.setText(aanvraag.getStartdatum());
@@ -177,7 +178,7 @@ public class AddAanvraagController {
 
     void updateAanvraag(Aanvraag aanvraag){
 
-          aanvraag.setRefbroker(BrokerField.getText());
+          aanvraag.setRefbroker(selectBrokerBox.getValue());
           aanvraag.setRefcontact(ContactField.getText());
           aanvraag.setFunctie(FunctieField.getText());
           aanvraag.setVraagurenweek(UrenPerWeekField.getText());

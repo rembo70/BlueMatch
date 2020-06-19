@@ -1,5 +1,6 @@
 package BlueMatch;
 
+import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
 import BlueMatch.model.Klant;
 import javafx.beans.value.ChangeListener;
@@ -35,8 +36,11 @@ public class KlantOverzicht {
     private TableColumn columnklantopmerking;
     @FXML
     private Button btnklanttoevoegen;
-    @FXML
+     @FXML
     private Button btnklantwijzigen;
+    @FXML
+    private Button btnklantverwijderen;
+
 
 
 
@@ -101,7 +105,7 @@ public class KlantOverzicht {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
             dialog.getDialogPane().setContent(loader.load());
             AddKlantController addklantcontroller = loader.getController();
-            addklantcontroller.editKlant(klant2);
+            addklantcontroller.editKlant(klant2,"update");
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
@@ -121,9 +125,46 @@ public class KlantOverzicht {
             ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
             klantTable.itemsProperty().unbind();
             klantTable.setItems(Klantlist);
+
+            updateView();
         }
     }
 
+    @FXML
+    public void deleteKlant(ActionEvent event) throws IOException, SQLException {
+        Klant klant = (Klant) klantTable.getSelectionModel().getSelectedItem();
+        System.out.println(klant.getKlantnaam() + klant);
+
+        if (klant != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addKlant.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddKlantController addklantcontroller = loader.getController();
+            addklantcontroller.editKlant(klant,"delete");
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (klant.getKlantnaam().isEmpty()) {
+                        System.out.println("geen klantnaam ingevuld");
+                    } else {
+                        //addklantcontroller.deleteKlant(klant);
+                        Datasource.getInstance().deleteKlant(klant);
+                    }
+                }
+            }
+            ObservableList<Klant> Klantlist = FXCollections.observableArrayList(Datasource.getInstance().queryKlant());
+            klantTable.itemsProperty().unbind();
+            klantTable.setItems(Klantlist);
+
+        } else {
+            System.out.println("geen klant selectie");
+        }
+        updateView();
+    }
+    
     @FXML
     private TableView<Klant> klantTable;
 
@@ -138,8 +179,11 @@ public class KlantOverzicht {
 
             btnklanttoevoegen.setText("Toevoegen");
             btnklantwijzigen.setDisable(true);
+            btnklantverwijderen.setDisable(true);
         } else{
-            btnklantwijzigen.setDisable(false);}
+            btnklantwijzigen.setDisable(false);
+            btnklantverwijderen.setDisable(false);
+        }
 
 
         changelistener(columnklantnaam);

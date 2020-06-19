@@ -19,6 +19,7 @@
                </font></Button>
 
                   <Button fx:id="btnklantwijzigen" mnemonicParsing="false" onAction="#updateKlant" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="btnklantverwijderen" mnemonicParsing="false" onAction="#deleteKlant" text="Verwijderen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
 
                 <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" text="Ga terug" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS">
                <font>

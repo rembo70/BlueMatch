@@ -165,7 +165,7 @@ public class BrokerOverzicht {
     @FXML
     private Button btnmodbroker;
 
-    public void updateView() {
+    void updateView() {
         if (brokerTable.getSelectionModel().getSelectedItem() == null) {
             //System.out.println("brokertable not selected");
             btnmodbroker.setDisable(true);
@@ -181,7 +181,7 @@ public class BrokerOverzicht {
         //changelistener(columnopmerkingbroker);
     }
 
-    public void changelistener(final TableColumn listerColumn) {
+    private void changelistener(final TableColumn listerColumn) {
         listerColumn.widthProperty().addListener(new ChangeListener<Number>() {
 
             @Override
@@ -219,7 +219,7 @@ public class BrokerOverzicht {
     }
 
 
-        public void listBrokers() {
+        void listBrokers() {
             Task<ObservableList<Broker>> task = new GetAllBrokersTask();
             brokerTable.itemsProperty().bind(task.valueProperty());
             new Thread(task).start();
