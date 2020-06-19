@@ -3,6 +3,7 @@ package BlueMatch;
 import BlueMatch.model.Aanvraag;
 import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
+import BlueMatch.model.Medewerker;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static java.time.LocalDate.parse;
 
@@ -29,11 +31,13 @@ public class AddAanvraagController {
     @FXML
     private ChoiceBox<String> statusklantBox;
     @FXML
+    private ChoiceBox<String> selectBrokerBox;
+    @FXML
     private DatePicker datePickAanvraagDate;
     @FXML
     private DatePicker datePickerStartDate;
 
-    ObservableList<String> options =
+    private ObservableList<String> options =
             FXCollections.observableArrayList(
                     "Nieuw",
                     "Vrijblijvend aangeboden",
@@ -48,6 +52,8 @@ public class AddAanvraagController {
     private void initialize() {
         statusklantBox.setItems(options);
         statusklantBox.setValue("Nieuw");
+        ObservableList<String> optionsbrkr = populateBrokerNameList();
+        selectBrokerBox.setItems(optionsbrkr);
     }
 
 
@@ -80,8 +86,22 @@ public class AddAanvraagController {
     @FXML
     private TableView<Aanvraag> aanvraagTable;
 
+    private ObservableList populateBrokerNameList() {
+        ArrayList<String> brokernaamlist = new ArrayList<String>();
+        ObservableList<Broker> medewerkerslijst = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
 
-    public Aanvraag getNewAanvraag() {
+        for (Broker huidigebroker : medewerkerslijst) {
+            brokernaamlist.add(huidigebroker.getBrokernaam());
+        }
+        ObservableList<String> options =
+                FXCollections.observableArrayList(brokernaamlist
+                );
+
+        return options;
+    }
+
+
+    Aanvraag getNewAanvraag() {
         //SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
         String datumaanvraag = "";
         String startdatum = "";
@@ -120,7 +140,7 @@ public class AddAanvraagController {
         newAanvraag.setTariefaanvraag(tarief);
         return newAanvraag;
     }
-    public void editAanvraag(Aanvraag aanvraag, String type) {
+    void editAanvraag(Aanvraag aanvraag, String type) {
         if (type=="update"){
             Dialogue.setText("Aanvraag wijzigen");
             //System.out.println("update selected");
@@ -155,7 +175,7 @@ public class AddAanvraagController {
         TariefField.setText(aanvraag.getTariefaanvraag());
     }
 
-    public void updateAanvraag (Aanvraag aanvraag){
+    void updateAanvraag(Aanvraag aanvraag){
 
           aanvraag.setRefbroker(BrokerField.getText());
           aanvraag.setRefcontact(ContactField.getText());
@@ -176,7 +196,7 @@ public class AddAanvraagController {
           aanvraag.setTariefaanvraag(TariefField.getText());
     }
 
-    public static final LocalDate LOCAL_DATE (String dateString){
+    private static LocalDate LOCAL_DATE(String dateString){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         LocalDate localDate = parse(dateString, formatter);

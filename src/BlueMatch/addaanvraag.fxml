@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<DialogPane  prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
+<DialogPane prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.AddAanvraagController">
     <headerText>
         Aanvraag toevoegen
     </headerText>
@@ -37,6 +37,7 @@
             <ChoiceBox fx:id="statusklantBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <DatePicker fx:id="datePickAanvraagDate" prefHeight="25.0" prefWidth="301.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
             <DatePicker fx:id="datePickerStartDate" prefHeight="25.0" prefWidth="302.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+         <ChoiceBox fx:id="selectBrokerBox" prefHeight="25.0" prefWidth="303.0" GridPane.columnIndex="1" />
             <columnConstraints>
                 <ColumnConstraints />
                 <ColumnConstraints />
