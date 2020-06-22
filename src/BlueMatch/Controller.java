@@ -289,7 +289,7 @@ public class Controller {
 
         //changelistenerstatus(columnStatusKlant);
         ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
-        Overviewlist.addListener((Change<? extends OverviewRecord> c) -> { });
+        //Overviewlist.addListener((Change<? extends OverviewRecord> c) -> { });
     }
 
 
