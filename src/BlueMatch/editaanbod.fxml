@@ -10,9 +10,10 @@
 
 <BorderPane minHeight="-Infinity" prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.Editaanbod">
     <bottom>
-        <ButtonBar prefHeight="22.0" prefWidth="1024.0" BorderPane.alignment="BOTTOM_LEFT">
+        <ButtonBar prefHeight="35.0" prefWidth="1024.0" BorderPane.alignment="BOTTOM_LEFT">
             <buttons>
                 <Button fx:id="btnmodaanbod" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#modAanbod" text="Wijzigen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
+                <Button fx:id="btndelaanbod" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#deleteAanbod" text="Verwijderen" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
                 <Button mnemonicParsing="false" onAction="#changeSceneMain" text="Ga terug" translateX="-5.0" ButtonBar.buttonData="BACK_PREVIOUS" />
 
             </buttons>

@@ -230,6 +230,7 @@ public class Controller {
         ctrleditaanbod.setParentController(this);
         window.setScene((detailViewScene));
         window.show();
+        ctrleditaanbod.updateView();
 
     }
 
@@ -286,9 +287,16 @@ public class Controller {
         changelistener(columnMedewerker);
         changelistener(columnFunctie);
 
+        //changelistenerstatus(columnStatusKlant);
+        ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+        Overviewlist.addListener((Change<? extends OverviewRecord> c) -> { });
     }
 
-    public void changelistener(final TableColumn listerColumn) {
+
+
+
+
+    private void changelistener(final TableColumn listerColumn) {
         listerColumn.widthProperty().addListener(new ChangeListener<Number>() {
 
             @Override

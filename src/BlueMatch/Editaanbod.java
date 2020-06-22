@@ -2,6 +2,7 @@ package BlueMatch;
 
 import BlueMatch.model.Aanbod;
 import BlueMatch.model.Datasource;
+import BlueMatch.model.Klant;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,6 +32,8 @@ public class Editaanbod {
     private TableColumn columnaanbodstatus;
     @FXML
     private Button btnmodaanbod;
+    @FXML
+    private Button btndelaanbod;
 
 
     private Controller parentController;
@@ -48,9 +51,10 @@ public class Editaanbod {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene((ParentScene));
         window.show();
-        //parentController.refreshscreen();
+        parentController.refreshscreen();
 //        parentController.updateMainView();
         Main.windowWidth = (int) window.getWidth();
+
 
 
     }
@@ -81,12 +85,45 @@ public class Editaanbod {
             ObservableList<Aanbod> Aanbodlist = FXCollections.observableArrayList(Datasource.getInstance().queryAanbod());
             aanbodTable.itemsProperty().unbind();
             aanbodTable.setItems(Aanbodlist);
-            btnmodaanbod.setDisable(true);
+            updateView();
         }
         
         
     }
+    @FXML
+    public void deleteAanbod(ActionEvent event) throws IOException, SQLException {
+        Aanbod aanbod = (Aanbod) aanbodTable.getSelectionModel().getSelectedItem();
+        //System.out.println(aanbod.getAanbodnaam() + aanbod);
 
+        if (aanbod != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            addAanbiedingController addaanbodcontroller = loader.getController();
+            addaanbodcontroller.editAanbod(aanbod,"delete");
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (aanbod.getRefaanvraag().isEmpty()) {
+                        System.out.println("geen aanbodnaam ingevuld");
+                    } else {
+                        //addaanbodcontroller.deleteAanbod(aanbod);
+                        Datasource.getInstance().deleteAanbod(aanbod);
+                    }
+                }
+            }
+            ObservableList<Aanbod> Aanbodlist = FXCollections.observableArrayList(Datasource.getInstance().queryAanbod());
+            aanbodTable.itemsProperty().unbind();
+            aanbodTable.setItems(Aanbodlist);
+
+        } else {
+            System.out.println("geen aanbod selectie");
+        }
+        updateView();
+    }
     @FXML
     private TableView<Aanbod> aanbodTable;
 
@@ -98,11 +135,13 @@ public class Editaanbod {
 
     public void updateView() {
         if (aanbodTable.getSelectionModel().getSelectedItem() == null) {
-           // System.out.println("brokertable not selected");
+            System.out.println("aanbodtable not selected");
             btnmodaanbod.setDisable(true);
+            btndelaanbod.setDisable(true);
         } else {
-            //System.out.println("brokertable selected");
+            System.out.println("aanbodtable selected");
             btnmodaanbod.setDisable(false);
+            btndelaanbod.setDisable(false);
         }
 
         changelistener(columnmedewerker);
