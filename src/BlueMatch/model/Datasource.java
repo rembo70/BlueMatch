@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Datasource {
-  //  public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
-    public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
+    public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
+    //public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
     // public static final String DATABASENAME = "jdbc:sqlite:https://newspark.sharepoint.com/Gedeelde%20Documenten/Sales/Bluematch.db";
     public static final String COLUMN_IDAANBOD = "idaanbod";
     public static final String TABLE_AANBOD = "Aanbod";
@@ -103,6 +103,21 @@ public class Datasource {
     public static final int INDEX_EMAILBROKER = 5;
     public static final int INDEX_OPMERKINGBROKER = 6;
 
+    public static final String TABLE_LOG = "Log";
+    public static final String COLUMN_IDLOG = "idlog";
+    public static final String COLUMN_IDAANBODLOG = "idaanbodlog";
+    public static final String COLUMN_TIMESTAMPLOG = "timestamplog";
+    public static final String COLUMN_USERID = "userid";
+    public static final String COLUMN_OLDSTATUS = "oldstatus";
+    public static final String COLUMN_NEWSTATUS = "newstatus";
+
+    public static final int INDEX_IDLOG = 1;
+    public static final int INDEX_IDAANBODLOG = 2;
+    public static final int INDEX_TIMESTAMPLOG = 3;
+    public static final int INDEX_USERID = 4;
+    public static final int INDEX_OLDSTATUS = 5;
+    public static final int INDEX_NEWSTATUS = 6;
+
 
 
     public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + '(' + COLUMN_REFBROKER
@@ -130,6 +145,9 @@ public class Datasource {
             + ","+ COLUMN_KLANTOPMERKING +
             ") VALUES (?,?,?,?,?)";
 
+    public static final String InsertLog = "INSERT INTO " + TABLE_LOG + '(' + COLUMN_IDAANBODLOG + "," + COLUMN_TIMESTAMPLOG + ","
+            + COLUMN_USERID + "," + COLUMN_OLDSTATUS + "," + COLUMN_NEWSTATUS + ") VALUES (?,?.?,?,?)";
+
 
 
     public static String filterstatus = "";
@@ -138,7 +156,7 @@ public class Datasource {
     public static String filtermedewerker = "";
     public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
             "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.refklant from aanvraag " +
-            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+
+            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus +
             "%' ) ";
 
 
@@ -192,6 +210,7 @@ public class Datasource {
     private PreparedStatement deleteaanvraag;
     private PreparedStatement deleteaanbod;
     private PreparedStatement searchoverviewrecord;
+    private PreparedStatement insertIntoLog;
 
 
 
@@ -290,6 +309,7 @@ public class Datasource {
             deleteaanvraag = conn.prepareStatement(QUERYDELETE_AANVRAAG);
             deleteaanbod = conn.prepareStatement(QUERYDELETE_AANBOD);
             searchoverviewrecord = conn.prepareStatement(QUERYOVERZICHTDETAILS);
+            //insertIntoLog = conn.prepareStatement(InsertLog);
             return true;
 
         } catch (SQLException e) {
@@ -318,6 +338,7 @@ public class Datasource {
                 deleteaanbod.close();
                 deleteklant.close();
                 searchoverviewrecord.close();
+        //        insertIntoLog.close();
             }
 
         } catch (SQLException e) {
@@ -328,6 +349,7 @@ public class Datasource {
 
     public int aanvraagToevoegen(Aanvraag aanvraag) throws SQLException {
         insertIntoAanvraag.setString(1, aanvraag.getRefbroker());
+        System.out.println("test" + aanvraag.getRefbroker());
         insertIntoAanvraag.setString(2, aanvraag.getFunctie());
         insertIntoAanvraag.setString(3, aanvraag.getRefcontact());
         insertIntoAanvraag.setString(4, aanvraag.getVraagurenweek());

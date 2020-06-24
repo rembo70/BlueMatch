@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+
 public class Controller {
+    public static String typeofaddaanvraag;
+
 
     @FXML
     private TableColumn columnBroker;
@@ -48,12 +51,12 @@ public class Controller {
 
     ObservableList<String> options =
             FXCollections.observableArrayList(
-                    "", "Nieuw",
-                    "Vrijblijvend aangeboden",
-                    "Aangeboden Broker",
-                    "Aangeboden Eindklant",
-                    "Aangeboden"
 
+                    "Vrijblijvend aanbieden",
+                    "Aanbieden via broker",
+                    "Aanbieden bij eindklant",
+                    "(Nog) niet aanbieden",
+                    "Anders"
 
             );
     @FXML
@@ -197,6 +200,7 @@ public class Controller {
 
     @FXML
     public void aanvraagToevoegen(ActionEvent event) throws IOException, SQLException {
+        typeofaddaanvraag="new";
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
         dialog.getDialogPane().setContent(loader.load());
@@ -212,6 +216,7 @@ public class Controller {
         }
         refreshscreen();
         updateMainView();
+        typeofaddaanvraag="update";
     }
 
 

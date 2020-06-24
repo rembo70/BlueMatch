@@ -11,7 +11,7 @@
     </headerText>
     <content>
         <GridPane hgap="10" prefHeight="416.0" prefWidth="424.0" vgap="10">
-            <Label text="Broker" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label fx:id="Brokerlbl" text="Broker" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="BrokerField" prefHeight="25.0" prefWidth="298.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Label text="Functie" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <TextField fx:id="FunctieField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -19,8 +19,8 @@
             <TextField fx:id="ContactField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Uren per week" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextField fx:id="UrenPerWeekField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Status bij klant" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="StatusKlantField" prefHeight="27.0" prefWidth="297.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+<!--           <Label text="Status bij klant" GridPane.columnIndex="0" GridPane.rowIndex="4" />-->
+<!--           <TextField fx:id="StatusKlantField" prefHeight="27.0" prefWidth="297.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />'-->
             
             <Label text="Locatie" GridPane.rowIndex="7" />
             <TextField fx:id="LocatieField" GridPane.columnIndex="1" GridPane.rowIndex="7" />

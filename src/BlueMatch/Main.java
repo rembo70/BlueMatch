@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class Main extends Application {
     static Integer windowWidth;
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BlueMatch.fxml"));

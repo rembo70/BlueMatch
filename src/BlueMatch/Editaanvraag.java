@@ -69,6 +69,7 @@ public class Editaanvraag {
     @FXML
     public void addAanvraag(ActionEvent event) throws IOException, SQLException {
 //        System.out.println("add aanvraag");
+        Controller.typeofaddaanvraag="new";
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
         dialog.getDialogPane().setContent(loader.load());
@@ -82,6 +83,7 @@ public class Editaanvraag {
                 Datasource.getInstance().aanvraagToevoegen(aanvraag);
             }
         }
+        Controller.typeofaddaanvraag="update";
         refreshscreen();
         updateView();
     }
