@@ -67,6 +67,7 @@ if (Controller.typeofaddaanvraag=="new") {
             selectBrokerBox.setVisible(false);
             BrokerField.setText("Geen");
             BrokerField.setEditable(false);
+            selectBrokerBox.setValue("Geen");
         } else {
             System.out.println("laat broker zien");
             selectBrokerBox.setVisible(true);
@@ -135,6 +136,7 @@ if (Controller.typeofaddaanvraag=="new") {
 
         String datumaanvraag = "";
         String startdatum = "";
+
         String broker = selectBrokerBox.getValue();
         String contact = ContactField.getText();
         String functie = FunctieField.getText();
@@ -213,7 +215,7 @@ if (Controller.typeofaddaanvraag=="new") {
     void updateAanvraag(Aanvraag aanvraag){
 
           aanvraag.setRefbroker(selectBrokerBox.getValue());
-        System.out.println(selectBrokerBox.getValue());
+        //System.out.println(selectBrokerBox.getValue());
           aanvraag.setRefcontact(ContactField.getText());
           aanvraag.setFunctie(FunctieField.getText());
           aanvraag.setVraagurenweek(UrenPerWeekField.getText());
