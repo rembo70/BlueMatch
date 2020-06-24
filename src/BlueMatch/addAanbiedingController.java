@@ -49,12 +49,13 @@ public class addAanbiedingController {
     private void initialize() {
         ObservableList<String> optionsstatus =
                 FXCollections.observableArrayList(
-                        "Nieuw",
+                        "Aangeboden",
                         "Uitgenodigd voor gesprek",
-                        "Plaatsing",
+                        "Afronden-Onderhandelen",
+                        "Geplaatst",
                         "Afgewezen",
                         "Teruggetrokken",
-                        "Overig"
+                        ""
                 );
 
         ObservableList options = populateMdwNameList();

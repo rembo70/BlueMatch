@@ -1,7 +1,7 @@
 
-.button {
-    -fx-background-color: green;
-}
+/*.button {
+     -fx-background-color: green;
+ }*/
     /* Table text should always be white */
 
 .table-view .column-header-background .label{
@@ -17,7 +17,7 @@
 }
 
 .table-row-cell:hover {
-    -fx-background-color:rgb(52,143,235);
+    -fx-background-color:#2ba8cf;
     -fx-text-fill: white;
 }
 
@@ -37,5 +37,10 @@
     -fx-text-fill: black;
     }
 
+.button:hover{
+-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+  -fx-background-color: #f58442;
+  -fx-text-fill: white;
+}
 
 

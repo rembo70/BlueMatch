@@ -64,13 +64,12 @@ public class Controller {
 
     ObservableList<String> optionsaanb =
             FXCollections.observableArrayList(
-                    "",
-                    "Nieuw",
+                    "Aangeboden",
                     "Uitgenodigd voor gesprek",
-                    "Plaatsing",
+                    "Afronden-Onderhandelen",
+                    "Geplaatst",
                     "Afgewezen",
-                    "Teruggetrokken",
-                    "Overig"
+                    "Teruggetrokken",""
             );
 
     @FXML
@@ -84,7 +83,7 @@ public class Controller {
     public void listOverviewRecord() {
         Task<ObservableList<OverviewRecord>> task = new GetAllOverviewRecordTask();
         overviewRecordTable.itemsProperty().bind(task.valueProperty());
-
+        System.out.println("listoverview started");
         new Thread(task).start();
         updateMainView();
     }
@@ -112,6 +111,72 @@ public class Controller {
         window.show();
         ctrleditaanvraag.updateView();
     }
+    @FXML
+    public void statuschange(ActionEvent event) throws IOException, SQLException {
+
+        if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
+            System.out.println("Statuschange detected");
+            OverviewRecord overviewrecord = overviewRecordTable.getSelectionModel().getSelectedItem();
+            if (overviewrecord.getStatusaanbod() == null){
+                Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
+                dialog.getDialogPane().setContent(loader.load());
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+                Optional<ButtonType> result = dialog.showAndWait();
+                {
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        addAanbiedingController addAanbiedingController = loader.getController();
+                        Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
+                        Datasource.getInstance().aanbodToevoegen(aanbod);
+                    }
+                }
+//            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+//            overviewRecordTable.itemsProperty().unbind();
+//            overviewRecordTable.setItems(Overviewlist);
+                refreshscreen();
+                updateMainView();
+            }else{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Statushandler.fxml"));
+                Parent statusviewParent = loader.load();
+                StatusHandler ctrlstatushandler = loader.getController();
+                ctrlstatushandler.editStatus(overviewrecord);
+
+                //ctrlstatushandler.listAanvragen();
+
+                Scene detailViewScene = new Scene(statusviewParent);
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+                ctrlstatushandler.setParentScene(window.getScene());
+                ctrlstatushandler.setParentController(this);
+                window.setScene((detailViewScene));
+                window.show();
+                ctrlstatushandler.editStatus(overviewrecord);
+                //ctrlstatushandler.updateView();
+//                addAanbiedingController addAanbiedingController = loader.getController();
+//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
+
+
+            }
+
+        }
+    }
+
+//    if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
+//
+//        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
+//        dialog.getDialogPane().setContent(loader.load());
+//        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+//        Optional<ButtonType> result = dialog.showAndWait();
+//        {
+//            if (result.isPresent() && result.get() == ButtonType.OK) {
+//                addAanbiedingController addAanbiedingController = loader.getController();
+//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
+//                Datasource.getInstance().aanbodToevoegen(aanbod);
+//            }
+//        }
 
     @FXML
     public void overzichtMedewerker(ActionEvent event) throws IOException {
