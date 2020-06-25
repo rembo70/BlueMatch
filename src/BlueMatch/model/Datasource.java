@@ -180,7 +180,7 @@ public class Datasource {
     public static final String QUERYUPDATE_AANBOD = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_REFMEDEWERKER  + " = ?, " + COLUMN_TARIEFAANBOD + " = ?, "
             + COLUMN_URENPERWEEKAANBOD + " = ?, " + COLUMN_STATUSAANBOD +" = ?, " + COLUMN_OPMERKINGAANBOD + " = ? WHERE "  + COLUMN_IDAANBOD + " = ?";
 
-    public static final String QUERYUPDATE_AANBOD_STATUS = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_STATUSAANBOD + " = ? WHERE "  + COLUMN_IDAANBOD + " = ? AND " + COLUMN_REFAANVRAAG + " = ?";
+    public static final String QUERYUPDATE_AANBOD_STATUS = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_STATUSAANBOD + " = ? ," + COLUMN_OPMERKINGAANBOD  + " = ? WHERE "  + COLUMN_IDAANBOD + " = ? AND " + COLUMN_REFAANVRAAG + " = ?";
 
     public static final String QUERYUPDATE_MEDEWERKER = "UPDATE " + TABLE_MEDEWERKER + " SET " + COLUMN_MDWVOORNAAM  + " = ?, " + COLUMN_MDWACHTERNAAM + " = ?, "
             + COLUMN_MDWURENPERWEEK + " = ?, " + COLUMN_MDWSTATUS + " = ?, " + COLUMN_MDWEMAIL + " = ?, " + COLUMN_MDWOPMERKING + " = ?  WHERE " + COLUMN_IDMDW + " =  ?";
@@ -568,11 +568,12 @@ public class Datasource {
         }
     }
 
-    public boolean updateAanbodStatus (String newstatus, int idaanbod, int idaanvraag ){
+    public boolean updateAanbodStatus (String newstatus, String newopmerking, int idaanbod, int idaanvraag ){
         try {
             updateaanbodstatus.setString(1, newstatus);
-            updateaanbodstatus.setString(2, String.valueOf(idaanbod));
-            updateaanbodstatus.setString(3, String.valueOf(idaanvraag));
+            updateaanbodstatus.setString(2, newopmerking);
+            updateaanbodstatus.setString(3, String.valueOf(idaanbod));
+            updateaanbodstatus.setString(4, String.valueOf(idaanvraag));
             int affectedRecords = updateaanbodstatus.executeUpdate();
             return affectedRecords ==1;
 

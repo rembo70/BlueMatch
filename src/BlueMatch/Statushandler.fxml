@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.StatusHandler">
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.StatusHandler">
     <bottom>
         <ButtonBar prefHeight="35.0" prefWidth="1024.0" BorderPane.alignment="BOTTOM_LEFT">
             <buttons>
@@ -98,14 +90,14 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label alignment="TOP_LEFT" text="Broker" />
-                        <Label contentDisplay="TOP" text="Klant" GridPane.rowIndex="1" />
-                        <Label text="Medewerker" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField prefHeight="25.0" prefWidth="117.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Huidige status" GridPane.rowIndex="3" />
+                        <Label  text="Broker:" />
+                        <Label  text="Klant:" GridPane.rowIndex="1" />
+                        <Label  text="Medewerker:" GridPane.rowIndex="2" />
+                        <Label  text="Huidige status:" GridPane.rowIndex="3" />
+                        <Label fx:id="Brokerlabel" text="Geen broker" GridPane.columnIndex="1" />
+                        <Label fx:id="Medewerkerlabel" text="Geen medewerker geselecteerd" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="Huidigestatuslabel" text="Geen status gespecificeerd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="Klantlabel" text="Geen directe klant gespecificeerd" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>
