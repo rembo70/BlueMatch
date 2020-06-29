@@ -1,5 +1,7 @@
 package BlueMatch.model;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +65,7 @@ public class Datasource {
     public static final String COLUMN_MDWSTATUS = "statusmdw";
     public static final String COLUMN_MDWEMAIL = "emailmdw";
     public static final String COLUMN_MDWOPMERKING = "opmerkingmdw";
+    public static final String COLUMN_FULLNAME =  "fullname";
     public static final int INDEX_IDMDW = 1;
     public static final int INDEX_MDWVOORNAAM = 2;
     public static final int INDEX_MDWACHTERNAAM = 3;
@@ -70,6 +73,7 @@ public class Datasource {
     public static final int INDEX_MDWSTATUSMDW = 5;
     public static final int INDEX_MDWEMAILMEDEWERKER = 6;
     public static final int INDEX_MDWOPMERKINGMEDEWERKER = 7;
+    public static final int INDEX_FULLNAME = 8;
 
 
     public static final String TABLE_KLANT = "Klant";
@@ -134,8 +138,8 @@ public class Datasource {
 
     public static final String InsertMedewerker = "INSERT INTO " + TABLE_MEDEWERKER + '(' + COLUMN_MDWVOORNAAM
             + "," + COLUMN_MDWACHTERNAAM + "," + COLUMN_MDWURENPERWEEK + "," + COLUMN_MDWSTATUS
-            + "," + COLUMN_MDWEMAIL +"," + COLUMN_MDWOPMERKING +
-            ") VALUES (?,?,?,?,?,?)";
+            + "," + COLUMN_MDWEMAIL +"," + COLUMN_MDWOPMERKING + "," + COLUMN_FULLNAME +
+            ") VALUES (?,?,?,?,?,?,?)";
 
     public static final String InsertBroker = "INSERT INTO " + TABLE_BROKER + '(' + COLUMN_BROKERNAAM
             + "," + COLUMN_CONTACTPERSOON + "," + COLUMN_TELBROKER + "," + COLUMN_EMAILBROKER +","
@@ -183,7 +187,7 @@ public class Datasource {
     public static final String QUERYUPDATE_AANBOD_STATUS = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_STATUSAANBOD + " = ? ," + COLUMN_OPMERKINGAANBOD  + " = ? WHERE "  + COLUMN_IDAANBOD + " = ? AND " + COLUMN_REFAANVRAAG + " = ?";
 
     public static final String QUERYUPDATE_MEDEWERKER = "UPDATE " + TABLE_MEDEWERKER + " SET " + COLUMN_MDWVOORNAAM  + " = ?, " + COLUMN_MDWACHTERNAAM + " = ?, "
-            + COLUMN_MDWURENPERWEEK + " = ?, " + COLUMN_MDWSTATUS + " = ?, " + COLUMN_MDWEMAIL + " = ?, " + COLUMN_MDWOPMERKING + " = ?  WHERE " + COLUMN_IDMDW + " =  ?";
+            + COLUMN_MDWURENPERWEEK + " = ?, " + COLUMN_MDWSTATUS + " = ?, " + COLUMN_MDWEMAIL + " = ?, " + COLUMN_MDWOPMERKING + " = ?, " + COLUMN_FULLNAME + " = ?  WHERE " + COLUMN_IDMDW + " =  ?";
 
 
     public static final String QUERYDELETE_MEDEWERKER = "DELETE FROM " + TABLE_MEDEWERKER +  " WHERE " + COLUMN_IDMDW + " =  ?";
@@ -394,6 +398,7 @@ public class Datasource {
         insertIntoMedewerker.setString(4, medewerker.getStatusmdw());
         insertIntoMedewerker.setString(5,medewerker.getEmailmedewerker());
         insertIntoMedewerker.setString(6,medewerker.getOpmerkingmedewerker());
+        insertIntoMedewerker.setString(7,medewerker.getVoornaam()+" "+medewerker.getAchternaam());
         // System.out.println(InsertMedewerker);
         insertIntoMedewerker.executeUpdate();
         conn.setAutoCommit(true);
@@ -410,6 +415,7 @@ public class Datasource {
             updatemedewerker.setString(4, medewerker.getStatusmdw());
             updatemedewerker.setString(5,medewerker.getEmailmedewerker());
             updatemedewerker.setString(6,medewerker.getOpmerkingmedewerker());
+            updatemedewerker.setString(7,medewerker.getVoornaam()+" "+medewerker.getAchternaam());
             int affectedRecords = updatemedewerker.executeUpdate();
             return affectedRecords ==1;
 
@@ -692,6 +698,32 @@ public class Datasource {
             return null;
         }
     }
+
+    public Medewerker queryMedewerkeremail(String Medewerkernaam) {
+
+        System.out.println("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'");
+        try (Statement statement = conn.createStatement();
+
+             ResultSet results = statement.executeQuery("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'")) {
+
+            Medewerker selectedmedewerker=new Medewerker();
+            List<Medewerker> medewerkers = new ArrayList<>();
+            while (results.next()) {
+                Medewerker medewerker = new Medewerker();
+                medewerker.setEmailmedewerker(results.getString(1));
+                System.out.println(results.getString(1));
+                medewerkers.add(medewerker);
+                selectedmedewerker=medewerker;
+                System.out.println("Emails: " + selectedmedewerker.getEmailmedewerker());
+            }
+            return selectedmedewerker;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+
     public List<Klant> queryKlant() {
 
         try (Statement statement = conn.createStatement();

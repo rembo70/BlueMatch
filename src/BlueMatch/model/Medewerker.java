@@ -8,6 +8,15 @@ public class Medewerker {
     private String statusmdw;
     private String emailmdw;
     private String opmerkingmdw;
+    private String fullname;
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
     public int getIDmdw() {
         return IDmdw;
