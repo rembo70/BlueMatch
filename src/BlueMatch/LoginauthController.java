@@ -1,15 +1,15 @@
 package BlueMatch;
 
-import BlueMatch.model.Klant;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import org.w3c.dom.ls.LSOutput;
+import javafx.stage.Stage;
 
-
-import javax.mail.PasswordAuthentication;
-import java.awt.event.ActionEvent;
-import static BlueMatch.Main.userpassword;
-import static BlueMatch.Main.userEmail;
+import java.io.IOException;
 
 
 public class LoginauthController {
@@ -20,29 +20,72 @@ public class LoginauthController {
     @FXML
     private Button btninloggen;
     @FXML
+    private Button buttonok;
+    @FXML
     private Label statusvalidatie;
+
+    @FXML
+    public void buttonok (ActionEvent event) throws IOException {
+        System.out.println("ok pressed");
+        Main.userEmail=usermailadrfield.getText();
+        Main.userpassword= passwordfield;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("BlueMatch.FXML"));
+        Parent ControllerParent = loader.load();
+        Controller controller = loader.getController();
+        Scene ControllerScene = new Scene(ControllerParent);
+        controller.listOverviewRecord();
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        controller.setParentScene(window.getScene());
+        controller.setParentController(this);
+        window.setScene((ControllerScene));
+        window.setWidth(1024);
+        window.setHeight(700);
+        window.show();
+    }
 
 
     @FXML
     public Button btnlogin (javafx.event.ActionEvent event) {
 
         System.out.println("validating email");
-        if(usermailadrfield.getText().equals("")) {
+        if(usermailadrfield.getText().equals("")||usermailadrfield==null) {
             System.out.println("geen mailadres");
-        }
-        else if(new SendEmailOffice365().sendEmail(usermailadrfield.getText(), passwordfield,usermailadrfield.getText(), "Melding Validate: Ingelogd onder je gebruikersnaam", "Het versturen van een email vanuit jouw account is geslaagd. <br>  Je kan deze mail negeren, indien je zelf de validatie hebt uitgevoerd.")==true){
-            //System.out.println("Mail sucessfully sent");
-            btninloggen.setDisable(false);
-            Main.userpassword= passwordfield;
-            Main.userEmail=usermailadrfield.getText();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("");
+            alert.setContentText("Sorry je mail adres is niet ingevuld of leeg, er moet een email adres zijn ingevuld voor je verder kan");
+            buttonok.setDisable(false);
 
-            statusvalidatie.setText("Validatie geslaagd. Je kan verder gaan");
+            alert.showAndWait();
         }
-        else{
-            System.out.println("Mail not successfully sent");
-            //btninloggen.setText("Ga verder zonder inloggen. (mails kunnen niet worden verstuurd)");
-            //btninloggen.setDisable(true);
-            statusvalidatie.setText("Validatie niet geslaagd.");
+        else if (passwordfield.getText() != null && passwordfield.getText()!="" && !passwordfield.getText().isEmpty()) {
+            if (new SendEmailOffice365().sendEmail(usermailadrfield.getText(), passwordfield, usermailadrfield.getText(), "Melding Validate: Ingelogd onder je gebruikersnaam", "Het versturen van een email vanuit jouw account is geslaagd. <br>  Je kan deze mail negeren, indien je zelf de validatie hebt uitgevoerd.") == true) {
+                //System.out.println("Mail sucessfully sent");
+                btninloggen.setDisable(false);
+                Main.userpassword = passwordfield;
+                Main.userEmail = usermailadrfield.getText();
+                System.out.println(Main.userEmail);
+
+                statusvalidatie.setText("Validatie geslaagd. Je kan verder gaan");
+                buttonok.setText("Ga verder");
+                buttonok.setDisable(false);
+            } else {
+                System.out.println("Mail not successfully sent");
+                //btninloggen.setText("Ga verder zonder inloggen. (mails kunnen niet worden verstuurd)");
+                //btninloggen.setDisable(true);
+                statusvalidatie.setText("Validatie niet geslaagd.");
+                buttonok.setText("Skip (geen automatische mails)");
+                buttonok.setDisable(false);
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText("");
+            alert.setContentText("Je wachtwoord is niet ingevuld is niet ingevuld of leeg, zonder wachtwoord kunnen geen statuswijzigingen vanuit BlueMatch worden doorgevoerd");
+            buttonok.setDisable(false);
+            buttonok.setText("Skip (geen automatische mails)");
         }
         return null;
     }

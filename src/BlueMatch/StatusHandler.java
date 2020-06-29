@@ -32,7 +32,7 @@ public class StatusHandler {
     private Controller parentController;
     private String mdwEmail;
 
-    Log log = new Log();
+    private Log log = new Log();
     private Timestamp timestamp;
     private Scene ParentScene;
     @FXML
@@ -81,7 +81,7 @@ public class StatusHandler {
     }
 
     @FXML
-    public void statchangeteruggetrokken(ActionEvent event) throws SQLException, IOException {
+    public void statchangeteruggetrokken(ActionEvent event) throws SQLException {
         log.setNewstatus("Teruggetrokken");
         setTimestamp();
         Datasource.getInstance().logToevoegen(log);
@@ -91,7 +91,7 @@ public class StatusHandler {
 
     }
 
-    public void statchangeafgewezen(ActionEvent event) throws SQLException, IOException {
+    public void statchangeafgewezen(ActionEvent event) throws SQLException {
         log.setNewstatus("Afgewezen");
         setTimestamp();
         Datasource.getInstance().logToevoegen(log);
@@ -102,7 +102,7 @@ public class StatusHandler {
     }
 
     @FXML
-    public void statchangeaangeboden(ActionEvent event) throws SQLException, IOException {
+    public void statchangeaangeboden(ActionEvent event) throws SQLException {
         log.setNewstatus("Aangeboden");
         setTimestamp();
         Datasource.getInstance().logToevoegen(log);
@@ -113,7 +113,7 @@ public class StatusHandler {
     }
 
     @FXML
-    public void statchangeuitgenodigd(ActionEvent event) throws SQLException, IOException {
+    public void statchangeuitgenodigd(ActionEvent event) throws SQLException {
         log.setNewstatus("Uitgenodigd voor gesprek");
 
         Optional<String> result = showopmerkingdialogue(log.getNewstatus());
@@ -134,7 +134,7 @@ public class StatusHandler {
             String subject = "je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
             System.out.println("ik ga mail versturen");
 
-            String messagebody = "De status van je aanbieding is gewijzigd naar: 'Uitgenodigd voor gesprek <br>";
+            String messagebody = "De status van je aanbieding bij "+ overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek <br>";
             messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
             messagebody += "Dit bericht is automatisch gegenereerd vanuit BlueMatch";
 
@@ -143,17 +143,17 @@ public class StatusHandler {
         }
     }
 
-    public void sendmail(String medewerkernaam, String subject, String messagebody){
+    private void sendmail(String medewerkernaam, String subject, String messagebody){
 
         mdwEmail = Datasource.getInstance().queryMedewerkeremail(medewerkernaam).getEmailmedewerker();
         //System.out.println("Email: "  + mdwEmail);
         String destination = mdwEmail;
         String from = Main.userEmail;
-        System.out.println("send mail from" + userEmail + "ww" + userpassword.getText());
-        if (userpassword==null){
-            userpassword=getPassword();
+        System.out.println("send mail from" + from + " ww "  + " to " + destination);
+        if (Main.userpassword==null){
+            Main.userpassword=getPassword();
         }
-        PasswordField password=userpassword;
+        PasswordField password=Main.userpassword;
         System.out.println(destination + messagebody);
         if (password!=null){
             System.out.println("Mail wordt gestuurd");
@@ -162,7 +162,7 @@ public class StatusHandler {
     }
 
 
-    public PasswordField getPassword(){
+    private PasswordField getPassword(){
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Geef je wachtwoord voor mail");
         dialog.setHeaderText("");
@@ -191,7 +191,7 @@ public class StatusHandler {
         return null;
     }
 
-    public Optional<String> showopmerkingdialogue(String newstatus) {
+    private Optional<String> showopmerkingdialogue(String newstatus) {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Bevestiging");
         dialog.setHeaderText("Weet je zeker dat je de status wil aanpassen naar uitgenodigd ?");
@@ -202,7 +202,7 @@ public class StatusHandler {
     }
 
     @FXML
-    public void statchangegeplaatst(ActionEvent event) throws SQLException, IOException {
+    public void statchangegeplaatst(ActionEvent event) throws SQLException {
         log.setNewstatus("Geplaatst");
         setTimestamp();
         Datasource.getInstance().logToevoegen(log);
@@ -213,7 +213,7 @@ public class StatusHandler {
     }
 
     @FXML
-    public void statchangeafronden(ActionEvent event) throws SQLException, IOException {
+    public void statchangeafronden(ActionEvent event) throws SQLException {
         log.setNewstatus("Afronden-Onderhandelen");
         setTimestamp();
         Datasource.getInstance().logToevoegen(log);

@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SendEmailOffice365 {
+class SendEmailOffice365 {
 
     private static final Logger LOGGER = Logger.getAnonymousLogger();
     private static final String SERVER_SMTP = "smtp.office365.com";
@@ -24,7 +24,7 @@ public class SendEmailOffice365 {
     private final String subject = "Test mail";
     private final String messagebody = "Test message";
 
-    public boolean sendEmail(String from, PasswordField password, String destination, String subject, String messagebody) {
+    boolean sendEmail(String from, PasswordField password, String destination, String subject, String messagebody) {
         System.out.println("in sendemail");
         if (from != null && password!=null) {
             System.out.println("username and password present");
@@ -52,7 +52,7 @@ public class SendEmailOffice365 {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning Dialog");
                 alert.setHeaderText("");
-                alert.setContentText("Sorry je mail adres / wachtwoord is niet correct of er is geen verbinding met mail server \n , er is geen mail verstuurd");
+                alert.setContentText("Sorry je mail adres / wachtwoord is niet correct of er is geen verbinding met mail server, er is geen mail verstuurd naar " + destination + "\n \n Zonder correcte mail gegevens kunnen vanuit BlueMatch geen automatische mails worden verstuurd");
 
                 alert.showAndWait();//display connection error to the user, maybe allow them to retry
                 return false;
@@ -69,7 +69,7 @@ public class SendEmailOffice365 {
     }
 
 
-    public Properties getEmailProperties() {
+    private Properties getEmailProperties() {
         final Properties config = new Properties();
         config.put("mail.smtp.auth", "true");
         config.put("mail.smtp.starttls.enable", "true");

@@ -5,11 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<DialogPane minHeight="250.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.LoginauthController">
-    <headerText>
-        Log in
-    </headerText>
-    <header>
+<BorderPane maxWidth="340.0" minHeight="250.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.LoginauthController">
+<top>
         <Pane prefHeight="34.0" prefWidth="340.0">
 
             <Label fx:id="headertext" alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="6.0" prefHeight="17.0" prefWidth="258.0" text="Gebruiker gegevens">
@@ -22,9 +19,9 @@
                 <Blend opacity="0.33" />
             </effect>
         </Pane>
-    </header>
-   <content>
-      <Pane prefHeight="200.0" prefWidth="264.0">
+</top>
+<center>
+      <Pane prefHeight="323.0" prefWidth="340.0">
          <children>
             <GridPane layoutX="17.0" layoutY="38.0" prefHeight="77.0" prefWidth="292.0">
               <columnConstraints>
@@ -44,9 +41,9 @@
                      <font>
                         <Font name="Calibri" size="12.0" />
                      </font></Label>
+                  <TextField fx:id="usermailadrfield" prefHeight="25.0" prefWidth="272.0" GridPane.columnIndex="1" />
                   <Label prefHeight="17.0" prefWidth="84.0" text="Wachtwoord" GridPane.rowIndex="3" />
                   <PasswordField fx:id="passwordfield" prefHeight="25.0" prefWidth="218.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="usermailadrfield" prefHeight="25.0" prefWidth="272.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Button fx:id="btninloggen" layoutX="84.0" layoutY="115.0" mnemonicParsing="false" onAction="#btnlogin" text="Valideer adres en wachtwoord" />
@@ -66,5 +63,12 @@
             </Label>
          </children>
       </Pane>
-   </content>
-</DialogPane>
+</center>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+            <Button fx:id="buttonok" disable="true" mnemonicParsing="false" onAction="#buttonok" prefHeight="25.0" prefWidth="198.0" text="OK" translateX="-5.0" />
+        </buttons>
+      </ButtonBar>
+   </bottom>
+</BorderPane>

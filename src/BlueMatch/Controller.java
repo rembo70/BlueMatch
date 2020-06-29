@@ -22,7 +22,7 @@ import java.util.Optional;
 
 
 public class Controller {
-    public static String typeofaddaanvraag;
+    static String typeofaddaanvraag;
 
 
     @FXML
@@ -49,7 +49,19 @@ public class Controller {
     @FXML
     private ComboBox<String> statusKlantCombo;
 
-    ObservableList<String> options =
+    private LoginauthController parentController;
+    private Scene ParentScene;
+
+    void setParentScene(Scene scene) {
+        this.ParentScene = scene;
+    }
+
+    void setParentController(LoginauthController loginauthController) {
+        this.parentController = loginauthController;
+        LoginauthController parentcontrol = loginauthController;
+    }
+
+    private ObservableList<String> options =
             FXCollections.observableArrayList(
 
                     "Vrijblijvend aanbieden",
@@ -59,10 +71,12 @@ public class Controller {
                     "Anders"
 
             );
+
+
     @FXML
     private ComboBox<String> statusAanbiedingCombo;
 
-    ObservableList<String> optionsaanb =
+    private ObservableList<String> optionsaanb =
             FXCollections.observableArrayList(
                     "Aangeboden",
                     "Uitgenodigd voor gesprek",
@@ -80,8 +94,8 @@ public class Controller {
         statusAanbiedingCombo.setValue("");
     }
 
-    public void listOverviewRecord() {
-        Task<ObservableList<OverviewRecord>> task = new GetAllOverviewRecordTask();
+    void listOverviewRecord() {
+        GetAllOverviewRecordTask task = new GetAllOverviewRecordTask();
         overviewRecordTable.itemsProperty().bind(task.valueProperty());
         System.out.println("listoverview started");
         new Thread(task).start();
@@ -304,7 +318,7 @@ public class Controller {
 
     }
 
-    public void refreshscreen() {
+    void refreshscreen() {
         ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
         overviewRecordTable.itemsProperty().unbind();
         overviewRecordTable.setItems(Overviewlist);
@@ -338,7 +352,7 @@ public class Controller {
     @FXML
     private Button aanbiedingmaken;
 
-    public void updateMainView() {
+    void updateMainView() {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() == null) {
 
             aanbiedingmaken.setDisable(true);
