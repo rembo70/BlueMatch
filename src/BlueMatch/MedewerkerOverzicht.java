@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import static BlueMatch.Main.userEmail;
+
 public class MedewerkerOverzicht {
 
     private Scene ParentScene;
@@ -65,7 +67,7 @@ public class MedewerkerOverzicht {
         Medewerker medewerker = medewerkerTable.getSelectionModel().getSelectedItem();
         String destination = medewerker.getEmailmedewerker();
         System.out.println("send mail");
-        new SendEmailOffice365().sendEmail(passwordmail,destination);
+        new SendEmailOffice365().sendEmail(userEmail, passwordmail,destination, "Validatie mail BlueMatch", "Medewerker met je amailadres is ingelogd op BlueMatch. <br> Indiuen je dit zelf bent, kun je dit bericht negeren");
     }
 
 

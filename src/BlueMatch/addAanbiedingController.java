@@ -33,38 +33,37 @@ public class addAanbiedingController {
     @FXML
     private ChoiceBox<String> aanbodBox;
 
-    public ObservableList populateMdwNameList() {
-        ArrayList<String> medewerkernaamlist = new ArrayList<String>();
+    private ObservableList populateMdwNameList() {
+        ArrayList<String> medewerkernaamlist = new ArrayList<>();
         ObservableList<Medewerker> medewerkerslijst = FXCollections.observableArrayList(Datasource.getInstance().queryMedewerker());
 
         for (Medewerker huidigemdw : medewerkerslijst) {
             medewerkernaamlist.add(huidigemdw.getVoornaam() + " " + huidigemdw.getAchternaam());
         }
-        ObservableList<String> options =
-                FXCollections.observableArrayList(medewerkernaamlist
-                );
 
-        return options;
+        return FXCollections.observableArrayList(medewerkernaamlist
+        );
     }
 
     @FXML
     private void initialize() {
         ObservableList<String> optionsstatus =
                 FXCollections.observableArrayList(
-                        "Nieuw",
+                        "Aangeboden",
                         "Uitgenodigd voor gesprek",
-                        "Plaatsing",
+                        "Afronden-Onderhandelen",
+                        "Geplaatst",
                         "Afgewezen",
                         "Teruggetrokken",
-                        "Overig"
+                        ""
                 );
 
-        ObservableList<String> options = populateMdwNameList();
+        ObservableList options = populateMdwNameList();
         selectMedewerkerBox.setItems(options);
         aanbodBox.setItems(optionsstatus);
     }
 
-    public Aanbod getNewAanbod(String idaanvraag) {
+    Aanbod getNewAanbod(String idaanvraag) {
         String medewerker = selectMedewerkerBox.getValue();
         String tariefaanbod = tariefaanbodField.getText();
         String urenperweekaanbod = urenperweekaanbodField.getText();
@@ -83,8 +82,8 @@ public class addAanbiedingController {
         return newAanbod;
     }
 
-    public void editAanbod(Aanbod aanbod,String type) {
-        if (type=="update"){
+    void editAanbod(Aanbod aanbod, String type) {
+        if (type.equals("update")){
             Dialogue.setText("Aanbieding wijzigen");
            // System.out.println("update selected");
         }
@@ -101,7 +100,7 @@ public class addAanbiedingController {
 
     }
 
-    public void updateAanbod (Aanbod aanbod){
+    void updateAanbod(Aanbod aanbod){
         aanbod.setRefmedewerker(selectMedewerkerBox.getValue());
         aanbod.setTariefaanbod(tariefaanbodField.getText());
         aanbod.setUrenperweekaanbod(urenperweekaanbodField.getText());

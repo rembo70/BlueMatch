@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
+
 public class Controller {
+    static String typeofaddaanvraag;
+
 
     @FXML
     private TableColumn columnBroker;
@@ -46,28 +49,41 @@ public class Controller {
     @FXML
     private ComboBox<String> statusKlantCombo;
 
-    ObservableList<String> options =
-            FXCollections.observableArrayList(
-                    "", "Nieuw",
-                    "Vrijblijvend aangeboden",
-                    "Aangeboden Broker",
-                    "Aangeboden Eindklant",
-                    "Aangeboden"
+    private LoginauthController parentController;
+    private Scene ParentScene;
 
+    void setParentScene(Scene scene) {
+        this.ParentScene = scene;
+    }
+
+    void setParentController(LoginauthController loginauthController) {
+        this.parentController = loginauthController;
+        LoginauthController parentcontrol = loginauthController;
+    }
+
+    private ObservableList<String> options =
+            FXCollections.observableArrayList(
+
+                    "Vrijblijvend aanbieden",
+                    "Aanbieden via broker",
+                    "Aanbieden bij eindklant",
+                    "(Nog) niet aanbieden",
+                    "Anders"
 
             );
+
+
     @FXML
     private ComboBox<String> statusAanbiedingCombo;
 
-    ObservableList<String> optionsaanb =
+    private ObservableList<String> optionsaanb =
             FXCollections.observableArrayList(
-                    "",
-                    "Nieuw",
+                    "Aangeboden",
                     "Uitgenodigd voor gesprek",
-                    "Plaatsing",
+                    "Afronden-Onderhandelen",
+                    "Geplaatst",
                     "Afgewezen",
-                    "Teruggetrokken",
-                    "Overig"
+                    "Teruggetrokken",""
             );
 
     @FXML
@@ -78,10 +94,10 @@ public class Controller {
         statusAanbiedingCombo.setValue("");
     }
 
-    public void listOverviewRecord() {
-        Task<ObservableList<OverviewRecord>> task = new GetAllOverviewRecordTask();
+    void listOverviewRecord() {
+        GetAllOverviewRecordTask task = new GetAllOverviewRecordTask();
         overviewRecordTable.itemsProperty().bind(task.valueProperty());
-
+        System.out.println("listoverview started");
         new Thread(task).start();
         updateMainView();
     }
@@ -109,6 +125,72 @@ public class Controller {
         window.show();
         ctrleditaanvraag.updateView();
     }
+    @FXML
+    public void statuschange(ActionEvent event) throws IOException, SQLException {
+
+        if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
+            System.out.println("Statuschange detected");
+            OverviewRecord overviewrecord = overviewRecordTable.getSelectionModel().getSelectedItem();
+            if (overviewrecord.getStatusaanbod() == null){
+                Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
+                dialog.getDialogPane().setContent(loader.load());
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+                Optional<ButtonType> result = dialog.showAndWait();
+                {
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        addAanbiedingController addAanbiedingController = loader.getController();
+                        Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
+                        Datasource.getInstance().aanbodToevoegen(aanbod);
+                    }
+                }
+//            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+//            overviewRecordTable.itemsProperty().unbind();
+//            overviewRecordTable.setItems(Overviewlist);
+                refreshscreen();
+                updateMainView();
+            }else{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Statushandler.fxml"));
+                Parent statusviewParent = loader.load();
+                StatusHandler ctrlstatushandler = loader.getController();
+                ctrlstatushandler.editStatus(overviewrecord);
+
+                //ctrlstatushandler.listAanvragen();
+
+                Scene detailViewScene = new Scene(statusviewParent);
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+                ctrlstatushandler.setParentScene(window.getScene());
+                ctrlstatushandler.setParentController(this);
+                window.setScene((detailViewScene));
+                window.show();
+                ctrlstatushandler.editStatus(overviewrecord);
+                //ctrlstatushandler.updateView();
+//                addAanbiedingController addAanbiedingController = loader.getController();
+//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
+
+
+            }
+
+        }
+    }
+
+//    if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
+//
+//        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
+//        dialog.getDialogPane().setContent(loader.load());
+//        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+//        Optional<ButtonType> result = dialog.showAndWait();
+//        {
+//            if (result.isPresent() && result.get() == ButtonType.OK) {
+//                addAanbiedingController addAanbiedingController = loader.getController();
+//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
+//                Datasource.getInstance().aanbodToevoegen(aanbod);
+//            }
+//        }
 
     @FXML
     public void overzichtMedewerker(ActionEvent event) throws IOException {
@@ -197,6 +279,7 @@ public class Controller {
 
     @FXML
     public void aanvraagToevoegen(ActionEvent event) throws IOException, SQLException {
+        typeofaddaanvraag="new";
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
         dialog.getDialogPane().setContent(loader.load());
@@ -212,6 +295,7 @@ public class Controller {
         }
         refreshscreen();
         updateMainView();
+        typeofaddaanvraag="update";
     }
 
 
@@ -230,10 +314,11 @@ public class Controller {
         ctrleditaanbod.setParentController(this);
         window.setScene((detailViewScene));
         window.show();
+        ctrleditaanbod.updateView();
 
     }
 
-    public void refreshscreen() {
+    void refreshscreen() {
         ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
         overviewRecordTable.itemsProperty().unbind();
         overviewRecordTable.setItems(Overviewlist);
@@ -267,7 +352,7 @@ public class Controller {
     @FXML
     private Button aanbiedingmaken;
 
-    public void updateMainView() {
+    void updateMainView() {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() == null) {
 
             aanbiedingmaken.setDisable(true);
@@ -286,9 +371,16 @@ public class Controller {
         changelistener(columnMedewerker);
         changelistener(columnFunctie);
 
+        //changelistenerstatus(columnStatusKlant);
+        ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
+        //Overviewlist.addListener((Change<? extends OverviewRecord> c) -> { });
     }
 
-    public void changelistener(final TableColumn listerColumn) {
+
+
+
+
+    private void changelistener(final TableColumn listerColumn) {
         listerColumn.widthProperty().addListener(new ChangeListener<Number>() {
 
             @Override

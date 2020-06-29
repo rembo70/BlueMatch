@@ -5,10 +5,7 @@ import BlueMatch.model.Medewerker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class AddKlantController {
 
@@ -23,7 +20,8 @@ public class AddKlantController {
     private TextField klantcontactemailField;
     @FXML
     private TextArea klantopmerkingField;
-
+    @FXML
+    private Label headertext;
     @FXML
     private TableView<Klant> klantTable;
 
@@ -47,8 +45,17 @@ public class AddKlantController {
     }
 
 
-    public void editKlant(Klant klant) {
+    public void editKlant(Klant klant, String type) {
         //System.out.println("edit klant started");
+        System.out.println(klant.getKlantnaam());
+        if (type.equals("update")){
+            headertext.setText("Klant gegevens wijzigen");
+            //System.out.println("update selected");
+        }
+        else {
+            headertext.setText("Klant verwijderen ?");
+            //System.out.println("delete selected");
+        }
         klantnaamField.setText(klant.getKlantnaam());
         klantcontactpersoonField.setText(klant.getKlantcontactpersoon());
         klantcontacttelnrField.setText(klant.getKlantcontacttelnr());

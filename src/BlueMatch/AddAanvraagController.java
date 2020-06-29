@@ -3,6 +3,7 @@ package BlueMatch;
 import BlueMatch.model.Aanvraag;
 import BlueMatch.model.Broker;
 import BlueMatch.model.Datasource;
+import BlueMatch.model.Medewerker;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,33 +22,68 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Optional;
 
 import static java.time.LocalDate.parse;
 
 public class AddAanvraagController {
+    String statusklanttmp;
 
     @FXML
     private ChoiceBox<String> statusklantBox;
     @FXML
+    private ChoiceBox<String> selectBrokerBox;
+    @FXML
     private DatePicker datePickAanvraagDate;
     @FXML
     private DatePicker datePickerStartDate;
+    @FXML
+    private Label Brokerlbl;
 
-    ObservableList<String> options =
+    private ObservableList<String> options =
             FXCollections.observableArrayList(
-                    "Nieuw",
-                    "Vrijblijvend aangeboden",
-                    "Aangeboden Broker",
-                    "Aangeboden Eindklant",
-                    "Aangeboden"
-
+                    "Vrijblijvend aanbieden",
+                    "Aanbieden via broker",
+                    "Aanbieden bij eindklant",
+                    "(Nog) niet aanbieden",
+                    "Anders"
 
             );
 
     @FXML
     private void initialize() {
-        statusklantBox.setItems(options);
-        statusklantBox.setValue("Nieuw");
+if (Controller.typeofaddaanvraag=="new") {
+    ChoiceDialog<String> dialog = new ChoiceDialog("Vrijblijvend aanbieden", options);
+    dialog.setTitle("");
+    dialog.setHeaderText("Hoe ga je  op deze aanvraag aanbieden ");
+    //dialog.setContentText("contenttext:");
+
+// Traditional way to get the response value.
+    Optional<String> result = dialog.showAndWait();
+    if (result.isPresent()) {
+        if (result.get().equals("Aanbieden bij eindklant")) {
+            System.out.println("laat broker niet zien");
+            selectBrokerBox.setVisible(false);
+            BrokerField.setText("Geen");
+            BrokerField.setEditable(false);
+            selectBrokerBox.setValue("Geen");
+        } else {
+            System.out.println("laat broker zien");
+            selectBrokerBox.setVisible(true);
+            ObservableList<String> optionsbrkr = populateBrokerNameList();
+            selectBrokerBox.setItems(optionsbrkr);
+        }
+        statusklanttmp=result.get();
+        statusklantBox.setVisible(false);
+    }
+}else {
+    statusklantBox.setItems(options);
+//    statusklantBox.setValue("Nieuw");
+    statusklantBox.setVisible(true);
+}
+        ObservableList<String> optionsbrkr = populateBrokerNameList();
+        selectBrokerBox.setItems(optionsbrkr);
     }
 
 
@@ -80,16 +116,32 @@ public class AddAanvraagController {
     @FXML
     private TableView<Aanvraag> aanvraagTable;
 
+    private ObservableList populateBrokerNameList() {
+        ArrayList<String> brokernaamlist = new ArrayList<String>();
+        ObservableList<Broker> medewerkerslijst = FXCollections.observableArrayList(Datasource.getInstance().queryBroker());
 
-    public Aanvraag getNewAanvraag() {
+        for (Broker huidigebroker : medewerkerslijst) {
+            brokernaamlist.add(huidigebroker.getBrokernaam());
+        }
+        ObservableList<String> options =
+                FXCollections.observableArrayList(brokernaamlist
+                );
+
+        return options;
+    }
+
+
+    Aanvraag getNewAanvraag() {
         //SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
+
         String datumaanvraag = "";
         String startdatum = "";
-        String broker = BrokerField.getText();
+
+        String broker = selectBrokerBox.getValue();
         String contact = ContactField.getText();
         String functie = FunctieField.getText();
         String urenperweek = UrenPerWeekField.getText();
-        String statusklant = statusklantBox.getValue();
+        //String statusklant = statusklantBox.getValue();
         if (datePickAanvraagDate.getValue() != null) {
             datumaanvraag = datePickAanvraagDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }
@@ -107,10 +159,11 @@ public class AddAanvraagController {
         Aanvraag newAanvraag = new Aanvraag();
 
         newAanvraag.setRefbroker(broker);
+        System.out.println(broker);
         newAanvraag.setRefcontact(contact);
         newAanvraag.setFunctie(functie);
         newAanvraag.setVraagurenweek(urenperweek);
-        newAanvraag.setStatusklant(statusklant);
+        newAanvraag.setStatusklant(statusklanttmp);
         newAanvraag.setDatumaanvraag(datumaanvraag);
         newAanvraag.setLocatie(locatie);
         newAanvraag.setStartdatum(startdatum);
@@ -118,9 +171,11 @@ public class AddAanvraagController {
         newAanvraag.setRefklant(klant);
         newAanvraag.setLinkaanvraag(link);
         newAanvraag.setTariefaanvraag(tarief);
+
         return newAanvraag;
     }
-    public void editAanvraag(Aanvraag aanvraag, String type) {
+    void editAanvraag(Aanvraag aanvraag, String type) {
+        //get values for showing in dialogue
         if (type=="update"){
             Dialogue.setText("Aanvraag wijzigen");
             //System.out.println("update selected");
@@ -135,6 +190,8 @@ public class AddAanvraagController {
 
 
         FunctieField.setText(aanvraag.getFunctie());
+        selectBrokerBox.setValue(aanvraag.getRefbroker());
+        System.out.println(aanvraag.getRefbroker());
         UrenPerWeekField.setText(aanvraag.getVraagurenweek());
         statusklantBox.setValue(aanvraag.getStatusklant());
         //StartDatumField.setText(aanvraag.getStartdatum());
@@ -155,9 +212,10 @@ public class AddAanvraagController {
         TariefField.setText(aanvraag.getTariefaanvraag());
     }
 
-    public void updateAanvraag (Aanvraag aanvraag){
+    void updateAanvraag(Aanvraag aanvraag){
 
-          aanvraag.setRefbroker(BrokerField.getText());
+          aanvraag.setRefbroker(selectBrokerBox.getValue());
+        //System.out.println(selectBrokerBox.getValue());
           aanvraag.setRefcontact(ContactField.getText());
           aanvraag.setFunctie(FunctieField.getText());
           aanvraag.setVraagurenweek(UrenPerWeekField.getText());
@@ -176,7 +234,7 @@ public class AddAanvraagController {
           aanvraag.setTariefaanvraag(TariefField.getText());
     }
 
-    public static final LocalDate LOCAL_DATE (String dateString){
+    private static LocalDate LOCAL_DATE(String dateString){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         LocalDate localDate = parse(dateString, formatter);

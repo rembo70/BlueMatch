@@ -1,12 +1,14 @@
 package BlueMatch.model;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Datasource {
-  //  public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
-    public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
+    public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
+    //public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
     // public static final String DATABASENAME = "jdbc:sqlite:https://newspark.sharepoint.com/Gedeelde%20Documenten/Sales/Bluematch.db";
     public static final String COLUMN_IDAANBOD = "idaanbod";
     public static final String TABLE_AANBOD = "Aanbod";
@@ -63,6 +65,7 @@ public class Datasource {
     public static final String COLUMN_MDWSTATUS = "statusmdw";
     public static final String COLUMN_MDWEMAIL = "emailmdw";
     public static final String COLUMN_MDWOPMERKING = "opmerkingmdw";
+    public static final String COLUMN_FULLNAME =  "fullname";
     public static final int INDEX_IDMDW = 1;
     public static final int INDEX_MDWVOORNAAM = 2;
     public static final int INDEX_MDWACHTERNAAM = 3;
@@ -70,6 +73,7 @@ public class Datasource {
     public static final int INDEX_MDWSTATUSMDW = 5;
     public static final int INDEX_MDWEMAILMEDEWERKER = 6;
     public static final int INDEX_MDWOPMERKINGMEDEWERKER = 7;
+    public static final int INDEX_FULLNAME = 8;
 
 
     public static final String TABLE_KLANT = "Klant";
@@ -103,6 +107,23 @@ public class Datasource {
     public static final int INDEX_EMAILBROKER = 5;
     public static final int INDEX_OPMERKINGBROKER = 6;
 
+    public static final String TABLE_LOG = "Log";
+    public static final String COLUMN_IDLOG = "idlog";
+    public static final String COLUMN_IDAANBODLOG = "idaanbodlog";
+    public static final String COLUMN_TIMESTAMPLOG = "timestamplog";
+    public static final String COLUMN_USERID = "userid";
+    public static final String COLUMN_OLDSTATUS = "oldstatus";
+    public static final String COLUMN_NEWSTATUS = "newstatus";
+    public static final String COLUMN_IDAANVRAAGLOG = "idaanvraaglog";
+
+    public static final int INDEX_IDLOG = 1;
+    public static final int INDEX_IDAANBODLOG = 2;
+    public static final int INDEX_TIMESTAMPLOG = 3;
+    public static final int INDEX_USERID = 4;
+    public static final int INDEX_OLDSTATUS = 5;
+    public static final int INDEX_NEWSTATUS = 6;
+    public static final int INDEX_IDAANVRAAGLOG = 7;
+
 
 
     public static final String InsertAanvraag = "INSERT INTO " + TABLE_AANVRAAG + '(' + COLUMN_REFBROKER
@@ -117,8 +138,8 @@ public class Datasource {
 
     public static final String InsertMedewerker = "INSERT INTO " + TABLE_MEDEWERKER + '(' + COLUMN_MDWVOORNAAM
             + "," + COLUMN_MDWACHTERNAAM + "," + COLUMN_MDWURENPERWEEK + "," + COLUMN_MDWSTATUS
-            + "," + COLUMN_MDWEMAIL +"," + COLUMN_MDWOPMERKING +
-            ") VALUES (?,?,?,?,?,?)";
+            + "," + COLUMN_MDWEMAIL +"," + COLUMN_MDWOPMERKING + "," + COLUMN_FULLNAME +
+            ") VALUES (?,?,?,?,?,?,?)";
 
     public static final String InsertBroker = "INSERT INTO " + TABLE_BROKER + '(' + COLUMN_BROKERNAAM
             + "," + COLUMN_CONTACTPERSOON + "," + COLUMN_TELBROKER + "," + COLUMN_EMAILBROKER +","
@@ -130,6 +151,9 @@ public class Datasource {
             + ","+ COLUMN_KLANTOPMERKING +
             ") VALUES (?,?,?,?,?)";
 
+    public static final String InsertLog = "INSERT INTO " + TABLE_LOG + '(' + COLUMN_IDAANBODLOG + "," + COLUMN_TIMESTAMPLOG + ","
+            + COLUMN_USERID + "," + COLUMN_OLDSTATUS + "," + COLUMN_NEWSTATUS + "," + COLUMN_IDAANVRAAGLOG + ") VALUES (?,?,?,?,?,?)";
+
 
 
     public static String filterstatus = "";
@@ -138,10 +162,8 @@ public class Datasource {
     public static String filtermedewerker = "";
     public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
             "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.refklant from aanvraag " +
-            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus+
+            "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus +
             "%' ) ";
-
-
 
     public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?, " + COLUMN_FUNCTIE + " = ?, "
             + COLUMN_REFCONTACT + " = ?, " + COLUMN_VRAAGURENWEEK + " = ?, " + COLUMN_STATUSKLANT  + " = ?, " + COLUMN_DATUMAANVRAAG  + " = ?, " + COLUMN_LOCATIE  + " = ?, "
@@ -162,8 +184,11 @@ public class Datasource {
     public static final String QUERYUPDATE_AANBOD = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_REFMEDEWERKER  + " = ?, " + COLUMN_TARIEFAANBOD + " = ?, "
             + COLUMN_URENPERWEEKAANBOD + " = ?, " + COLUMN_STATUSAANBOD +" = ?, " + COLUMN_OPMERKINGAANBOD + " = ? WHERE "  + COLUMN_IDAANBOD + " = ?";
 
+    public static final String QUERYUPDATE_AANBOD_STATUS = "UPDATE " + TABLE_AANBOD + " SET " + COLUMN_STATUSAANBOD + " = ? ," + COLUMN_OPMERKINGAANBOD  + " = ? WHERE "  + COLUMN_IDAANBOD + " = ? AND " + COLUMN_REFAANVRAAG + " = ?";
+
     public static final String QUERYUPDATE_MEDEWERKER = "UPDATE " + TABLE_MEDEWERKER + " SET " + COLUMN_MDWVOORNAAM  + " = ?, " + COLUMN_MDWACHTERNAAM + " = ?, "
-            + COLUMN_MDWURENPERWEEK + " = ?, " + COLUMN_MDWSTATUS + " = ?, " + COLUMN_MDWEMAIL + " = ?, " + COLUMN_MDWOPMERKING + " = ?  WHERE " + COLUMN_IDMDW + " =  ?";
+            + COLUMN_MDWURENPERWEEK + " = ?, " + COLUMN_MDWSTATUS + " = ?, " + COLUMN_MDWEMAIL + " = ?, " + COLUMN_MDWOPMERKING + " = ?, " + COLUMN_FULLNAME + " = ?  WHERE " + COLUMN_IDMDW + " =  ?";
+
 
     public static final String QUERYDELETE_MEDEWERKER = "DELETE FROM " + TABLE_MEDEWERKER +  " WHERE " + COLUMN_IDMDW + " =  ?";
 
@@ -185,6 +210,7 @@ public class Datasource {
     private PreparedStatement updatebroker;
     private PreparedStatement updateaanvraag;
     private PreparedStatement updateaanbod;
+    private PreparedStatement updateaanbodstatus;
     private PreparedStatement updatemedewerker;
     private PreparedStatement deletemedewerker;
     private PreparedStatement deletebroker;
@@ -192,6 +218,7 @@ public class Datasource {
     private PreparedStatement deleteaanvraag;
     private PreparedStatement deleteaanbod;
     private PreparedStatement searchoverviewrecord;
+    private PreparedStatement insertIntoLog;
 
 
 
@@ -290,6 +317,9 @@ public class Datasource {
             deleteaanvraag = conn.prepareStatement(QUERYDELETE_AANVRAAG);
             deleteaanbod = conn.prepareStatement(QUERYDELETE_AANBOD);
             searchoverviewrecord = conn.prepareStatement(QUERYOVERZICHTDETAILS);
+            insertIntoLog = conn.prepareStatement(InsertLog);
+            updateaanbodstatus = conn.prepareStatement(QUERYUPDATE_AANBOD_STATUS);
+            //System.out.println(updateaanbodstatus);
             return true;
 
         } catch (SQLException e) {
@@ -311,6 +341,7 @@ public class Datasource {
                 updatebroker.close();
                 updateaanvraag.close();
                 updateaanbod.close();
+                updateaanbodstatus.close();
                 updatemedewerker.close();
                 deletemedewerker.close();
                 deletebroker.close();
@@ -318,6 +349,7 @@ public class Datasource {
                 deleteaanbod.close();
                 deleteklant.close();
                 searchoverviewrecord.close();
+                insertIntoLog.close();
             }
 
         } catch (SQLException e) {
@@ -328,6 +360,7 @@ public class Datasource {
 
     public int aanvraagToevoegen(Aanvraag aanvraag) throws SQLException {
         insertIntoAanvraag.setString(1, aanvraag.getRefbroker());
+        //System.out.println("test" + aanvraag.getRefbroker());
         insertIntoAanvraag.setString(2, aanvraag.getFunctie());
         insertIntoAanvraag.setString(3, aanvraag.getRefcontact());
         insertIntoAanvraag.setString(4, aanvraag.getVraagurenweek());
@@ -365,6 +398,7 @@ public class Datasource {
         insertIntoMedewerker.setString(4, medewerker.getStatusmdw());
         insertIntoMedewerker.setString(5,medewerker.getEmailmedewerker());
         insertIntoMedewerker.setString(6,medewerker.getOpmerkingmedewerker());
+        insertIntoMedewerker.setString(7,medewerker.getVoornaam()+" "+medewerker.getAchternaam());
         // System.out.println(InsertMedewerker);
         insertIntoMedewerker.executeUpdate();
         conn.setAutoCommit(true);
@@ -381,6 +415,7 @@ public class Datasource {
             updatemedewerker.setString(4, medewerker.getStatusmdw());
             updatemedewerker.setString(5,medewerker.getEmailmedewerker());
             updatemedewerker.setString(6,medewerker.getOpmerkingmedewerker());
+            updatemedewerker.setString(7,medewerker.getVoornaam()+" "+medewerker.getAchternaam());
             int affectedRecords = updatemedewerker.executeUpdate();
             return affectedRecords ==1;
 
@@ -473,6 +508,20 @@ public class Datasource {
         return 1;
     }
 
+    public int logToevoegen(Log log) throws SQLException {
+        //System.out.println("Medewerker toevoegen");
+        insertIntoLog.setInt(1, log.getIdaanbodlog());
+        insertIntoLog.setString(2, log.getTimestamplog());
+        insertIntoLog.setString(3, log.getUserid());
+        insertIntoLog.setString(4, log.getOldstatus());
+        insertIntoLog.setString(5, log.getNewstatus());
+        insertIntoLog.setInt(6,log.getIdaanvraaglog());
+
+        insertIntoLog.executeUpdate();
+        conn.setAutoCommit(true);
+        return 1;
+    }
+
     public boolean updateKlant (Klant klant){
         try {
 
@@ -524,7 +573,22 @@ public class Datasource {
             return false;
         }
     }
-    
+
+    public boolean updateAanbodStatus (String newstatus, String newopmerking, int idaanbod, int idaanvraag ){
+        try {
+            updateaanbodstatus.setString(1, newstatus);
+            updateaanbodstatus.setString(2, newopmerking);
+            updateaanbodstatus.setString(3, String.valueOf(idaanbod));
+            updateaanbodstatus.setString(4, String.valueOf(idaanvraag));
+            int affectedRecords = updateaanbodstatus.executeUpdate();
+            return affectedRecords ==1;
+
+        } catch(SQLException e) {
+            System.out.println("Update failed: " + e.getMessage());
+            return false;
+        }
+    }
+
 //    public static final String QUERYUPDATE_AANVRAAG = "UPDATE " + TABLE_AANVRAAG + " SET " + COLUMN_REFBROKER  + " = ?1, " + COLUMN_FUNCTIE + " = ?2, "
 //            + COLUMN_REFCONTACT + " = ?3, " + COLUMN_VRAAGURENWEEK + " = ?4, " + COLUMN_STATUSKLANT  + " = ?5, " + COLUMN_DATUMAANVRAAG  + " = ?6, " + COLUMN_LOCATIE  + " = ?7, "
 //            + COLUMN_STARTDATUM  + " = ?8, " + COLUMN_OPMERKING  + " = ?9, " + COLUMN_LINKAANVRAAG  + " = ?10, " + COLUMN_TARIEFAANVRAAG  + " = ?11 WHERE " + COLUMN_IDAANVRAAG + " =  ?12";
@@ -634,6 +698,32 @@ public class Datasource {
             return null;
         }
     }
+
+    public Medewerker queryMedewerkeremail(String Medewerkernaam) {
+
+        System.out.println("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'");
+        try (Statement statement = conn.createStatement();
+
+             ResultSet results = statement.executeQuery("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'")) {
+
+            Medewerker selectedmedewerker=new Medewerker();
+            List<Medewerker> medewerkers = new ArrayList<>();
+            while (results.next()) {
+                Medewerker medewerker = new Medewerker();
+                medewerker.setEmailmedewerker(results.getString(1));
+                System.out.println(results.getString(1));
+                medewerkers.add(medewerker);
+                selectedmedewerker=medewerker;
+                System.out.println("Emails: " + selectedmedewerker.getEmailmedewerker());
+            }
+            return selectedmedewerker;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+
     public List<Klant> queryKlant() {
 
         try (Statement statement = conn.createStatement();
@@ -731,7 +821,7 @@ public class Datasource {
         try{
             searchoverviewrecord.setInt(1,idaanbod);
             ResultSet results = searchoverviewrecord.executeQuery();
-            //System.out.println(QUERYOVERZICHTDETAILS);
+            System.out.println(QUERYOVERZICHTDETAILS);
             List<OverviewRecord> overviewlist = new ArrayList<>();
             while (results.next()) {
 

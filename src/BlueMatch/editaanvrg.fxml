@@ -13,6 +13,7 @@
             <buttons>
                 <Button mnemonicParsing="false" onAction="#addAanvraag" text="Toevoegen" translateX="-5.0" />
                 <Button fx:id="btnmodaanvraag" mnemonicParsing="false" onAction="#modAanvraag" text="Wijzigen" translateX="-5.0" />
+                <Button fx:id="btndelaanvraag" mnemonicParsing="false" onAction="#deleteAanvraag" text="Verwijderen" translateX="-5.0" />
                 <Button fx:id="BtnGotoMain" mnemonicParsing="false" onAction="#changeSceneMain" prefHeight="25.0" prefWidth="139.0" text="Ga terug" translateX="-5.0">
                     <opaqueInsets>
                         <Insets />

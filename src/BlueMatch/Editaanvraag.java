@@ -2,6 +2,7 @@ package BlueMatch;
 
 import BlueMatch.model.Aanvraag;
 import BlueMatch.model.Datasource;
+import BlueMatch.model.Klant;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -68,6 +69,7 @@ public class Editaanvraag {
     @FXML
     public void addAanvraag(ActionEvent event) throws IOException, SQLException {
 //        System.out.println("add aanvraag");
+        Controller.typeofaddaanvraag="new";
         Dialog<ButtonType> dialog = new Dialog<ButtonType>();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanvraag.fxml"));
         dialog.getDialogPane().setContent(loader.load());
@@ -81,12 +83,15 @@ public class Editaanvraag {
                 Datasource.getInstance().aanvraagToevoegen(aanvraag);
             }
         }
+        Controller.typeofaddaanvraag="update";
         refreshscreen();
         updateView();
     }
 
     @FXML
     private Button btnmodaanvraag;
+    @FXML
+    private Button btndelaanvraag;
 
     @FXML
     public void modAanvraag(ActionEvent event) throws IOException, SQLException {
@@ -114,7 +119,40 @@ public class Editaanvraag {
         btnmodaanvraag.setDisable(true);
     }
 
+    @FXML
+    public void deleteAanvraag(ActionEvent event) throws IOException, SQLException {
+        Aanvraag aanvraag = (Aanvraag) aanvraagTable.getSelectionModel().getSelectedItem();
+        System.out.println(aanvraag.getIdaanvraag());
 
+        if (aanvraag != null) {
+            Dialog<ButtonType> dialog = new Dialog<ButtonType>();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("addAanvraag.fxml"));
+            dialog.getDialogPane().setContent(loader.load());
+            AddAanvraagController addaanvraagcontroller = loader.getController();
+            addaanvraagcontroller.editAanvraag(aanvraag,"delete");
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            {
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    if (aanvraag.getIdaanvraag()==0) {
+                        System.out.println("geen aanvraag met id bekend");
+                    } else {
+                        //addaanvraagcontroller.deleteAanvraag(aanvraag);
+                        Datasource.getInstance().deleteAanvraag(aanvraag);
+                    }
+                }
+            }
+            ObservableList<Aanvraag> Aanvraaglist = FXCollections.observableArrayList(Datasource.getInstance().queryAanvraag());
+            aanvraagTable.itemsProperty().unbind();
+            aanvraagTable.setItems(Aanvraaglist);
+
+        } else {
+            System.out.println("geen aanvraag selectie");
+        }
+        updateView();
+    }
     @FXML
     private TableView<Aanvraag> aanvraagTable;
 
@@ -126,8 +164,10 @@ public class Editaanvraag {
     public void updateView() {
         if (aanvraagTable.getSelectionModel().getSelectedItem() == null) {
             btnmodaanvraag.setDisable(true);
+            btndelaanvraag.setDisable(true);
         } else {
             btnmodaanvraag.setDisable(false);
+            btndelaanvraag.setDisable(false);
         }
 
         changelistener(columnopm);
