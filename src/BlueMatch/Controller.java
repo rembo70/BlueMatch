@@ -15,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -47,13 +49,17 @@ public class Controller {
     @FXML
     private TextField medewerkerTextField;
 
-    @FXML Label loginstatus;
+    @FXML
+    private Button loginstatus;
 
     @FXML
     private ComboBox<String> statusKlantCombo;
 
     @FXML
     private Button btnstatushandler;
+
+    @FXML
+    private Tooltip tooltiplogin;
 
     private LoginauthController parentController;
     private Scene ParentScene;
@@ -98,27 +104,36 @@ public class Controller {
         statusKlantCombo.setValue("");
         statusAanbiedingCombo.setItems(optionsaanb);
         statusAanbiedingCombo.setValue("");
+        loginstatus.setStyle("-fx-Background-color: WHITE");
 
 
             switch (LoginauthController.Passwrdstatus){
                 case "Not Validated":
                     loginstatus.setText ("Email not validated");
                     loginstatus.setTextFill(Color.GREY);
+                    btnstatushandler.setTooltip(tooltiplogin);
 
                     break;
                 case "OK":
                     loginstatus.setText ("Connected");
                     loginstatus.setTextFill(Color.GREEN);
+                    btnstatushandler.setTooltip(null);
                     break;
                 case "NOK":
                     loginstatus.setText ("Not connected");
                     loginstatus.setTextFill(Color.RED);
-                    btnstatushandler.setDisable(true);
-                    btnstatushandler.setTooltip(new Tooltip("Geen connectie"));
+                    btnstatushandler.setDisable(false);
+                    btnstatushandler.setText("Log in om status te wijzigen");
+                    btnstatushandler.setFont(Font.font("Calibri", FontWeight.NORMAL, 10));
+                    btnstatushandler.setWrapText(true);
+                    btnstatushandler.setTextFill(Color.RED);
+                    btnstatushandler.setTooltip(tooltiplogin);
+                    btnstatushandler.setStyle("-fx-background-color: WHITE");
                     break;
                 default:
                     loginstatus.setText ("Connectiestatus onbekend");
                     loginstatus.setTextFill(Color.GREY);
+                    btnstatushandler.setTooltip(null);
             }
         }
 
@@ -135,6 +150,12 @@ public class Controller {
     @FXML
     void gotologin (ActionEvent event) throws IOException {
         System.out.println("goto login screen");
+        changescreenloginauth(event);
+        //parentController.updateMainView();
+        //parentController.refreshscreen();
+    }
+
+    void changescreenloginauth (ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Loginauth.fxml"));
         Scene LoginauthScene = new Scene(root);
 
@@ -142,8 +163,8 @@ public class Controller {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene((ParentScene));
         window.show();
-        //parentController.updateMainView();
-        //parentController.refreshscreen();
+        window.setWidth(360);
+        window.setHeight(500);
     }
 
     @FXML
@@ -172,6 +193,9 @@ public class Controller {
     @FXML
     public void statuschange(ActionEvent event) throws IOException, SQLException {
 
+        if (LoginauthController.Passwrdstatus.equals("NOK")){
+            changescreenloginauth(event);
+        }else
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
             System.out.println("Statuschange detected");
             OverviewRecord overviewrecord = overviewRecordTable.getSelectionModel().getSelectedItem();
@@ -400,9 +424,14 @@ public class Controller {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() == null) {
 
             aanbiedingmaken.setDisable(true);
+            if (LoginauthController.Passwrdstatus.equals("NOK")){btnstatushandler.setDisable(false);}else{
+                btnstatushandler.setDisable(true);
+            }
         } else {
 
             aanbiedingmaken.setDisable(false);
+            btnstatushandler.setDisable(false);
+
         }
 
         Datasource.filterstatus = statusKlantCombo.getValue();

@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -81,6 +82,23 @@ public class StatusHandler {
         }
     }
 
+    @FXML
+    void gotologin (MouseEvent event) throws IOException {
+        System.out.println("goto login screen");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Loginauth.fxml"));
+        Parent root = loader.load();
+        LoginauthController logincontroller = loader.getController();
+        Scene LoginauthScene = new Scene(root);
+
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene((LoginauthScene));
+        window.show();
+        window.setHeight(500);
+        window.setWidth(360);
+        //parentController.updateMainView();
+        //parentController.refreshscreen();
+    }
 
     void setParentScene(Scene scene) {
         this.ParentScene = scene;
@@ -113,12 +131,31 @@ public class StatusHandler {
 
     public void statchangeafgewezen(ActionEvent event) throws SQLException {
         log.setNewstatus("Afgewezen");
-        setTimestamp();
-        Datasource.getInstance().logToevoegen(log);
-        Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), "", log.getIdaanbodlog(), log.getIdaanvraaglog());
+        Optional<String> result = showopmerkingdialogue(log.getNewstatus());
+        String newopmerking;
+        if (result.isPresent()) {
+            //System.out.println("result is present" + result.get());
+            setTimestamp();
+            if (result.get().length() >= 1) {
+                newopmerking = overviewrcrd.getOpmerkingaanbod() + "\n" + java.time.LocalDate.now() + " " + result.get();
+            } else {
+                System.out.println("veld is leeg" + result.get() + "nn");
+                newopmerking = overviewrcrd.getOpmerkingaanbod();
+            }
 
-        changeSceneMain(event);
+            Datasource.getInstance().logToevoegen(log);
+            Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), newopmerking, log.getIdaanbodlog(), log.getIdaanvraaglog());
 
+            String subject = "Helaas, een afgewijzing voor de functie bij" + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+           //System.out.println("ik ga mail versturen");
+
+            String messagebody = "De status van je aanbieding bij "+ overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afgewezen <br> <br>";
+            messagebody += "Volgende keer beter ! <br> <br>";
+            messagebody += "Dit bericht is automatisch gegenereerd vanuit BlueMatch";
+
+            sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
+            changeSceneMain(event);
+        }
     }
 
     @FXML
@@ -139,12 +176,12 @@ public class StatusHandler {
         Optional<String> result = showopmerkingdialogue(log.getNewstatus());
         String newopmerking;
         if (result.isPresent()) {
-            System.out.println("result is present" + result.get());
+            //System.out.println("result is present" + result.get());
             setTimestamp();
             if (result.get().length() >= 1) {
                 newopmerking = overviewrcrd.getOpmerkingaanbod() + "\n" + java.time.LocalDate.now() + " " + result.get();
             } else {
-                System.out.println("veld is leeg" + result.get() + "nn");
+                //System.out.println("veld is leeg" + result.get() + "nn");
                 newopmerking = overviewrcrd.getOpmerkingaanbod();
             }
 
@@ -152,7 +189,7 @@ public class StatusHandler {
             Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), newopmerking, log.getIdaanbodlog(), log.getIdaanvraaglog());
 
             String subject = "je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
-            System.out.println("ik ga mail versturen");
+            //System.out.println("ik ga mail versturen");
 
             String messagebody = "De status van je aanbieding bij "+ overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek <br>";
             messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";

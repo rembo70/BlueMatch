@@ -52,7 +52,7 @@ class SendEmailOffice365 {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning Dialog");
                 alert.setHeaderText("");
-                alert.setContentText("Sorry je mail adres / wachtwoord is niet correct of er is geen verbinding met mail server, er is geen mail verstuurd naar " + destination + "\n \n Zonder correcte mail gegevens kunnen vanuit BlueMatch geen automatische mails worden verstuurd");
+                alert.setContentText("Sorry je mail adres / wachtwoord is niet correct. \n Er is geen mail verstuurd naar " + destination + " ");
 
                 alert.showAndWait();//display connection error to the user, maybe allow them to retry
                 return false;

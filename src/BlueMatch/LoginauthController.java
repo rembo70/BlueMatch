@@ -58,6 +58,8 @@ public class LoginauthController {
         statusvalidatie.setVisible(false);
         buttonok.setText("Ga verder zonder validatie");
         Passwrdstatus="Not validated";
+
+        buttonok.setDisable(false);
     }
 
     @FXML
@@ -82,10 +84,13 @@ public class LoginauthController {
 
                 userpassword = passwordfield;
                 userEmail = usermailadrfield.getText();
-
+                statusvalidatie.setTextFill(Color.GREEN);
+                statusvalidatie.setTextAlignment(TextAlignment.CENTER);
+                statusvalidatie.setAlignment(Pos.CENTER);
 
                 statusvalidatie.setText("Validatie geslaagd. Je kan verder gaan");
                 statusvalidatie.setVisible(true);
+                melding.setVisible(false);
                 buttonok.setText("Ga verder");
                 Passwrdstatus="OK";
                 melding.setDisable(true);
@@ -100,19 +105,22 @@ public class LoginauthController {
                 buttonok.setText("Skip (geen automatische mails)");
                 buttonok.setDisable(false);
                 Passwrdstatus="NOK";
-                melding.setVisible(true);
+                melding.setVisible(false);
             }
         }
         else {
 //            Alert alert = new Alert(Alert.AlertType.WARNING);
 //            alert.setTitle("Warning Dialog");
 //            alert.setHeaderText("");
-//            alert.setContentText("Je wachtwoord is niet ingevuld is niet ingevuld of leeg, zonder wachtwoord kunnen geen statuswijzigingen vanuit BlueMatch worden doorgevoerd");
+//            alert.setContentText("Je wachtwoord is niet ingevuld, zonder wachtwoord kunnen geen statuswijzigingen vanuit BlueMatch worden doorgevoerd");
+            statusvalidatie.setTextFill(Color.ORANGE);
+            statusvalidatie.setTextAlignment(TextAlignment.CENTER);
+            statusvalidatie.setAlignment(Pos.CENTER);
             statusvalidatie.setText("Geen wachtwoord ingevuld");
             buttonok.setDisable(false);
             buttonok.setText("Skip (geen automatische mails)");
-            Passwrdstatus="Not validated";
-            melding.setTextFill(Color.ORANGERED);
+            Passwrdstatus="NOK";
+            melding.setTextFill(Color.RED);
         }
         return null;
     }

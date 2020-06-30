@@ -29,7 +29,7 @@
                               <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="-16.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
                    <Image url="@../NewsparkLogo.png" />
                </ImageView>
-            <Label fx:id="statuslogin" layoutX="965.0" layoutY="16.0" onMousePressed="#gotologin" text="Connected" textFill="GREEN">
+            <Label fx:id="statuslogin" layoutX="935.0" layoutY="16.0" onMousePressed="#gotologin" text="Connected" textFill="GREEN">
                <font>
                   <Font name="Calibri Bold" size="10.0" />
                </font>
