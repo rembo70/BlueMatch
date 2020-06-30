@@ -43,11 +43,11 @@
                      </font></Label>
                   <TextField fx:id="usermailadrfield" prefHeight="25.0" prefWidth="272.0" GridPane.columnIndex="1" />
                   <Label prefHeight="17.0" prefWidth="84.0" text="Wachtwoord" GridPane.rowIndex="3" />
-                  <PasswordField fx:id="passwordfield" prefHeight="25.0" prefWidth="218.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <PasswordField fx:id="passwordfield" onAction="#passwordprovided" prefHeight="25.0" prefWidth="218.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <Button fx:id="btninloggen" layoutX="84.0" layoutY="115.0" mnemonicParsing="false" onAction="#btnlogin" text="Valideer adres en wachtwoord" />
-            <Label fx:id="statusvalidatie" alignment="CENTER" layoutX="9.0" layoutY="140.0" prefHeight="19.0" prefWidth="321.0" text="Nog niet gevalideerd">
+            <Label fx:id="statusvalidatie" alignment="CENTER" layoutX="10.0" layoutY="162.0" prefHeight="107.0" prefWidth="321.0" text="Nog niet gevalideerd" textFill="ORANGERED">
                <font>
                   <Font name="Calibri" size="12.0" />
                </font></Label>
@@ -56,7 +56,7 @@
                <font>
                   <Font name="Calibri" size="12.0" />
                </font></Label>
-            <Label fx:id="melding" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="180.0" prefHeight="33.0" prefWidth="340.0" text="Zonder correct adres en wachtwoord&#10;kunnen geen mails verstuurd worden">
+            <Label fx:id="melding" alignment="CENTER" contentDisplay="CENTER" layoutY="282.0" prefHeight="33.0" prefWidth="340.0" text="Zonder correct adres en wachtwoord&#10;kunnen geen mails verstuurd worden">
                <font>
                   <Font name="Calibri" size="10.0" />
                </font>

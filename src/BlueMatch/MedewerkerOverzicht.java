@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import static BlueMatch.Main.userEmail;
+import static BlueMatch.LoginauthController.userEmail;
 
 public class MedewerkerOverzicht {
 

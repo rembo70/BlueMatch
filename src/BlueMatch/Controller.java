@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -46,8 +47,13 @@ public class Controller {
     @FXML
     private TextField medewerkerTextField;
 
+    @FXML Label loginstatus;
+
     @FXML
     private ComboBox<String> statusKlantCombo;
+
+    @FXML
+    private Button btnstatushandler;
 
     private LoginauthController parentController;
     private Scene ParentScene;
@@ -92,7 +98,31 @@ public class Controller {
         statusKlantCombo.setValue("");
         statusAanbiedingCombo.setItems(optionsaanb);
         statusAanbiedingCombo.setValue("");
-    }
+
+
+            switch (LoginauthController.Passwrdstatus){
+                case "Not Validated":
+                    loginstatus.setText ("Email not validated");
+                    loginstatus.setTextFill(Color.GREY);
+
+                    break;
+                case "OK":
+                    loginstatus.setText ("Connected");
+                    loginstatus.setTextFill(Color.GREEN);
+                    break;
+                case "NOK":
+                    loginstatus.setText ("Not connected");
+                    loginstatus.setTextFill(Color.RED);
+                    btnstatushandler.setDisable(true);
+                    btnstatushandler.setTooltip(new Tooltip("Geen connectie"));
+                    break;
+                default:
+                    loginstatus.setText ("Connectiestatus onbekend");
+                    loginstatus.setTextFill(Color.GREY);
+            }
+        }
+
+
 
     void listOverviewRecord() {
         GetAllOverviewRecordTask task = new GetAllOverviewRecordTask();
@@ -100,6 +130,20 @@ public class Controller {
         System.out.println("listoverview started");
         new Thread(task).start();
         updateMainView();
+    }
+
+    @FXML
+    void gotologin (ActionEvent event) throws IOException {
+        System.out.println("goto login screen");
+        Parent root = FXMLLoader.load(getClass().getResource("Loginauth.fxml"));
+        Scene LoginauthScene = new Scene(root);
+
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene((ParentScene));
+        window.show();
+        //parentController.updateMainView();
+        //parentController.refreshscreen();
     }
 
     @FXML

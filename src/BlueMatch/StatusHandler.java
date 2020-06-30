@@ -23,8 +23,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-import static BlueMatch.Main.userEmail;
-import static BlueMatch.Main.userpassword;
+import static BlueMatch.LoginauthController.userEmail;
+import static BlueMatch.LoginauthController.userpassword;
 
 
 public class StatusHandler {
@@ -56,9 +56,29 @@ public class StatusHandler {
     @FXML
     private Label Huidigestatuslabel;
     private Object PasswordField;
+    @FXML
+    private Label statuslogin;
 
     @FXML
     private void initialize() {
+        switch (LoginauthController.Passwrdstatus){
+            case "Not Validated":
+                statuslogin.setText ("Email not validated");
+                statuslogin.setTextFill(Color.GREY);
+
+            break;
+            case "OK":
+                statuslogin.setText ("Connected");
+                statuslogin.setTextFill(Color.GREEN);
+                break;
+            case "NOK":
+                statuslogin.setText ("Not connected");
+                statuslogin.setTextFill(Color.RED);
+                break;
+            default:
+                statuslogin.setText ("Connectiestatus onbekend");
+                statuslogin.setTextFill(Color.GREY);
+        }
     }
 
 
@@ -148,12 +168,12 @@ public class StatusHandler {
         mdwEmail = Datasource.getInstance().queryMedewerkeremail(medewerkernaam).getEmailmedewerker();
         //System.out.println("Email: "  + mdwEmail);
         String destination = mdwEmail;
-        String from = Main.userEmail;
+        String from = LoginauthController.userEmail;
         System.out.println("send mail from" + from + " ww "  + " to " + destination);
-        if (Main.userpassword==null){
-            Main.userpassword=getPassword();
+        if (LoginauthController.userpassword==null){
+            LoginauthController.userpassword=getPassword();
         }
-        PasswordField password=Main.userpassword;
+        PasswordField password=LoginauthController.userpassword;
         System.out.println(destination + messagebody);
         if (password!=null){
             System.out.println("Mail wordt gestuurd");

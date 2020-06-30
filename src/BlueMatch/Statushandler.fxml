@@ -29,6 +29,11 @@
                               <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="-16.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true" scaleX="0.7" scaleY="0.7">
                    <Image url="@../NewsparkLogo.png" />
                </ImageView>
+            <Label fx:id="statuslogin" layoutX="965.0" layoutY="16.0" onMousePressed="#gotologin" text="Connected" textFill="GREEN">
+               <font>
+                  <Font name="Calibri Bold" size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </top>
@@ -90,10 +95,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label  text="Broker:" />
-                        <Label  text="Klant:" GridPane.rowIndex="1" />
-                        <Label  text="Medewerker:" GridPane.rowIndex="2" />
-                        <Label  text="Huidige status:" GridPane.rowIndex="3" />
+                        <Label text="Broker:" />
+                        <Label text="Klant:" GridPane.rowIndex="1" />
+                        <Label text="Medewerker:" GridPane.rowIndex="2" />
+                        <Label text="Huidige status:" GridPane.rowIndex="3" />
                         <Label fx:id="Brokerlabel" text="Geen broker" GridPane.columnIndex="1" />
                         <Label fx:id="Medewerkerlabel" text="Geen medewerker geselecteerd" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label fx:id="Huidigestatuslabel" text="Geen status gespecificeerd" GridPane.columnIndex="1" GridPane.rowIndex="3" />

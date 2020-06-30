@@ -154,6 +154,11 @@
                         <Blend />
                     </effect>
                 </ImageView>
+            <Label fx:id="loginstatus" alignment="TOP_RIGHT" contentDisplay="RIGHT" layoutX="450.0" layoutY="13.0" onMousePressed="#gotologin" prefHeight="13.0" prefWidth="541.0" text="Connected" textFill="GREEN">
+               <font>
+                  <Font name="Calibri Bold" size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </top>
