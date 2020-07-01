@@ -142,20 +142,18 @@ public class Controller {
     void listOverviewRecord() {
         GetAllOverviewRecordTask task = new GetAllOverviewRecordTask();
         overviewRecordTable.itemsProperty().bind(task.valueProperty());
-        System.out.println("listoverview started");
         new Thread(task).start();
         updateMainView();
     }
 
     @FXML
     void gotologin (ActionEvent event) throws IOException {
-        System.out.println("goto login screen");
         changescreenloginauth(event);
         //parentController.updateMainView();
         //parentController.refreshscreen();
     }
 
-    void changescreenloginauth (ActionEvent event) throws IOException {
+    private void changescreenloginauth(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Loginauth.fxml"));
         Scene LoginauthScene = new Scene(root);
 
@@ -197,7 +195,7 @@ public class Controller {
             changescreenloginauth(event);
         }else
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-            System.out.println("Statuschange detected");
+
             OverviewRecord overviewrecord = overviewRecordTable.getSelectionModel().getSelectedItem();
             if (overviewrecord.getStatusaanbod() == null){
                 Dialog<ButtonType> dialog = new Dialog<ButtonType>();
@@ -297,7 +295,7 @@ public class Controller {
 
             ctrlbrokeroverzicht.updateView();
             ctrlbrokeroverzicht.refreshScreen();
-            //System.out.println("updated aanbod");
+
         });
         ctrlbrokeroverzicht.updateView();
 
@@ -395,8 +393,7 @@ public class Controller {
     @FXML
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         if (event.getClickCount() > 1) {
-            //System.out.println("Table double clicked");
-            //System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
             Parent detailViewParent = loader.load();
@@ -409,8 +406,6 @@ public class Controller {
             ctrldetailsoverzicht.setParentController(this);
             window.setScene((detailViewScene));
             window.show();
-            //ctrldetailsoverzicht.updateView();
-
 
         }
 
