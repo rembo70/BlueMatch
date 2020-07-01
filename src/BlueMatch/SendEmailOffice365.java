@@ -16,18 +16,9 @@ class SendEmailOffice365 {
     private static final Logger LOGGER = Logger.getAnonymousLogger();
     private static final String SERVER_SMTP = "smtp.office365.com";
     private static final int PORT_SERVER_SMTP = 587;
-    //private static final String username = "rm@newspark.nl";
-
-
-    //private final String from = "rm@newspark.nl";
-
-    private final String subject = "Test mail";
-    private final String messagebody = "Test message";
 
     boolean sendEmail(String from, PasswordField password, String destination, String subject, String messagebody) {
-        System.out.println("in sendemail");
         if (from != null && password!=null) {
-            System.out.println("username and password present");
             final Session session = Session.getInstance(this.getEmailProperties(), new Authenticator() {
 
                 @Override
@@ -52,11 +43,11 @@ class SendEmailOffice365 {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning Dialog");
                 alert.setHeaderText("");
-                alert.setContentText("Sorry je mail adres / wachtwoord is niet correct of er is geen verbinding met mail server, er is geen mail verstuurd naar " + destination + "\n \n Zonder correcte mail gegevens kunnen vanuit BlueMatch geen automatische mails worden verstuurd");
+                alert.setContentText("Sorry je mail adres / wachtwoord is niet correct. \n\nEr is geen mail verstuurd naar " + destination + " ");
 
                 alert.showAndWait();//display connection error to the user, maybe allow them to retry
                 return false;
-                //System.out.println("Sorry je wachtwoord is niet correct, er is geen mail verstuurd");
+
             } catch (final MessagingException ex) {
                 LOGGER.log(Level.WARNING, "Error sending message: " + ex.getMessage(), ex);
                 return false;

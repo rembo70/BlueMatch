@@ -14,6 +14,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -47,7 +50,16 @@ public class Controller {
     private TextField medewerkerTextField;
 
     @FXML
+    private Button loginstatus;
+
+    @FXML
     private ComboBox<String> statusKlantCombo;
+
+    @FXML
+    private Button btnstatushandler;
+
+    @FXML
+    private Tooltip tooltiplogin;
 
     private LoginauthController parentController;
     private Scene ParentScene;
@@ -78,6 +90,7 @@ public class Controller {
 
     private ObservableList<String> optionsaanb =
             FXCollections.observableArrayList(
+                    "Nieuw",
                     "Aangeboden",
                     "Uitgenodigd voor gesprek",
                     "Afronden-Onderhandelen",
@@ -92,14 +105,65 @@ public class Controller {
         statusKlantCombo.setValue("");
         statusAanbiedingCombo.setItems(optionsaanb);
         statusAanbiedingCombo.setValue("");
-    }
+        loginstatus.setStyle("-fx-Background-color: WHITE");
+
+
+            switch (LoginauthController.Passwrdstatus){
+                case "Not Validated":
+                    loginstatus.setText ("Email not validated");
+                    loginstatus.setTextFill(Color.GREY);
+                    btnstatushandler.setTooltip(tooltiplogin);
+
+                    break;
+                case "OK":
+                    loginstatus.setText ("Connected");
+                    loginstatus.setTextFill(Color.GREEN);
+                    btnstatushandler.setTooltip(null);
+                    break;
+                case "NOK":
+                    loginstatus.setText ("Not connected");
+                    loginstatus.setTextFill(Color.RED);
+                    btnstatushandler.setDisable(false);
+                    btnstatushandler.setText("Log in om status te wijzigen");
+                    btnstatushandler.setFont(Font.font("Calibri", FontWeight.NORMAL, 10));
+                    btnstatushandler.setWrapText(true);
+                    btnstatushandler.setTextFill(Color.RED);
+                    btnstatushandler.setTooltip(tooltiplogin);
+                    btnstatushandler.setStyle("-fx-background-color: WHITE");
+                    break;
+                default:
+                    loginstatus.setText ("Connectiestatus onbekend");
+                    loginstatus.setTextFill(Color.GREY);
+                    btnstatushandler.setTooltip(null);
+            }
+        }
+
+
 
     void listOverviewRecord() {
         GetAllOverviewRecordTask task = new GetAllOverviewRecordTask();
         overviewRecordTable.itemsProperty().bind(task.valueProperty());
-        System.out.println("listoverview started");
         new Thread(task).start();
         updateMainView();
+    }
+
+    @FXML
+    void gotologin (ActionEvent event) throws IOException {
+        changescreenloginauth(event);
+        //parentController.updateMainView();
+        //parentController.refreshscreen();
+    }
+
+    private void changescreenloginauth(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("Loginauth.fxml"));
+        Scene LoginauthScene = new Scene(root);
+
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene((ParentScene));
+        window.show();
+        window.setWidth(360);
+        window.setHeight(500);
     }
 
     @FXML
@@ -128,8 +192,11 @@ public class Controller {
     @FXML
     public void statuschange(ActionEvent event) throws IOException, SQLException {
 
+        if (LoginauthController.Passwrdstatus.equals("NOK")){
+            changescreenloginauth(event);
+        }else
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-            System.out.println("Statuschange detected");
+
             OverviewRecord overviewrecord = overviewRecordTable.getSelectionModel().getSelectedItem();
             if (overviewrecord.getStatusaanbod() == null){
                 Dialog<ButtonType> dialog = new Dialog<ButtonType>();
@@ -166,31 +233,12 @@ public class Controller {
                 window.setScene((detailViewScene));
                 window.show();
                 ctrlstatushandler.editStatus(overviewrecord);
-                //ctrlstatushandler.updateView();
-//                addAanbiedingController addAanbiedingController = loader.getController();
-//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
 
 
             }
 
         }
     }
-
-//    if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-//
-//        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
-//        dialog.getDialogPane().setContent(loader.load());
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-//        Optional<ButtonType> result = dialog.showAndWait();
-//        {
-//            if (result.isPresent() && result.get() == ButtonType.OK) {
-//                addAanbiedingController addAanbiedingController = loader.getController();
-//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
-//                Datasource.getInstance().aanbodToevoegen(aanbod);
-//            }
-//        }
 
     @FXML
     public void overzichtMedewerker(ActionEvent event) throws IOException {
@@ -229,7 +277,7 @@ public class Controller {
 
             ctrlbrokeroverzicht.updateView();
             ctrlbrokeroverzicht.refreshScreen();
-            //System.out.println("updated aanbod");
+
         });
         ctrlbrokeroverzicht.updateView();
 
@@ -255,7 +303,6 @@ public class Controller {
     @FXML
     public void aanbieden(ActionEvent event) throws IOException, SQLException {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());
@@ -267,11 +314,12 @@ public class Controller {
                     addAanbiedingController addAanbiedingController = loader.getController();
                     Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
                     Datasource.getInstance().aanbodToevoegen(aanbod);
+                    System.out.println("toegevoegd");
+
+                    StatusHandler.sendmail(aanbod.getRefmedewerker(),"BM - Er is een aanbieding voor je gedaan","Je bent aangeboden \nReferentie aanbieding: " + aanbod.getRefaanvraag());
                 }
             }
-//            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
-//            overviewRecordTable.itemsProperty().unbind();
-//            overviewRecordTable.setItems(Overviewlist);
+
             refreshscreen();
             updateMainView();
         }
@@ -327,8 +375,7 @@ public class Controller {
     @FXML
     public void tableViewMouseClicked(MouseEvent event) throws IOException {
         if (event.getClickCount() > 1) {
-            //System.out.println("Table double clicked");
-            //System.out.println(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("overzichtdetails.fxml"));
             Parent detailViewParent = loader.load();
@@ -341,8 +388,6 @@ public class Controller {
             ctrldetailsoverzicht.setParentController(this);
             window.setScene((detailViewScene));
             window.show();
-            //ctrldetailsoverzicht.updateView();
-
 
         }
 
@@ -356,9 +401,14 @@ public class Controller {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() == null) {
 
             aanbiedingmaken.setDisable(true);
+            if (LoginauthController.Passwrdstatus.equals("NOK")){btnstatushandler.setDisable(false);}else{
+                btnstatushandler.setDisable(true);
+            }
         } else {
 
             aanbiedingmaken.setDisable(false);
+            btnstatushandler.setDisable(false);
+
         }
 
         Datasource.filterstatus = statusKlantCombo.getValue();

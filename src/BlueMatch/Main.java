@@ -23,8 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class Main extends Application {
 
     static Integer windowWidth;
-    static String userEmail;
-    static PasswordField userpassword;
+
 
 @FXML
 private Button buttonok;

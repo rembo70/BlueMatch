@@ -12,7 +12,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -23,14 +26,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-import static BlueMatch.Main.userEmail;
-import static BlueMatch.Main.userpassword;
+import static BlueMatch.LoginauthController.userEmail;
+import static BlueMatch.LoginauthController.userpassword;
 
 
 public class StatusHandler {
     private OverviewRecord overviewrcrd = new OverviewRecord();
     private Controller parentController;
-    private String mdwEmail;
+    private static String mdwEmail;
 
     private Log log = new Log();
     private Timestamp timestamp;
@@ -56,11 +59,46 @@ public class StatusHandler {
     @FXML
     private Label Huidigestatuslabel;
     private Object PasswordField;
+    @FXML
+    private Label statuslogin;
 
     @FXML
     private void initialize() {
+        switch (LoginauthController.Passwrdstatus){
+            case "Not Validated":
+                statuslogin.setText ("Email not validated");
+                statuslogin.setTextFill(Color.GREY);
+
+            break;
+            case "OK":
+                statuslogin.setText ("Connected");
+                statuslogin.setTextFill(Color.GREEN);
+                break;
+            case "NOK":
+                statuslogin.setText ("Not connected");
+                statuslogin.setTextFill(Color.RED);
+                break;
+            default:
+                statuslogin.setText ("Connectiestatus onbekend");
+                statuslogin.setTextFill(Color.GREY);
+        }
     }
 
+    @FXML
+    void gotologin (MouseEvent event) throws IOException {
+        System.out.println("goto login screen");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Loginauth.fxml"));
+        Parent root = loader.load();
+        LoginauthController logincontroller = loader.getController();
+        Scene LoginauthScene = new Scene(root);
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene((LoginauthScene));
+        window.show();
+        window.setHeight(500);
+        window.setWidth(360);
+
+    }
 
     void setParentScene(Scene scene) {
         this.ParentScene = scene;
@@ -71,89 +109,130 @@ public class StatusHandler {
     }
 
     @FXML
-    public void modAanbod() {
-
-    }
-
-    @FXML
-    public void deleteAanbod() {
-
-    }
-
-    @FXML
     public void statchangeteruggetrokken(ActionEvent event) throws SQLException {
         log.setNewstatus("Teruggetrokken");
-        setTimestamp();
-        Datasource.getInstance().logToevoegen(log);
-        Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), "", log.getIdaanbodlog(), log.getIdaanvraaglog());
+        log.setUserid(userEmail);
 
-        changeSceneMain(event);
+        if (Log_Opmerkinguitbreiden()) {
+            Optional<String> result = berichtmedewerkerdialogue();
+            if (result.isPresent()) {
+                String subject = "BM - De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken'";
+                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken' <br> <br>";
+                //messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
+                if (!result.get().equals("")) {
+                    messagebody += "Opmerking: <br>" + result.get();
+                }
+                messagebody += "<br> Dit bericht is automatisch gegenereerd vanuit BlueMatch";
 
+                sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
+            } else {
+                //System.out.println("geen mail verstuurd");
+            }
+            changeSceneMain(event);
+        }
     }
 
     public void statchangeafgewezen(ActionEvent event) throws SQLException {
         log.setNewstatus("Afgewezen");
-        setTimestamp();
-        Datasource.getInstance().logToevoegen(log);
-        Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), "", log.getIdaanbodlog(), log.getIdaanvraaglog());
+        log.setUserid(userEmail);
+        if(Log_Opmerkinguitbreiden()){
+            Optional<String> result = berichtmedewerkerdialogue();
+            if (result.isPresent()) {
+                String subject = "BM - Helaas, een afgewijzing voor de functie bij" + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afgewezen' <br> <br>";
+                messagebody += "Volgende keer beter ! <br> <br>";
+                if (!result.get().equals("")) {
+                    messagebody += "Opmerking: <br>" + result.get();
+                }
+                messagebody += "<br> Dit bericht is automatisch gegenereerd vanuit BlueMatch";
 
-        changeSceneMain(event);
+                sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
+            } else {
+                //System.out.println("geen mail verstuurd");
+            }
+            changeSceneMain(event);
+        }
+    }
 
+
+    boolean Log_Opmerkinguitbreiden() throws SQLException {
+        Optional<String> result = showopmerkingdialogue(log.getNewstatus());
+        String newopmerking;
+        if (result.isPresent()) {
+            setTimestamp();
+            if (result.get().length() >= 1) {
+                newopmerking = overviewrcrd.getOpmerkingaanbod() + "\n" + java.time.LocalDate.now() + " " + result.get();
+            } else {
+                //System.out.println("veld is leeg" + result.get());
+                newopmerking = overviewrcrd.getOpmerkingaanbod();
+            }
+            Datasource.getInstance().logToevoegen(log);
+            Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), newopmerking, log.getIdaanbodlog(), log.getIdaanvraaglog());
+            return true;
+        }
+        return false;
     }
 
     @FXML
     public void statchangeaangeboden(ActionEvent event) throws SQLException {
         log.setNewstatus("Aangeboden");
-        setTimestamp();
-        Datasource.getInstance().logToevoegen(log);
-        Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), "", log.getIdaanbodlog(), log.getIdaanvraaglog());
+        log.setUserid(userEmail);
+        if(Log_Opmerkinguitbreiden()){
+            Optional<String> result = berichtmedewerkerdialogue();
+            if (result.isPresent()) {
+                String subject = "BM - Je bent aangeboden bij" + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Aangeboden' <br> <br>";
+                messagebody += "We laten het weten zodra we meer horen  <br> <br>";
+                if (!result.get().equals("")) {
+                    messagebody += "Opmerking: <br>" + result.get();
+                }
+                messagebody += "<br> Dit bericht is automatisch gegenereerd vanuit BlueMatch";
 
-        changeSceneMain(event);
+                sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
+            } else {
+                //System.out.println("geen mail verstuurd");
+            }
+            changeSceneMain(event);
+        }
 
     }
 
     @FXML
     public void statchangeuitgenodigd(ActionEvent event) throws SQLException {
         log.setNewstatus("Uitgenodigd voor gesprek");
+        log.setUserid(userEmail);
 
-        Optional<String> result = showopmerkingdialogue(log.getNewstatus());
-        String newopmerking;
-        if (result.isPresent()) {
-            System.out.println("result is present" + result.get());
-            setTimestamp();
-            if (result.get().length() >= 1) {
-                newopmerking = overviewrcrd.getOpmerkingaanbod() + "\n" + java.time.LocalDate.now() + " " + result.get();
+        if (Log_Opmerkinguitbreiden()) {
+            Optional<String> result = berichtmedewerkerdialogue();
+            if (result.isPresent()) {
+                String subject = "BM - Je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                String messagebody = "Goed nieuws, De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek' <br> <br>";
+                messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
+                if (!result.get().equals("")) {
+                    messagebody += "Opmerking: <br>" + result.get();
+                }
+                messagebody += "<br> Dit bericht is automatisch gegenereerd vanuit BlueMatch";
+
+                sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
             } else {
-                System.out.println("veld is leeg" + result.get() + "nn");
-                newopmerking = overviewrcrd.getOpmerkingaanbod();
+                //System.out.println("geen mail verstuurd");
             }
-
-            Datasource.getInstance().logToevoegen(log);
-            Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), newopmerking, log.getIdaanbodlog(), log.getIdaanvraaglog());
-
-            String subject = "je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
-            System.out.println("ik ga mail versturen");
-
-            String messagebody = "De status van je aanbieding bij "+ overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek <br>";
-            messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
-            messagebody += "Dit bericht is automatisch gegenereerd vanuit BlueMatch";
-
-            sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
             changeSceneMain(event);
         }
     }
 
-    private void sendmail(String medewerkernaam, String subject, String messagebody){
+
+    public static void sendmail(String medewerkernaam, String subject, String messagebody){
 
         mdwEmail = Datasource.getInstance().queryMedewerkeremail(medewerkernaam).getEmailmedewerker();
-        //System.out.println("Email: "  + mdwEmail);
+        System.out.println("Email: "  + mdwEmail);
         String destination = mdwEmail;
-        String from = Main.userEmail;
+        String from = LoginauthController.userEmail;
         System.out.println("send mail from" + from + " ww "  + " to " + destination);
-        if (Main.userpassword==null){
-            Main.userpassword=getPassword();
+        if (LoginauthController.userpassword==null){
+            LoginauthController.userpassword=getPassword();
         }
-        PasswordField password=Main.userpassword;
+        PasswordField password=LoginauthController.userpassword;
         System.out.println(destination + messagebody);
         if (password!=null){
             System.out.println("Mail wordt gestuurd");
@@ -162,7 +241,7 @@ public class StatusHandler {
     }
 
 
-    private PasswordField getPassword(){
+    private static PasswordField getPassword(){
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Geef je wachtwoord voor mail");
         dialog.setHeaderText("");
@@ -201,26 +280,72 @@ public class StatusHandler {
         return result;
     }
 
+    private Optional<String>  berichtmedewerkerdialogue() {
+        TextInputDialog dialog = new TextInputDialog("");
+
+        dialog.setTitle("Bericht naar medewerker");
+        dialog.setHeaderText("Wil je een bericht naar de medewerker sturen ? \nSelecteer 'Cancel' indien je geen bericht naar de medewerker wil sturen. ");
+        dialog.setContentText("(Optioneel) Opmerking bij aanbod: \n");
+
+        TextArea opmerkingmdw = new TextArea();
+        opmerkingmdw.setEditable(true);
+        opmerkingmdw.setWrapText(true);
+
+        opmerkingmdw.setMaxWidth(Double.MAX_VALUE);
+        opmerkingmdw.setMaxHeight(Double.MAX_VALUE);
+
+        dialog.getDialogPane().setExpandableContent(opmerkingmdw);
+          Optional<String> result = dialog.showAndWait();
+        if (opmerkingmdw!=null&&!opmerkingmdw.getText().equals("")){
+            result = result.of(result.get() + " <br> " + opmerkingmdw.getText() + "<br><br>");
+        }
+        return result;
+    }
+
     @FXML
     public void statchangegeplaatst(ActionEvent event) throws SQLException {
         log.setNewstatus("Geplaatst");
-        setTimestamp();
-        Datasource.getInstance().logToevoegen(log);
-        System.out.println("status added to log");
-        Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), "", log.getIdaanbodlog(), log.getIdaanvraaglog());
-        changeSceneMain(event);
+        log.setUserid(userEmail);
+        if(Log_Opmerkinguitbreiden()){
+            Optional<String> result = berichtmedewerkerdialogue();
+            if (result.isPresent()) {
+                String subject = "BM - Je bent geplaatst bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Geplaatst' <br> <br>";
+                messagebody += "Heel veel succes met je opdracht !  <br> <br>";
+                if (!result.get().equals("")) {
+                    messagebody += "Opmerking: <br>" + result.get();
+                }
+                messagebody += "<br> Dit bericht is automatisch gegenereerd vanuit BlueMatch";
 
+                sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
+            } else {
+                //System.out.println("geen mail verstuurd");
+            }
+            changeSceneMain(event);
+        }
     }
 
     @FXML
     public void statchangeafronden(ActionEvent event) throws SQLException {
         log.setNewstatus("Afronden-Onderhandelen");
-        setTimestamp();
-        Datasource.getInstance().logToevoegen(log);
-        System.out.println("status added to log");
-        Datasource.getInstance().updateAanbodStatus(log.getNewstatus(), "", log.getIdaanbodlog(), log.getIdaanvraaglog());
-        changeSceneMain(event);
+        log.setUserid(userEmail);
+        if(Log_Opmerkinguitbreiden()){
+            Optional<String> result = berichtmedewerkerdialogue();
+            if (result.isPresent()) {
+                String subject = "BM - Je bent weer een stapje dichter bij een plaatsing bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afronden / onderhandelen' <br> <br>";
+                messagebody += "Nog eventjes geduld !  <br> <br>";
+                if (!result.get().equals("")) {
+                    messagebody += "Opmerking: <br>" + result.get();
+                }
+                messagebody += "<br> Dit bericht is automatisch gegenereerd vanuit BlueMatch";
 
+                sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
+            } else {
+                //System.out.println("geen mail verstuurd");
+            }
+            changeSceneMain(event);
+        }
     }
 
     void editStatus(OverviewRecord overviewrecord) {
