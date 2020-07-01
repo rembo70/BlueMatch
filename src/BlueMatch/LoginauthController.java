@@ -73,7 +73,7 @@ public class LoginauthController {
             alert.showAndWait();
         }
         else if (passwordfield.getText() != null && passwordfield.getText()!="" && !passwordfield.getText().isEmpty()) {
-            if (new SendEmailOffice365().sendEmail(usermailadrfield.getText(), passwordfield, usermailadrfield.getText(), "Melding Validate: Ingelogd onder je gebruikersnaam", "Het versturen van een email vanuit jouw account is geslaagd. <br>  Je kan deze mail negeren, indien je zelf de validatie hebt uitgevoerd.") == true) {
+            if (new SendEmailOffice365().sendEmail(usermailadrfield.getText(), passwordfield, usermailadrfield.getText(), "BM - Melding Validate: Ingelogd onder je gebruikersnaam", "Het versturen van een email vanuit jouw account is geslaagd. <br>  Je kan deze mail negeren, indien je zelf de validatie hebt uitgevoerd.") == true) {
                 userpassword = passwordfield;
                 userEmail = usermailadrfield.getText();
                 statusvalidatie.setTextFill(Color.GREEN);

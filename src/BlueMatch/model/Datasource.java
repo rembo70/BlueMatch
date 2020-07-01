@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Datasource {
-    public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
-    //public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
+    //public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
+    public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
     // public static final String DATABASENAME = "jdbc:sqlite:https://newspark.sharepoint.com/Gedeelde%20Documenten/Sales/Bluematch.db";
     public static final String COLUMN_IDAANBOD = "idaanbod";
     public static final String TABLE_AANBOD = "Aanbod";

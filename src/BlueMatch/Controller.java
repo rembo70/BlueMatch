@@ -90,6 +90,7 @@ public class Controller {
 
     private ObservableList<String> optionsaanb =
             FXCollections.observableArrayList(
+                    "Nieuw",
                     "Aangeboden",
                     "Uitgenodigd voor gesprek",
                     "Afronden-Onderhandelen",
@@ -232,31 +233,12 @@ public class Controller {
                 window.setScene((detailViewScene));
                 window.show();
                 ctrlstatushandler.editStatus(overviewrecord);
-                //ctrlstatushandler.updateView();
-//                addAanbiedingController addAanbiedingController = loader.getController();
-//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
 
 
             }
 
         }
     }
-
-//    if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-//
-//        Dialog<ButtonType> dialog = new Dialog<ButtonType>();
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
-//        dialog.getDialogPane().setContent(loader.load());
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-//        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-//        Optional<ButtonType> result = dialog.showAndWait();
-//        {
-//            if (result.isPresent() && result.get() == ButtonType.OK) {
-//                addAanbiedingController addAanbiedingController = loader.getController();
-//                Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
-//                Datasource.getInstance().aanbodToevoegen(aanbod);
-//            }
-//        }
 
     @FXML
     public void overzichtMedewerker(ActionEvent event) throws IOException {
@@ -321,7 +303,6 @@ public class Controller {
     @FXML
     public void aanbieden(ActionEvent event) throws IOException, SQLException {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
-
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());
@@ -333,11 +314,12 @@ public class Controller {
                     addAanbiedingController addAanbiedingController = loader.getController();
                     Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
                     Datasource.getInstance().aanbodToevoegen(aanbod);
+                    System.out.println("toegevoegd");
+
+                    StatusHandler.sendmail(aanbod.getRefmedewerker(),"BM - Er is een aanbieding voor je gedaan","Je bent aangeboden \nReferentie aanbieding: " + aanbod.getRefaanvraag());
                 }
             }
-//            ObservableList<OverviewRecord> Overviewlist = FXCollections.observableArrayList(Datasource.getInstance().queryMain());
-//            overviewRecordTable.itemsProperty().unbind();
-//            overviewRecordTable.setItems(Overviewlist);
+
             refreshscreen();
             updateMainView();
         }

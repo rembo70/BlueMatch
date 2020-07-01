@@ -33,7 +33,7 @@ import static BlueMatch.LoginauthController.userpassword;
 public class StatusHandler {
     private OverviewRecord overviewrcrd = new OverviewRecord();
     private Controller parentController;
-    private String mdwEmail;
+    private static String mdwEmail;
 
     private Log log = new Log();
     private Timestamp timestamp;
@@ -222,10 +222,10 @@ public class StatusHandler {
     }
 
 
-    private void sendmail(String medewerkernaam, String subject, String messagebody){
+    public static void sendmail(String medewerkernaam, String subject, String messagebody){
 
         mdwEmail = Datasource.getInstance().queryMedewerkeremail(medewerkernaam).getEmailmedewerker();
-        //System.out.println("Email: "  + mdwEmail);
+        System.out.println("Email: "  + mdwEmail);
         String destination = mdwEmail;
         String from = LoginauthController.userEmail;
         System.out.println("send mail from" + from + " ww "  + " to " + destination);
@@ -241,7 +241,7 @@ public class StatusHandler {
     }
 
 
-    private PasswordField getPassword(){
+    private static PasswordField getPassword(){
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Geef je wachtwoord voor mail");
         dialog.setHeaderText("");
