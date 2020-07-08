@@ -164,6 +164,7 @@ public class StatusHandler {
                 String subject = "BM - Helaas, een afgewijzing voor de functie bij" + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
                 String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afgewezen' <br> <br>";
                 messagebody += "Volgende keer beter ! <br> <br>";
+                messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
                 }
@@ -203,9 +204,10 @@ public class StatusHandler {
         if(Log_Opmerkinguitbreiden()){
             Optional<String> result = berichtmedewerkerdialogue();
             if (result.isPresent()) {
-                String subject = "BM - Je bent aangeboden bij" + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                String subject = "BM - Je bent aangeboden bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
                 String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Aangeboden' <br> <br>";
                 messagebody += "We laten het weten zodra we meer horen  <br> <br>";
+                messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
                 }
@@ -219,6 +221,21 @@ public class StatusHandler {
         }
 
     }
+public String setMessageBody(OverviewRecord overviewrcrd, String messagebody){
+
+    messagebody += "Details: <br>";
+    messagebody += "functie: " + overviewrcrd.getFunctie() + "<br>";
+    messagebody += "contactpersoon bij klant: " + overviewrcrd.getRefcontact() + "<br>";
+    messagebody += "uren per week gevraagd: " + overviewrcrd.getVraagurenweek() + "<br>";
+    messagebody += "uren per week aangeboden: " + overviewrcrd.getUrenperweekaanbod() + "<br>";
+    messagebody += "locatie: " + overviewrcrd.getLocatie() + "<br>";
+    messagebody += "startdatum gevraagd: " + overviewrcrd.getStartdatum()+ "<br>";
+    messagebody += "link naar aanvraag: " + overviewrcrd.getLinkaanvraag() + "<br>";
+    messagebody += "Tariefaanvraag: " + overviewrcrd.getTariefaanvraag() + "<br>";
+    messagebody += "Tariefaanbieding: " + overviewrcrd.getTariefaanbod() + "<br>";
+    messagebody += "Datumaanbieding: " + overviewrcrd.getDatumaanbieding() + "<br><br>";
+    return messagebody;
+}
 
     @FXML
     public void statchangeuitgenodigd(ActionEvent event) throws SQLException {
@@ -231,6 +248,7 @@ public class StatusHandler {
                 String subject = "BM - Je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
                 String messagebody = "Goed nieuws, De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek' <br> <br>";
                 messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
+                messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
                 }
@@ -335,6 +353,7 @@ public class StatusHandler {
                 String subject = "BM - Je bent geplaatst bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
                 String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Geplaatst' <br> <br>";
                 messagebody += "Heel veel succes met je opdracht !  <br> <br>";
+                messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
                 }
@@ -358,6 +377,7 @@ public class StatusHandler {
                 String subject = "BM - Je bent weer een stapje dichter bij een plaatsing bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
                 String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afronden / onderhandelen' <br> <br>";
                 messagebody += "Nog eventjes geduld !  <br> <br>";
+                messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
                 }
