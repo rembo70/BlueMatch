@@ -701,20 +701,20 @@ public class Datasource {
 
     public Medewerker queryMedewerkeremail(String Medewerkernaam) {
 
-        System.out.println("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'");
+        System.out.println("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam + "'");
         try (Statement statement = conn.createStatement();
 
-             ResultSet results = statement.executeQuery("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'")) {
+             ResultSet results = statement.executeQuery("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam + "'")) {
 
-            Medewerker selectedmedewerker=new Medewerker();
+            Medewerker selectedmedewerker = new Medewerker();
             List<Medewerker> medewerkers = new ArrayList<>();
             while (results.next()) {
                 Medewerker medewerker = new Medewerker();
                 medewerker.setEmailmedewerker(results.getString(1));
-                System.out.println(results.getString(1));
+                // System.out.println(results.getString(1));
                 medewerkers.add(medewerker);
-                selectedmedewerker=medewerker;
-                System.out.println("Emails: " + selectedmedewerker.getEmailmedewerker());
+                selectedmedewerker = medewerker;
+                // System.out.println("Emails: " + selectedmedewerker.getEmailmedewerker());
             }
             return selectedmedewerker;
         } catch (SQLException e) {
@@ -723,6 +723,30 @@ public class Datasource {
         }
     }
 
+    public Aanvraag queryAanvraagKlant(Integer refaanvraag) {
+
+        System.out.println("SELECT " + COLUMN_REFBROKER +","+ COLUMN_REFKLANT + " FROM " + TABLE_AANVRAAG + " WHERE " + COLUMN_IDAANVRAAG + " = " + refaanvraag);
+        try (Statement statement = conn.createStatement();
+
+             ResultSet results = statement.executeQuery("SELECT " + COLUMN_REFBROKER + "," + COLUMN_REFKLANT + " FROM " + TABLE_AANVRAAG + " WHERE " + COLUMN_IDAANVRAAG  + " = " + refaanvraag)){
+
+            Aanvraag selectedaanvraag = new Aanvraag();
+            List<Aanvraag> aanvragen = new ArrayList<>();
+            while (results.next()) {
+                Aanvraag aanvraag = new Aanvraag();
+                aanvraag.setRefbroker(results.getString(1));
+                aanvraag.setRefklant(results.getString(2));
+
+                aanvragen.add(aanvraag);
+                selectedaanvraag = aanvraag;
+
+            }
+            return selectedaanvraag;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
 
     public List<Klant> queryKlant() {
 

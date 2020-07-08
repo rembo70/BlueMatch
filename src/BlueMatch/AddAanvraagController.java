@@ -65,9 +65,9 @@ if (Controller.typeofaddaanvraag=="new") {
         if (result.get().equals("Aanbieden bij eindklant")) {
             System.out.println("laat broker niet zien");
             selectBrokerBox.setVisible(false);
-            BrokerField.setText("Geen");
+            BrokerField.setText("");
             BrokerField.setEditable(false);
-            selectBrokerBox.setValue("Geen");
+            selectBrokerBox.setValue("");
         } else {
             System.out.println("laat broker zien");
             selectBrokerBox.setVisible(true);

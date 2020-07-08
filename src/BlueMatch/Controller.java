@@ -26,6 +26,7 @@ import java.util.Optional;
 
 public class Controller {
     static String typeofaddaanvraag;
+    static String typeofaddaanbod;
 
 
     @FXML
@@ -76,7 +77,7 @@ public class Controller {
     private ObservableList<String> options =
             FXCollections.observableArrayList(
 
-                    "Vrijblijvend aanbieden",
+                    "","Vrijblijvend aanbieden",
                     "Aanbieden via broker",
                     "Aanbieden bij eindklant",
                     "(Nog) niet aanbieden",
@@ -233,10 +234,7 @@ public class Controller {
                 window.setScene((detailViewScene));
                 window.show();
                 ctrlstatushandler.editStatus(overviewrecord);
-
-
             }
-
         }
     }
 
@@ -303,6 +301,7 @@ public class Controller {
     @FXML
     public void aanbieden(ActionEvent event) throws IOException, SQLException {
         if (overviewRecordTable.getSelectionModel().getSelectedItem() != null) {
+            typeofaddaanbod="new";
             Dialog<ButtonType> dialog = new Dialog<ButtonType>();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("addaanbieding.fxml"));
             dialog.getDialogPane().setContent(loader.load());
@@ -314,12 +313,13 @@ public class Controller {
                     addAanbiedingController addAanbiedingController = loader.getController();
                     Aanbod aanbod = addAanbiedingController.getNewAanbod(String.valueOf(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag()));
                     Datasource.getInstance().aanbodToevoegen(aanbod);
-                    System.out.println("toegevoegd");
 
-                    StatusHandler.sendmail(aanbod.getRefmedewerker(),"BM - Er is een aanbieding voor je gedaan","Je bent aangeboden \nReferentie aanbieding: " + aanbod.getRefaanvraag());
+                    Aanvraag aanvraag = Datasource.getInstance().queryAanvraagKlant(overviewRecordTable.getSelectionModel().getSelectedItem().getIdaanvraag());
+
+                    StatusHandler.sendmail(aanbod.getRefmedewerker(),"BM - Er is een aanbieding voor je gedaan","Je bent aangeboden bij \nbroker/klant naam: " + aanvraag.getRefbroker() + " " );
                 }
             }
-
+            typeofaddaanbod="update";
             refreshscreen();
             updateMainView();
         }

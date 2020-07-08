@@ -37,10 +37,10 @@ public class FormattedTableCellFactory<S, T> implements Callback<TableColumn<S, 
 
                 super.updateItem((T) item, empty);
 
-                if (Main.windowWidth > 1600) {
+                if (Main.windowWidth > 2500) {
                     cssStyle = formatevenBiggerSize;
                 } else {
-                    if (Main.windowWidth > 1050) {
+                    if (Main.windowWidth > 1600) {
                         cssStyle = formatBiggerSize;
                     } else {
                         cssStyle = defaultTableStyle;

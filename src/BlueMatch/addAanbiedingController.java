@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,13 @@ public class addAanbiedingController {
 
     @FXML
     private void initialize() {
+        if (Controller.typeofaddaanbod.equals("new")){
+            aanbodBox.setValue("Aangeboden");
+            aanbodBox.setDisable(true);
+
+        } else{
+            statusaanbodField.setDisable(false);
+        }
         ObservableList<String> optionsstatus =
                 FXCollections.observableArrayList(
                         "Aangeboden",
