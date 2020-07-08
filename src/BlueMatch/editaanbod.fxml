@@ -30,6 +30,14 @@
                         <PropertyValueFactory property="refaanvraag" />
                     </cellValueFactory>
                 </TableColumn>
+                <TableColumn editable="false" minWidth="0.0" prefWidth="133.0" text="Aangemaakt op">
+                    <cellFactory>
+                        <FormattedTableCellFactory />
+                    </cellFactory>
+                    <cellValueFactory>
+                        <PropertyValueFactory property="datumaanbieding" />
+                    </cellValueFactory>
+                </TableColumn>
                 <TableColumn fx:id="columnmedewerker" minWidth="0.0" prefWidth="147.0" text="Medewerker">
                     <cellFactory>
                         <FormattedTableCellFactory />

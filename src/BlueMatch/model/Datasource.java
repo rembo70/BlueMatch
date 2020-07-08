@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Datasource {
-    //public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
-    public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
+    public static final String DATABASENAME = "jdbc:sqlite:\\\\DS416PLAY\\DATA\\Bluematch\\Bluematch.db";
+    //public static final String DATABASENAME = "jdbc:sqlite:\\C:\\Bluematch\\Bluematch.db";
     // public static final String DATABASENAME = "jdbc:sqlite:https://newspark.sharepoint.com/Gedeelde%20Documenten/Sales/Bluematch.db";
     public static final String COLUMN_IDAANBOD = "idaanbod";
     public static final String TABLE_AANBOD = "Aanbod";
@@ -18,6 +18,7 @@ public class Datasource {
     public static final String COLUMN_URENPERWEEKAANBOD = "urenperweekaanbod";
     public static final String COLUMN_STATUSAANBOD = "statusaanbod";
     public static final String COLUMN_OPMERKINGAANBOD = "opmerkingaanbod";
+    public static final String COLUMN_DATUMAANBIEDING = "datumaanbieding";
     public static final int INDEX_IDAANBOD = 1;
     public static final int INDEX_REFAANVRAAG = 2;
     public static final int INDEX_REFMEDEWERKER = 3;
@@ -25,6 +26,7 @@ public class Datasource {
     public static final int INDEX_URENPERWEEKAANBOD = 5;
     public static final int INDEX_STATUSAANBOD = 6;
     public static final int INDEX_OPMERKINGAANBOD = 7;
+    public static final int INDEX_DATUMAANBIEDING=8;
 
 
     public static final String TABLE_AANVRAAG = "Aanvraag";
@@ -134,7 +136,7 @@ public class Datasource {
 
     public static final String InsertAanbod = "INSERT INTO " + TABLE_AANBOD + '(' + COLUMN_REFAANVRAAG
             + "," + COLUMN_REFMEDEWERKER + "," + COLUMN_TARIEFAANBOD + "," + COLUMN_URENPERWEEKAANBOD + "," + COLUMN_STATUSAANBOD + "," + COLUMN_OPMERKINGAANBOD +
-            ") VALUES (?,?,?,?,?,?)";
+            "," + COLUMN_DATUMAANBIEDING + ") VALUES (?,?,?,?,?,?,?)";
 
     public static final String InsertMedewerker = "INSERT INTO " + TABLE_MEDEWERKER + '(' + COLUMN_MDWVOORNAAM
             + "," + COLUMN_MDWACHTERNAAM + "," + COLUMN_MDWURENPERWEEK + "," + COLUMN_MDWSTATUS
@@ -161,7 +163,7 @@ public class Datasource {
     public static String filterbroker = "";
     public static String filtermedewerker = "";
     public static String QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
-            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.refklant from aanvraag " +
+            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.refklant, aanbod.datumaanbieding from aanvraag " +
             "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE (aanvraag.statusklant LIKE '" + filterstatus +
             "%' ) ";
 
@@ -231,7 +233,7 @@ public class Datasource {
     public  String setQueryStringMain (){
 
         QUERYSTRINGMAIN = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
-                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.opmerking, aanvraag.refklant from aanvraag " +
+                "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.opmerking, aanvraag.refklant, aanbod.datumaanbieding from aanvraag " +
                 "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag";
 
         boolean wherestatement = false;
@@ -385,6 +387,7 @@ public class Datasource {
         insertIntoAanbod.setString(4, aanbod.getUrenperweekaanbod());
         insertIntoAanbod.setString(5, aanbod.getStatusaanbod());
         insertIntoAanbod.setString(6, aanbod.getOpmerkingaanbod());
+        insertIntoAanbod.setString(7,aanbod.getDatumaanbieding());
         insertIntoAanbod.executeUpdate();
         conn.setAutoCommit(true);
         return 1;
@@ -565,6 +568,7 @@ public class Datasource {
             updateaanbod.setString(4, aanbod.getStatusaanbod());
             updateaanbod.setString(5,aanbod.getOpmerkingaanbod());
             updateaanbod.setInt(6,aanbod.getIdaanbod());
+  //          updateaanbod.setString(7,aanbod.getDatumaanbieding()); //excluded omdat datum niet geupdate kan worden
             int affectedRecords = updateaanbod.executeUpdate();
             return affectedRecords ==1;
 
@@ -666,6 +670,7 @@ public class Datasource {
                 aanbod.setUrenperweekaanbod(results.getString(INDEX_URENPERWEEKAANBOD));
                 aanbod.setStatusaanbod(results.getString(INDEX_STATUSAANBOD));
                 aanbod.setOpmerkingaanbod(results.getString(INDEX_OPMERKINGAANBOD));
+                aanbod.setDatumaanbieding(results.getString(INDEX_DATUMAANBIEDING));
 
                 aanbiedingen.add(aanbod);
             }
@@ -805,6 +810,7 @@ public class Datasource {
                 overviewrecord.setIdaanbod((results.getInt(17)));
                 overviewrecord.setOpmerking(results.getString(18));
                 overviewrecord.setRefklant(results.getString(19));
+                overviewrecord.setDatumaanbieding(results.getString(20));
                 //System.out.println(results.getString(19));
                 overviewlist.add(overviewrecord);
             }
@@ -847,6 +853,7 @@ public class Datasource {
                 overviewrecord.setIdaanbod((results.getInt(17)));
                 overviewrecord.setOpmerking((results.getString(18)));
                 overviewrecord.setRefklant(results.getString(19));
+                overviewrecord.setDatumaanbieding(results.getString(20));
 
                 overviewlist.add(overviewrecord);
                 if (overviewrecord.getIdaanbod() == idaanbod) {

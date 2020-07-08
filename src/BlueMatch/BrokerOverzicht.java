@@ -19,7 +19,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;

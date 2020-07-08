@@ -8,6 +8,15 @@ public class Aanbod {
     private String urenperweekaanbod;
     private String statusaanbod;
     private String opmerkingaanbod;
+    private String datumaanbieding;
+
+    public String getDatumaanbieding() {
+        return datumaanbieding;
+    }
+
+    public void setDatumaanbieding(String datumaanbieding) {
+        this.datumaanbieding = datumaanbieding;
+    }
 
     public String getOpmerkingaanbod() {
         return opmerkingaanbod;

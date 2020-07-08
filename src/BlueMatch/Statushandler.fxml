@@ -42,7 +42,7 @@
 
             <Line endX="240.0" endY="-1.0" layoutX="223.0" layoutY="191.0" startX="-22.5" stroke="GREY" />
             <Line endX="65.7071533203125" endY="-71.0" layoutX="171.0" layoutY="311.0" startX="-25.5" startY="-200.0" stroke="GREY" />
-            <Pane layoutX="32.0" layoutY="74.0" prefHeight="222.0" prefWidth="961.0">
+            <Pane layoutX="32.0" layoutY="74.0" prefHeight="253.0" prefWidth="961.0">
                <children>
                   <Line endX="830.0" layoutX="115.0" layoutY="18.0" startX="-100.0" />
                   <Button fx:id="statusaangeboden" mnemonicParsing="false" onAction="#statchangeaangeboden" prefWidth="225.0" text="Aangeboden">
@@ -77,6 +77,11 @@
                   </Button>
                   <Line endX="45.0" endY="106.5" layoutX="394.0" layoutY="59.0" startX="-45.0" startY="-23.0" stroke="GREY" />
                   <Line endX="29.0" endY="78.0" layoutX="683.0" layoutY="71.0" startX="-42.0" startY="-36.0" stroke="GREY" />
+                  <Button fx:id="statuscold" layoutX="836.0" layoutY="219.0" mnemonicParsing="false" onAction="#statchangecold" opacity="0.35" prefHeight="34.0" prefWidth="117.0" style="-fx-background-color: lightblue;" text="Cold" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
             <Pane layoutX="44.0" layoutY="293.0" prefWidth="386.0">

@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DialogPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<DialogPane prefHeight="400.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.addAanbiedingController">
+<DialogPane prefHeight="400.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BlueMatch.addAanbiedingController">
     <headerText>
         Aanbieding toevoegen
     </headerText>
@@ -23,8 +17,6 @@
             <TextField fx:id="tariefaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Uren per week aangeboden" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <TextField fx:id="urenperweekaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Status aanbod" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <TextField fx:id="statusaanbodField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <ChoiceBox fx:id="aanbodBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Opmerking" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <TextArea fx:id="opmerkingaanbodField" minHeight="180.0" prefHeight="450.0" prefWidth="246.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />

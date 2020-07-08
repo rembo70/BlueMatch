@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,12 +56,18 @@ public class addAanbiedingController {
                         "Geplaatst",
                         "Afgewezen",
                         "Teruggetrokken",
+                        "Cold",
                         ""
                 );
 
         ObservableList options = populateMdwNameList();
         selectMedewerkerBox.setItems(options);
         aanbodBox.setItems(optionsstatus);
+        aanbodBox.setValue("Aangeboden");
+        aanbodBox.setDisable(true);
+        aanbodBox.setVisible(false);
+
+
     }
 
     Aanbod getNewAanbod(String idaanvraag) {
@@ -78,6 +85,7 @@ public class addAanbiedingController {
         newAanbod.setUrenperweekaanbod(urenperweekaanbod);
         newAanbod.setOpmerkingaanbod(opmerkingaanbod);
         newAanbod.setRefaanvraag(idaanvraag);
+        newAanbod.setDatumaanbieding(java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
         return newAanbod;
     }

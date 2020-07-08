@@ -25,6 +25,7 @@ public class OverviewRecord {
     private SimpleStringProperty tariefaanbod;
     private SimpleStringProperty urenperweekaanbod;
     private SimpleIntegerProperty idaanbod;
+    private SimpleStringProperty datumaanbieding;
 
 
     public OverviewRecord() {
@@ -47,7 +48,20 @@ public class OverviewRecord {
         this.tariefaanbod = new SimpleStringProperty();
         this.urenperweekaanbod = new SimpleStringProperty();
         this.idaanbod = new SimpleIntegerProperty();
+        this.datumaanbieding = new SimpleStringProperty();
 
+    }
+
+    public String getDatumaanbieding() {
+        return datumaanbieding.get();
+    }
+
+    public SimpleStringProperty datumaanbiedingProperty() {
+        return datumaanbieding;
+    }
+
+    public void setDatumaanbieding(String datumaanbieding) {
+        this.datumaanbieding.set(datumaanbieding);
     }
 
     public int getIdaanbod() {

@@ -20,10 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-import javax.tools.Diagnostic;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static BlueMatch.LoginauthController.userEmail;
@@ -131,7 +132,29 @@ public class StatusHandler {
             changeSceneMain(event);
         }
     }
+    @FXML
+    public void statchangecold(ActionEvent event) throws SQLException {
+        log.setNewstatus("Cold");
+        log.setUserid(userEmail);
 
+        if (Log_Opmerkinguitbreiden()) {
+            Optional<String> result = berichtmedewerkerdialogue();
+            if (result.isPresent()) {
+                String subject = "BM - De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold'";
+                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold' <br> <br>";
+                //messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
+                if (!result.get().equals("")) {
+                    messagebody += "Opmerking: <br>" + result.get();
+                }
+                messagebody += "<br> Dit bericht is automatisch gegenereerd vanuit BlueMatch";
+
+                sendmail(overviewrcrd.getMedewerker(), subject, messagebody);
+            } else {
+                //System.out.println("geen mail verstuurd");
+            }
+            changeSceneMain(event);
+        }
+    }
     public void statchangeafgewezen(ActionEvent event) throws SQLException {
         log.setNewstatus("Afgewezen");
         log.setUserid(userEmail);
@@ -161,7 +184,7 @@ public class StatusHandler {
         if (result.isPresent()) {
             setTimestamp();
             if (result.get().length() >= 1) {
-                newopmerking = overviewrcrd.getOpmerkingaanbod() + "\n" + java.time.LocalDate.now() + " " + result.get();
+                newopmerking = overviewrcrd.getOpmerkingaanbod() + "\n" + java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " " + result.get();
             } else {
                 //System.out.println("veld is leeg" + result.get());
                 newopmerking = overviewrcrd.getOpmerkingaanbod();
