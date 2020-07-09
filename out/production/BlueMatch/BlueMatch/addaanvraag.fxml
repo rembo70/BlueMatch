@@ -19,9 +19,9 @@
             <TextField fx:id="ContactField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Uren per week" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextField fx:id="UrenPerWeekField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-<!--           <Label text="Status bij klant" GridPane.columnIndex="0" GridPane.rowIndex="4" />-->
+           <Label text="Status bij klant" GridPane.columnIndex="0" GridPane.rowIndex="4" />
 <!--           <TextField fx:id="StatusKlantField" prefHeight="27.0" prefWidth="297.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />'-->
-            
+            <Label text="Datum aanvraag" GridPane.columnIndex="0" GridPane.rowIndex="6" />
             <Label text="Locatie" GridPane.rowIndex="7" />
             <TextField fx:id="LocatieField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label text="Start datum" GridPane.rowIndex="8" />
@@ -39,8 +39,8 @@
             <DatePicker fx:id="datePickerStartDate" prefHeight="25.0" prefWidth="302.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
          <ChoiceBox fx:id="selectBrokerBox" prefHeight="25.0" prefWidth="303.0" GridPane.columnIndex="1" />
             <columnConstraints>
-                <ColumnConstraints />
-                <ColumnConstraints />
+                <ColumnConstraints maxWidth="112.0" minWidth="89.0" prefWidth="102.0" />
+                <ColumnConstraints maxWidth="295.0" minWidth="272.0" prefWidth="282.0" />
                 <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>

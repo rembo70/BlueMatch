@@ -21,8 +21,8 @@
             <Label text="Opmerking" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <TextArea fx:id="opmerkingaanbodField" minHeight="180.0" prefHeight="450.0" prefWidth="246.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <columnConstraints>
-                <ColumnConstraints maxWidth="185.0" minWidth="37.0" prefWidth="148.0" />
-                <ColumnConstraints maxWidth="357.0" minWidth="209.0" prefWidth="246.0" />
+                <ColumnConstraints maxWidth="185.0" minWidth="37.0" prefWidth="165.0" />
+                <ColumnConstraints maxWidth="357.0" minWidth="209.0" prefWidth="229.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints />

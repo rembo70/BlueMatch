@@ -117,8 +117,15 @@ public class StatusHandler {
         if (Log_Opmerkinguitbreiden()) {
             Optional<String> result = berichtmedewerkerdialogue();
             if (result.isPresent()) {
-                String subject = "BM - De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken'";
-                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken' <br> <br>";
+                String messagebody = "";
+                String subject="";
+                if (overviewrcrd.getRefbroker().equals("Geen")) {
+                    subject = "BM - De status van je aanbieding bij " + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken'";
+                    messagebody = "De status van je aanbieding bij " + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken' <br> <br>";
+                } else {
+                    subject = "BM - De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken'";
+                    messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Teruggetrokken' <br> <br>";
+                }
                 //messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
@@ -140,8 +147,15 @@ public class StatusHandler {
         if (Log_Opmerkinguitbreiden()) {
             Optional<String> result = berichtmedewerkerdialogue();
             if (result.isPresent()) {
-                String subject = "BM - De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold'";
-                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold' <br> <br>";
+                String messagebody = "";
+                String subject="";
+                if (overviewrcrd.getRefbroker().equals("Geen")) {
+                    subject = "BM - De status van je aanbieding bij "  + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold'";
+                    messagebody = "De status van je aanbieding bij "  + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold' <br> <br>";
+                }else {
+                    subject = "BM - De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold'";
+                    messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Cold' <br> <br>";
+                }
                 //messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
@@ -158,13 +172,20 @@ public class StatusHandler {
     public void statchangeafgewezen(ActionEvent event) throws SQLException {
         log.setNewstatus("Afgewezen");
         log.setUserid(userEmail);
-        if(Log_Opmerkinguitbreiden()){
+        if (Log_Opmerkinguitbreiden()) {
             Optional<String> result = berichtmedewerkerdialogue();
             if (result.isPresent()) {
-                String subject = "BM - Helaas, een afgewijzing voor de functie bij" + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
-                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afgewezen' <br> <br>";
+                String messagebody = "";
+                String subject = "";
+                if (overviewrcrd.getRefbroker().equals("Geen")) {
+                    subject = "BM - Helaas, een afgewijzing voor de functie bij" + overviewrcrd.getRefklant() + " ";
+                    messagebody = "De status van je aanbieding bij " + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afgewezen' <br> <br>";
+                } else {
+                    subject = "BM - Helaas, een afgewijzing voor de functie bij" + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                    messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afgewezen' <br> <br>";
+                }
                 messagebody += "Volgende keer beter ! <br> <br>";
-                messagebody=setMessageBody(overviewrcrd, messagebody);
+                messagebody = setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
                 }
@@ -201,13 +222,22 @@ public class StatusHandler {
     public void statchangeaangeboden(ActionEvent event) throws SQLException {
         log.setNewstatus("Aangeboden");
         log.setUserid(userEmail);
-        if(Log_Opmerkinguitbreiden()){
+        if (Log_Opmerkinguitbreiden()) {
             Optional<String> result = berichtmedewerkerdialogue();
+            String messagebody="";
+            String subject="";
+
             if (result.isPresent()) {
-                String subject = "BM - Je bent aangeboden bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
-                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Aangeboden' <br> <br>";
+                if (overviewrcrd.getRefbroker().equals("Geen")) {
+                    subject = "BM - Je bent aangeboden bij " + overviewrcrd.getRefklant();
+                    messagebody = "De status van je aanbieding bij "  + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Aangeboden' <br> <br>";
+                } else {
+                    subject = "BM - Je bent aangeboden bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                    messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Aangeboden' <br> <br>";
+                }
+
                 messagebody += "We laten het weten zodra we meer horen  <br> <br>";
-                messagebody=setMessageBody(overviewrcrd, messagebody);
+                messagebody = setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
                     messagebody += "Opmerking: <br>" + result.get();
                 }
@@ -224,13 +254,13 @@ public class StatusHandler {
 public String setMessageBody(OverviewRecord overviewrcrd, String messagebody){
 
     messagebody += "Details: <br>";
-    messagebody += "functie: " + overviewrcrd.getFunctie() + "<br>";
-    messagebody += "contactpersoon bij klant: " + overviewrcrd.getRefcontact() + "<br>";
-    messagebody += "uren per week gevraagd: " + overviewrcrd.getVraagurenweek() + "<br>";
-    messagebody += "uren per week aangeboden: " + overviewrcrd.getUrenperweekaanbod() + "<br>";
-    messagebody += "locatie: " + overviewrcrd.getLocatie() + "<br>";
-    messagebody += "startdatum gevraagd: " + overviewrcrd.getStartdatum()+ "<br>";
-    messagebody += "link naar aanvraag: " + overviewrcrd.getLinkaanvraag() + "<br>";
+    messagebody += "Functie: " + overviewrcrd.getFunctie() + "<br>";
+    messagebody += "Contactpersoon bij vacature: " + overviewrcrd.getRefcontact() + "<br>";
+    messagebody += "Uren per week gevraagd: " + overviewrcrd.getVraagurenweek() + "<br>";
+    messagebody += "Uren per week aangeboden: " + overviewrcrd.getUrenperweekaanbod() + "<br>";
+    messagebody += "Locatie: " + overviewrcrd.getLocatie() + "<br>";
+    messagebody += "Startdatum gevraagd: " + overviewrcrd.getStartdatum()+ "<br>";
+    messagebody += "Link naar aanvraag: " + overviewrcrd.getLinkaanvraag() + "<br>";
     messagebody += "Tariefaanvraag: " + overviewrcrd.getTariefaanvraag() + "<br>";
     messagebody += "Tariefaanbieding: " + overviewrcrd.getTariefaanbod() + "<br>";
     messagebody += "Datumaanbieding: " + overviewrcrd.getDatumaanbieding() + "<br><br>";
@@ -244,9 +274,16 @@ public String setMessageBody(OverviewRecord overviewrcrd, String messagebody){
 
         if (Log_Opmerkinguitbreiden()) {
             Optional<String> result = berichtmedewerkerdialogue();
+            String messagebody="";
+            String subject="";
+
             if (result.isPresent()) {
-                String subject = "BM - Je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
-                String messagebody = "Goed nieuws, De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek' <br> <br>";
+                if (overviewrcrd.getRefbroker().equals("Geen")) {
+                    subject = "BM - Je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant();
+                    messagebody = "Goed nieuws, De status van je aanbieding bij " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek' <br> <br>";
+                }else{
+                subject = "BM - Je bent uitgenodigd voor een gesprek bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                messagebody = "Goed nieuws, De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Uitgenodigd voor gesprek' <br> <br>";}
                 messagebody += "Bereid je goed voor en alvast heel veel succes ! <br> <br>";
                 messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
@@ -349,9 +386,16 @@ public String setMessageBody(OverviewRecord overviewrcrd, String messagebody){
         log.setUserid(userEmail);
         if(Log_Opmerkinguitbreiden()){
             Optional<String> result = berichtmedewerkerdialogue();
+            String messagebody="";
+            String subject="";
+
             if (result.isPresent()) {
-                String subject = "BM - Je bent geplaatst bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
-                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Geplaatst' <br> <br>";
+                if (overviewrcrd.getRefbroker().equals("Geen")) {
+                    subject = "BM - Je bent geplaatst bij " + overviewrcrd.getRefklant() ;
+                    messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Geplaatst' <br> <br>";
+                }else{
+                subject = "BM - Je bent geplaatst bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Geplaatst' <br> <br>";}
                 messagebody += "Heel veel succes met je opdracht !  <br> <br>";
                 messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {
@@ -373,9 +417,16 @@ public String setMessageBody(OverviewRecord overviewrcrd, String messagebody){
         log.setUserid(userEmail);
         if(Log_Opmerkinguitbreiden()){
             Optional<String> result = berichtmedewerkerdialogue();
+            String messagebody="";
+            String subject="";
+
             if (result.isPresent()) {
-                String subject = "BM - Je bent weer een stapje dichter bij een plaatsing bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
-                String messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afronden / onderhandelen' <br> <br>";
+                if (overviewrcrd.getRefbroker().equals("Geen")) {
+                    subject = "BM - Je bent weer een stapje dichter bij een plaatsing bij " + overviewrcrd.getRefklant() ;
+                    messagebody = "De status van je aanbieding bij "  + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afronden / onderhandelen' <br> <br>";
+                }else{
+                subject = "BM - Je bent weer een stapje dichter bij een plaatsing bij " + overviewrcrd.getRefklant() + " " + overviewrcrd.getRefbroker();
+                messagebody = "De status van je aanbieding bij " + overviewrcrd.getRefbroker() + " " + overviewrcrd.getRefklant() + " is gewijzigd naar: 'Afronden / onderhandelen' <br> <br>";}
                 messagebody += "Nog eventjes geduld !  <br> <br>";
                 messagebody=setMessageBody(overviewrcrd, messagebody);
                 if (!result.get().equals("")) {

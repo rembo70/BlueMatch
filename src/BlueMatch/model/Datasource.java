@@ -173,7 +173,7 @@ public class Datasource {
 
 
     public static final String QUERYOVERZICHTDETAILS = "SELECT aanvraag.refbroker, aanvraag.functie, aanvraag.refcontact, aanvraag.statusklant, aanbod.refmedewerker, aanvraag.idaanvraag, aanbod.statusaanbod, " +
-            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.opmerking, aanvraag.refklant from aanvraag " +
+            "aanbod.opmerkingaanbod, aanbod.urenperweekaanbod, aanbod.tariefaanbod, aanvraag.tariefaanvraag, aanvraag.linkaanvraag, aanvraag.vraagurenweek, aanvraag.startdatum, aanvraag.datumaanvraag, aanvraag.locatie, aanbod.idaanbod, aanvraag.opmerking, aanvraag.refklant, aanbod.datumaanbieding from aanvraag " +
             "LEFT JOIN aanbod ON aanvraag.idaanvraag=Aanbod.refaanvraag WHERE " + COLUMN_IDAANBOD  + "= ?";
 
 
@@ -706,7 +706,7 @@ public class Datasource {
 
     public Medewerker queryMedewerkeremail(String Medewerkernaam) {
 
-        System.out.println("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'");
+       // System.out.println("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'");
         try (Statement statement = conn.createStatement();
 
              ResultSet results = statement.executeQuery("SELECT " + COLUMN_MDWEMAIL + " FROM " + TABLE_MEDEWERKER + " WHERE " + COLUMN_FULLNAME + " = '" + Medewerkernaam +"'")) {
@@ -827,7 +827,7 @@ public class Datasource {
         try{
             searchoverviewrecord.setInt(1,idaanbod);
             ResultSet results = searchoverviewrecord.executeQuery();
-            System.out.println(QUERYOVERZICHTDETAILS);
+            // System.out.println(QUERYOVERZICHTDETAILS);
             List<OverviewRecord> overviewlist = new ArrayList<>();
             while (results.next()) {
 

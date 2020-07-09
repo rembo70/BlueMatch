@@ -222,7 +222,7 @@ public class OverzichtdtlsController {
             }
         }
 
-        listDetailsRecord(Datasource.getInstance().getOverviewDetails(overviewrecordtmp.getIdaanbod()));
+        listDetailsRecord(Datasource.getInstance().getOverviewDetails(aanbod.getIdaanbod()));
 
     }
 
