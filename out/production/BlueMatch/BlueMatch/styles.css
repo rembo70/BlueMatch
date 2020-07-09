@@ -28,12 +28,12 @@
 
 
 .biggerSize {
-         -fx-font-size: 2em;
+         -fx-font-size: 1.5em;
          -fx-text-fill: black;
          }
 
 .evenbiggerSize {
-    -fx-font-size: 3em;
+    -fx-font-size: 2em;
     -fx-text-fill: black;
     }
 
